@@ -1,0 +1,24 @@
+.logo-grid {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 50px; /* Adjust the margin-top value as needed */
+  }
+  
+  .logo-grid-item {
+    padding: 10px;
+  }
+  
+  .logo-grid-item img {
+    width: 100px; /* Adjust the width of the logos as needed */
+    height: auto;
+  }
+  
+  .logo-grid-item.special-logo {
+    margin-top: 20px; /* Adjust the margin-top value as needed */
+  }
+  
+  
+  
+  
+  

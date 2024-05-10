@@ -3,28 +3,37 @@
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
-    background-color: #f0f0f0;
-  }
-  
-  .logo-container {
-    width: 50%;
-  }
-  
-  .logo {
+    background-color: #ffffff; /* White background */
+}
+
+.logo-container {
+    display: flex; /* Use flexbox for logo and links */
+    align-items: center; /* Align items vertically */
+}
+
+.logo {
     max-width: 100%;
     height: auto;
-  }
-  
-  .links-container {
-    width: 50%;
-    display: flex;
-    justify-content: flex-end;
-  }
-  
-  .link {
-    margin-left: 20px;
+    margin-right: 20px; /* Add margin between logo and links */
+}
+
+.links-container {
+    display: flex; /* Use flexbox for links */
+    align-items: center; /* Align items vertically */
+    margin-left: 50px; /* Add smaller margin to the left */
+}
+
+.link {
+    margin-right: 20px; /* Add margin between links */
     text-decoration: none;
     color: #333;
-  }
+    font-weight: bold; /* Make the links bold */
+}
+
+
+
+
+
+
   
   
