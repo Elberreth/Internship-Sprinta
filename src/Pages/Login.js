@@ -2,7 +2,6 @@ import React from 'react';
 import Apis from "../Config/Apis";
 import axios from "axios";
 import {useForm} from "react-hook-form";
-import register from "./Register";
 import ErrorTips from "../Config/ErrorTips";
 
 const Login = () => {
