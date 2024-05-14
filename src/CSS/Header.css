@@ -1,34 +1,38 @@
+/* Header.css */
+
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
-    background-color: #ffffff; /* White background */
-}
-
-.logo-container {
-    display: flex; /* Use flexbox for logo and links */
-    align-items: center; /* Align items vertically */
-}
-
-.logo {
+    background-color: #ffffff; 
+  }
+  
+  .logo-container {
+    display: flex;
+    align-items: center;
+    margin-right: 20px; /* Justera detta värde efter behov */
+  }
+  
+  .logo {
     max-width: 100%;
     height: auto;
-    margin-right: 20px; /* Add margin between logo and links */
-}
-
-.links-container {
-    display: flex; /* Use flexbox for links */
-    align-items: center; /* Align items vertically */
-    margin-left: 50px; /* Add smaller margin to the left */
-}
-
-.link {
-    margin-right: 20px; /* Add margin between links */
+    margin-right: 20px; 
+  }
+  
+  .logo-text {
+    font-size: 18px; 
+    font-weight: bold;
+  }
+  
+  .link {
+    margin-right: 20px; 
     text-decoration: none;
     color: #333;
-    font-weight: bold; /* Make the links bold */
-}
+    font-weight: bold; 
+  }
+  
+  
 
 
 

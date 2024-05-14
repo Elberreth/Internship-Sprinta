@@ -1,22 +1,32 @@
+/* LogoGrid.css */
+
+.register-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Gör att sidan tar minst hela höjden av fönstret */
+  background-color: #ffffff; /* Vit bakgrundsfärg */
+}
+
 .logo-grid {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-top: 50px; /* Adjust the margin-top value as needed */
-  }
-  
-  .logo-grid-item {
-    padding: 10px;
-  }
-  
-  .logo-grid-item img {
-    width: 100px; /* Adjust the width of the logos as needed */
-    height: auto;
-  }
-  
-  .logo-grid-item.special-logo {
-    margin-top: 20px; /* Adjust the margin-top value as needed */
-  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px; /* Justera avståndet mellan logotyperna */
+  padding: 20px; /* Lägg till padding för att skapa avstånd från sidkanterna */
+}
+
+.logo-grid .logo {
+  max-width: 120px; /* Justera max-width för logotyperna efter behov */
+  height: auto;
+  margin: 10px; /* Justera margin för att ge mellanrum mellan logotyperna */
+}
+
+
+
+
+
   
   
   
