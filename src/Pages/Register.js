@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import '../CSS/Register.css'; // Importera CSS för register-sidan
+import AgreementPopup from '../Pages/AgreementPopup'; // Importera AgreementPopup-komponenten
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -7,22 +8,19 @@ const Register = () => {
     email: '',
     password: '',
     confirmPassword: '',
-    company: ''
+    company: '',
+    agreement: false // Lägg till agreement i formdata och sätt det till false som standard
   });
 
   const [errors, setErrors] = useState({});
-  const [acceptedTerms, setAcceptedTerms] = useState(false);
+  const [showAgreementPopup, setShowAgreementPopup] = useState(false); // Skapa state för att visa avtalpopup
 
   const handleChange = (e) => {
-    const { name, value, checked } = e.target;
-    if (name === 'agreement') {
-      setAcceptedTerms(checked);
-    } else {
-      setFormData({
-        ...formData,
-        [name]: value
-      });
-    }
+    const { name, value, type, checked } = e.target;
+    setFormData({
+      ...formData,
+      [name]: type === 'checkbox' ? checked : value
+    });
   };
 
   const validate = () => {
@@ -32,7 +30,7 @@ const Register = () => {
     if (!formData.password) formErrors.password = 'Password is required';
     if (formData.password !== formData.confirmPassword) formErrors.confirmPassword = 'Passwords do not match';
     if (!formData.company) formErrors.company = 'Company is required';
-    if (!acceptedTerms) formErrors.agreement = 'You must accept the agreement policy';
+    if (!formData.agreement) formErrors.agreement = 'You must accept the agreement policy';
     return formErrors;
   };
 
@@ -40,8 +38,8 @@ const Register = () => {
     e.preventDefault();
     const formErrors = validate();
     if (Object.keys(formErrors).length === 0) {
-      // Perform registration logic here
       console.log('Form data:', formData);
+      // Skicka e-postlogik här
     } else {
       setErrors(formErrors);
     }
@@ -117,22 +115,32 @@ const Register = () => {
               <input
                 type="checkbox"
                 name="agreement"
-                checked={acceptedTerms}
+                checked={formData.agreement}
                 onChange={handleChange}
               />
               {' '}
-              I agree to the <span className="agreement-link">agreement policy</span>
+              I agree to the <span className="agreement-link" onClick={() => setShowAgreementPopup(true)}>agreement</span>
             </label>
             {errors.agreement && <span className="error">{errors.agreement}</span>}
           </div>
           <button type="submit">Register</button>
         </form>
       </div>
+      {showAgreementPopup && <AgreementPopup onClose={() => setShowAgreementPopup(false)} />}
     </div>
   );
 };
 
 export default Register;
+
+
+
+
+
+
+
+
+
 
 
 
