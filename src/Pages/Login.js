@@ -28,7 +28,8 @@ const Login = () => {
 
     return (
    <>
-       <div className={"container"}>
+       <div className={"container rounded-2 border p-3"}>
+           <h2 className={"text-center"}>Register</h2>
            <form onSubmit={handleSubmit(sendData)}>
                <div className="mb-3">
                    <label htmlFor="inputUserName" className="form-label">UserName</label>
