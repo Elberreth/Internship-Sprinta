@@ -2,13 +2,20 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start; 
+    justify-content: flex-start;
     min-height: 100vh;
     background-color: #ffffff;
     padding: 20px;
-  }
-  
-  .register-form-container {
+    margin: 0; /* Ta bort standardmarginaler */
+    overflow: hidden; /* Ta bort eventuell överflödig rullning */
+}
+
+body {
+    margin: 0; /* Ta bort standardmarginaler */
+    overflow: hidden; /* Ta bort scrollbar för hela sidan */
+}
+
+.register-form-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -20,45 +27,47 @@
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     border: 1px solid #000; /* Svart färg för registreringsrutans kant */
-  }
-  
-  .register-form {
+    overflow: hidden; /* Dölj eventuell överflödig rullning */
+}
+
+
+.register-form {
     width: 100%;
-  }
-  
-  .register-form h2 {
+}
+
+.register-form h2 {
     text-align: center;
     margin-bottom: 20px;
-  }
-  
-  .form-group {
+}
+
+.form-group {
     margin-bottom: 15px;
-  }
-  
-  .form-group label {
+}
+
+.form-group label {
     display: block;
     margin-bottom: 5px;
-  }
-  
-  .form-group input, .form-group select {
+}
+
+.form-group input, .form-group select {
     width: 100%;
     padding: 8px;
     box-sizing: border-box;
     border: 1px solid #ccc;
     border-radius: 4px;
-  }
-  
-  .form-group input[type="checkbox"] {
+}
+
+.form-group input[type="checkbox"] {
     width: auto;
     margin-right: 10px;
-  }
-  
-  .error {
+}
+
+.error {
     color: red;
     font-size: 12px;
-  }
-  
-  button {
+}
+
+button {
     width: 100%;
     padding: 10px;
     border: none;
@@ -67,13 +76,13 @@
     color: white;
     font-size: 16px;
     cursor: pointer;
-  }
-  
-  button:hover {
+}
+
+button:hover {
     background-color: #0056b3;
-  }
-  
-  .agreement-popup {
+}
+
+.agreement-popup {
     position: fixed;
     top: 0;
     left: 0;
@@ -83,26 +92,27 @@
     display: flex;
     justify-content: center;
     align-items: center;
-  }
-  
-  .agreement-popup-content {
+}
+
+.agreement-popup-content {
     background-color: #fff;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     max-width: 500px;
     width: 90%;
-  }
-  
-  .agreement-link {
+}
+
+.agreement-link {
     color: #007bff;
     text-decoration: underline;
     cursor: pointer;
-  }
-  
-  .agreement-link:hover {
+}
+
+.agreement-link:hover {
     color: #0056b3;
-  }
+}
+
   
 
 

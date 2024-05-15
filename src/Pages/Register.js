@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import '../CSS/Register.css'; // Importera CSS för register-sidan
-import AgreementPopup from '../Pages/AgreementPopup'; // Importera AgreementPopup-komponenten
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -119,19 +118,39 @@ const Register = () => {
                 onChange={handleChange}
               />
               {' '}
-              I agree to the <span className="agreement-link" onClick={() => setShowAgreementPopup(true)}>agreement</span>
+              Do you accept the Agreement?
             </label>
             {errors.agreement && <span className="error">{errors.agreement}</span>}
+            <button type="button" onClick={() => setShowAgreementPopup(true)}>View Agreement</button>
           </div>
           <button type="submit">Register</button>
         </form>
       </div>
-      {showAgreementPopup && <AgreementPopup onClose={() => setShowAgreementPopup(false)} />}
+      {showAgreementPopup && (
+        <div className="agreement-popup">
+          <div className="agreement-popup-content">
+            <h3>Agreement Policy</h3>
+            <p>Här kommer innehållet i din agreement policy...</p>
+            <button onClick={() => setShowAgreementPopup(false)}>Close</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
 export default Register;
+
+
+
+
+
+
+
+
+
+
+
 
 
 

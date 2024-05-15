@@ -1,8 +1,9 @@
 import React from 'react';
 import Apis from "../Config/Apis";
 import axios from "axios";
-import {useForm} from "react-hook-form";
+import { useForm } from "react-hook-form";
 import ErrorTips from "../Config/ErrorTips";
+import '../CSS/Register.css'; // Importera CSS för register-sidan
 
 const Login = () => {
 
@@ -19,37 +20,49 @@ const Login = () => {
 
     const {
         register,
-        formState: {errors},
-        handleSubmit} = useForm({
-        defaultValues:{
-            uname:"", password:""
+        formState: { errors },
+        handleSubmit
+    } = useForm({
+        defaultValues: {
+            uname: "", password: ""
         }
     });
 
     return (
-   <>
-       <div className={"container"}>
-           <form onSubmit={handleSubmit(sendData)}>
-               <div className="mb-3">
-                   <label htmlFor="inputUserName" className="form-label">UserName</label>
-                   <input type="text" className="form-control"
-                          id="inputUserName"
-                          {...register("uname", {required: ErrorTips.LoginPage.uname})}
-                          />
-                   <div className={`alert alert-danger mt-2 ${errors.uname? 'd-block' : 'd-none'}`} role={"alert"}>{errors.uname?.message}</div>
-               </div>
-               <div className="mb-3">
-                   <label htmlFor="inputUserPassword" className="form-label">Password</label>
-                   <input type="text" className="form-control" id="inputUserPassword"
-                          {...register("password", {required: ErrorTips.LoginPage.passwd})}
-                   />
-                   <div className={`alert alert-danger mt-2 ${errors.password? 'd-block' : 'd-none'}`} role={"alert"}>{errors.password?.message}</div>
-               </div>
-               <button type="submit" className="btn btn-primary">Submit</button>
-           </form>
-       </div>
-   </>
-  );
+        <div className="register-page"> {/* Använd samma klass som i Register */}
+            <div className="register-form-container"> {/* Använd samma klass som i Register */}
+                <form className="register-form" onSubmit={handleSubmit(sendData)}> {/* Använd samma klass som i Register */}
+                    <h2>Login</h2>
+                    <div className="form-group">
+                        <label htmlFor="inputUserName">Username</label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            id="inputUserName"
+                            {...register("uname", { required: ErrorTips.LoginPage.uname })}
+                        />
+                        <div className={`alert alert-danger mt-2 ${errors.uname ? 'd-block' : 'd-none'}`} role="alert">
+                            {errors.uname?.message}
+                        </div>
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="inputUserPassword">Password</label>
+                        <input
+                            type="password"
+                            className="form-control"
+                            id="inputUserPassword"
+                            {...register("password", { required: ErrorTips.LoginPage.passwd })}
+                        />
+                        <div className={`alert alert-danger mt-2 ${errors.password ? 'd-block' : 'd-none'}`} role="alert">
+                            {errors.password?.message}
+                        </div>
+                    </div>
+                    <button type="submit" className="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    );
 };
 
 export default Login;
+
