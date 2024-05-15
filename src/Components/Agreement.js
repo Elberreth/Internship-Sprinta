@@ -1,7 +1,7 @@
 // src/Components/AgreementModal.js
 import React from 'react';
 import Modal from 'react-modal';
-import '../CSS/Agreement.css'; 
+import '../CSS/Agreement.css'; // Skapa en CSS-fil för att styla modalen
 
 const AgreementModal = ({ isOpen, onRequestClose }) => {
   return (
