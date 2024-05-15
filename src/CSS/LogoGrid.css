@@ -4,8 +4,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh; /* Gör att sidan tar minst hela höjden av fönstret */
-  background-color: #ffffff; /* Vit bakgrundsfärg */
+  min-height: 100vh; 
+  background-color: #ffffff; 
 }
 
 .logo-grid {
@@ -13,14 +13,14 @@
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  gap: 20px; /* Justera avståndet mellan logotyperna */
-  padding: 20px; /* Lägg till padding för att skapa avstånd från sidkanterna */
+  gap: 20px; 
+  padding: 20px; 
 }
 
 .logo-grid .logo {
-  max-width: 120px; /* Justera max-width för logotyperna efter behov */
+  max-width: 120px; 
   height: auto;
-  margin: 10px; /* Justera margin för att ge mellanrum mellan logotyperna */
+  margin: 10px; 
 }
 
 
