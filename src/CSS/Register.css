@@ -6,13 +6,13 @@
     min-height: 100vh;
     background-color: #ffffff;
     padding: 20px;
-    margin: 0; /* Ta bort standardmarginaler */
-    overflow: hidden; /* Ta bort eventuell överflödig rullning */
+    margin: 0; 
+    overflow: hidden; 
 }
 
 body {
-    margin: 0; /* Ta bort standardmarginaler */
-    overflow: hidden; /* Ta bort scrollbar för hela sidan */
+    margin: 0; 
+    overflow: hidden; 
 }
 
 .register-form-container {
@@ -26,8 +26,8 @@ body {
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    border: 1px solid #000; /* Svart färg för registreringsrutans kant */
-    overflow: hidden; /* Dölj eventuell överflödig rullning */
+    border: 1px solid #000; 
+    overflow: hidden; 
 }
 
 

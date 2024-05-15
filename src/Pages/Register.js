@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../CSS/Register.css'; // Importera CSS för register-sidan
+import '../CSS/Register.css'; 
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -8,11 +8,11 @@ const Register = () => {
     password: '',
     confirmPassword: '',
     company: '',
-    agreement: false // Lägg till agreement i formdata och sätt det till false som standard
+    agreement: false 
   });
 
   const [errors, setErrors] = useState({});
-  const [showAgreementPopup, setShowAgreementPopup] = useState(false); // Skapa state för att visa avtalpopup
+  const [showAgreementPopup, setShowAgreementPopup] = useState(false); 
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;

@@ -29,9 +29,9 @@ const Login = () => {
     });
 
     return (
-        <div className="register-page"> {/* Använd samma klass som i Register */}
-            <div className="register-form-container"> {/* Använd samma klass som i Register */}
-                <form className="register-form" onSubmit={handleSubmit(sendData)}> {/* Använd samma klass som i Register */}
+        <div className="register-page"> 
+            <div className="register-form-container"> 
+                <form className="register-form" onSubmit={handleSubmit(sendData)}> 
                     <h2>Login</h2>
                     <div className="form-group">
                         <label htmlFor="inputUserName">Username</label>
