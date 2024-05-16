@@ -20,7 +20,7 @@ const Login = () => {
 
     const {
         register,
-        formState: { errors },
+        formState: {errors},
         handleSubmit
     } = useForm({
         defaultValues: {
@@ -29,46 +29,44 @@ const Login = () => {
     });
 
     return (
-        <div className="register-page"> 
-            <div className="register-form-container"> 
-                <form className="register-form" onSubmit={handleSubmit(sendData)}> 
-                    <h2>Login</h2>
-                    <div className="form-group">
-                        <label htmlFor="inputUserName">Username</label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            id="inputUserName"
-                            {...register("uname", { required: ErrorTips.LoginPage.uname })}
-                        />
-                        <div className={`alert alert-danger mt-2 ${errors.uname ? 'd-block' : 'd-none'}`} role="alert">
-                            {errors.uname?.message}
+        <>
+            <div className="register-page">
+                <div className="register-form-container">
+                    <form className="register-form" onSubmit={handleSubmit(sendData)}>
+                        <h2>Login</h2>
+                        <div className="form-group">
+                            <label htmlFor="inputUserName">Username</label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                id="inputUserName"
+                                {...register("uname", {required: ErrorTips.LoginPage.uname})}
+                            />
+                            <div className={`alert alert-danger mt-2 ${errors.uname ? 'd-block' : 'd-none'}`}
+                                 role="alert">
+                                {errors.uname?.message}
+                            </div>
                         </div>
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="inputUserPassword">Password</label>
-                        <input
-                            type="password"
-                            className="form-control"
-                            id="inputUserPassword"
-                            {...register("password", { required: ErrorTips.LoginPage.passwd })}
-                        />
-                        <div className={`alert alert-danger mt-2 ${errors.password ? 'd-block' : 'd-none'}`} role="alert">
-                            {errors.password?.message}
+                        <div className="form-group">
+                            <label htmlFor="inputUserPassword">Password</label>
+                            <input
+                                type="password"
+                                className="form-control"
+                                id="inputUserPassword"
+                                {...register("password", {required: ErrorTips.LoginPage.passwd})}
+                            />
+                            <div className={`alert alert-danger mt-2 ${errors.password ? 'd-block' : 'd-none'}`}
+                                 role="alert">
+                                {errors.password?.message}
+                            </div>
                         </div>
-                    </div>
-                    <button 
-                        type="submit" 
-                        className="btn btn-primary" 
-                        style={{ padding: '5px 10px', fontSize: '12px', width: '100px' }}>
-                        Submit
-                    </button>
-                </form>
+                        <button type="submit" className="btn btn-primary">Submit</button>
+                    </form>
+                </div>
             </div>
-        </div>
+        </>
     );
-};
-
+}
 export default Login;
 
 
