@@ -60,7 +60,7 @@ const Login = () => {
                                 {errors.password?.message}
                             </div>
                         </div>
-                        <button type="submit" className="btn btn-primary">Submit</button>
+                        <button type="submit" className="btn-small">Submit</button>
                     </form>
                 </div>
             </div>
@@ -68,6 +68,7 @@ const Login = () => {
     );
 }
 export default Login;
+
 
 
 
