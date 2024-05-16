@@ -57,7 +57,12 @@ const Login = () => {
                             {errors.password?.message}
                         </div>
                     </div>
-                    <button type="submit" className="btn btn-primary">Submit</button>
+                    <button 
+                        type="submit" 
+                        className="btn btn-primary" 
+                        style={{ padding: '5px 10px', fontSize: '12px', width: '100px' }}>
+                        Submit
+                    </button>
                 </form>
             </div>
         </div>
@@ -65,4 +70,6 @@ const Login = () => {
 };
 
 export default Login;
+
+
 
