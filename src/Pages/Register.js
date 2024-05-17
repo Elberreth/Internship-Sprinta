@@ -59,6 +59,7 @@ const Register = () => {
     }
 
     const closePopup = () => {
+        console.log("Close popup called");
         setShowPopup(false);
     }
 
@@ -157,11 +158,11 @@ const Register = () => {
                     <button type="button" onClick={handleSubmitGetValidationCode} className="btn-wide-purple">Get Validation Code</button>
                     <div className="form-group">
                         <input
-                            type="email"
+                            type="text"
                             className="form-control"
                             id="inputValidateEmail"
-                            placeholder="Validate Email (xxxx-xxxx)"
-                            {...register("validateEmail", { required: 'Validate Email is required' })}
+                            placeholder="Type in your code (xxxx-xxxx)" // Uppdaterad text här
+                            {...register("validateEmail", { required: 'Type in your code is required' })} // Uppdaterad text här
                         />
                         {errors.validateEmail && <div className="error">{errors.validateEmail.message}</div>}
                     </div>
@@ -195,7 +196,7 @@ const Register = () => {
                             <div className="agreement-popup-content">
                                 <span className="popup-btn" onClick={closePopup}>&times;</span>
                                 <h3>Agreement</h3>
-                                <AgreementPopup onClose={closePopup} />
+                                <AgreementPopup />
                             </div>
                         </div>
                     )}
@@ -206,6 +207,7 @@ const Register = () => {
 }
 
 export default Register;
+
 
 
 
