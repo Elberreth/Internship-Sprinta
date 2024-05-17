@@ -1,8 +1,5 @@
 import React from 'react';
-import Apis from "../Config/Apis";
-import axios from "axios";
 import { useForm } from "react-hook-form";
-import ErrorTips from "../Config/ErrorTips";
 import '../CSS/Register.css'; // Importera CSS för register-sidan
 
 const Login = () => {
@@ -20,7 +17,7 @@ const Login = () => {
 
     const {
         register,
-        formState: {errors},
+        formState: { errors },
         handleSubmit
     } = useForm({
         defaultValues: {
@@ -40,12 +37,9 @@ const Login = () => {
                                 type="text"
                                 className="form-control"
                                 id="inputUserName"
-                                {...register("uname", {required: ErrorTips.LoginPage.uname})}
+                                {...register("uname", { required: 'Username is required' })}
                             />
-                            <div className={`alert alert-danger mt-2 ${errors.uname ? 'd-block' : 'd-none'}`}
-                                 role="alert">
-                                {errors.uname?.message}
-                            </div>
+                            {errors.uname && <div style={{ color: 'red', fontSize: '12px' }} className="error-message">{errors.uname.message}</div>}
                         </div>
                         <div className="form-group">
                             <label htmlFor="inputUserPassword">Password</label>
@@ -53,12 +47,9 @@ const Login = () => {
                                 type="password"
                                 className="form-control"
                                 id="inputUserPassword"
-                                {...register("password", {required: ErrorTips.LoginPage.passwd})}
+                                {...register("password", { required: 'Password is required' })}
                             />
-                            <div className={`alert alert-danger mt-2 ${errors.password ? 'd-block' : 'd-none'}`}
-                                 role="alert">
-                                {errors.password?.message}
-                            </div>
+                            {errors.password && <div style={{ color: 'red', fontSize: '12px' }} className="error-message">{errors.password.message}</div>}
                         </div>
                         <button type="submit" className="btn-small">Submit</button>
                     </form>
@@ -67,7 +58,15 @@ const Login = () => {
         </>
     );
 }
+
 export default Login;
+
+
+
+
+
+
+
 
 
 

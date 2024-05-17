@@ -1,0 +1,31 @@
+.register-form {
+    text-align: center; /* Centrera knappen horisontellt */
+}
+
+.btn-small {
+    padding: 8px 16px; /* Mindre padding för att göra knappen mindre */
+    font-size: 12px; /* Mindre fontstorlek */
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+    width: 20%; /* Justerat för att matcha alla knappar */
+}
+
+.btn-wide-purple {
+    padding: 8px 16px; /* Mindre padding för att göra knappen mindre */
+    font-size: 12px; /* Mindre fontstorlek */
+    background-color: #800080;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 30%;
+    text-align: center;
+    margin-top: 10px;
+}
+
