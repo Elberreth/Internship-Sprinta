@@ -1,5 +1,5 @@
 import React from 'react';
-import '../CSS/Agreement.css'; // Uppdatera sökvägen till din CSS-fil
+import '../CSS/Agreement.css';
 
 const AgreementPopup = ({ onClose }) => {
   return (
@@ -66,6 +66,7 @@ const AgreementPopup = ({ onClose }) => {
 };
 
 export default AgreementPopup;
+
 
 
 

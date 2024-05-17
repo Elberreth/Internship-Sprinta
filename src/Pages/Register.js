@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useForm } from "react-hook-form";
 import '../CSS/Global.css';
 import '../CSS/Register.css';
 import '../CSS/FormControls.css';
 import '../CSS/Buttons.css';
 import '../CSS/Popup.css';
-import AgreementPolicy from './AgreementPolicy';
+import AgreementPopup from './AgreementPopup';
 
 const Register = () => {
     const [validationCodeError, setValidationCodeError] = useState("");
     const [showPopup, setShowPopup] = useState(false);
+    const popupRef = useRef(null);
 
     const sendData = async (data) => {
         console.log(data);
@@ -60,6 +61,20 @@ const Register = () => {
     const closePopup = () => {
         setShowPopup(false);
     }
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (popupRef.current && !popupRef.current.contains(event.target)) {
+                setShowPopup(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
 
     return (
         <div className="register-page">
@@ -170,15 +185,17 @@ const Register = () => {
                         />
                         {errors.confirmPassword && <div className="error">{errors.confirmPassword.message}</div>}
                     </div>
-                    <input type="checkbox" id="acceptAgreement" name="acceptAgreement" {...register("acceptAgreement")} />
-                    <label htmlFor="acceptAgreement">Do you accept the Agreement? <span onClick={openPopup}>View Agreement</span></label>
-                    <button type="submit" className="btn-small">Submit</button>
+                    <div className="checkbox-container">
+                        <input type="checkbox" id="acceptAgreement" name="acceptAgreement" {...register("acceptAgreement")} />
+                        <label htmlFor="acceptAgreement">Do you accept the Agreement? <a href="#" onClick={openPopup}>View Agreement</a></label>
+                    </div>
+                    <button type="submit" className="btn-small">Register</button>
                     {showPopup && (
-                        <div className="agreement-popup">
+                        <div className="agreement-popup" ref={popupRef}>
                             <div className="agreement-popup-content">
                                 <span className="popup-btn" onClick={closePopup}>&times;</span>
                                 <h3>Agreement</h3>
-                                <AgreementPolicy />
+                                <AgreementPopup onClose={closePopup} />
                             </div>
                         </div>
                     )}
@@ -189,6 +206,19 @@ const Register = () => {
 }
 
 export default Register;
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

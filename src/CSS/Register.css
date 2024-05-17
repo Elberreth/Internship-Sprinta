@@ -59,6 +59,7 @@ body {
 .form-group input[type="checkbox"] {
     width: auto;
     margin-right: 10px;
+    margin-left: -10px !important; /* Flytta kryssrutan åt vänster */
 }
 
 .error {
@@ -178,6 +179,23 @@ button:hover {
 select {
     text-align: center; 
 }
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    margin-top: 10px; /* Lägg till lite mellanrum ovanför kryssrutan */
+}
+.checkbox-container input {
+    margin-right: 5px; /* Justera detta värde för att finjustera avståndet mellan kryssrutan och etiketten */
+}
+
+
+
+
+
+
+
+
+
     
 
 
