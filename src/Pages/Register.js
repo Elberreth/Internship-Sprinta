@@ -18,7 +18,7 @@ const Register = () => {
 
     const {
         register,
-        formState: { errors },
+        formState: { errors, isValid }, // Access isValid to check if all fields are valid
         handleSubmit: registerHandleSubmit
     } = useForm({
         defaultValues: {
@@ -59,7 +59,6 @@ const Register = () => {
     }
 
     const closePopup = () => {
-        console.log("Close popup called");
         setShowPopup(false);
     }
 
@@ -158,11 +157,11 @@ const Register = () => {
                     <button type="button" onClick={handleSubmitGetValidationCode} className="btn-wide-purple">Get Validation Code</button>
                     <div className="form-group">
                         <input
-                            type="text"
+                            type="email"
                             className="form-control"
                             id="inputValidateEmail"
-                            placeholder="Type in your code (xxxx-xxxx)" // Uppdaterad text här
-                            {...register("validateEmail", { required: 'Type in your code is required' })} // Uppdaterad text här
+                            placeholder="Type in your code (xxxx-xxxx)"
+                            {...register("validateEmail", { required: 'Validate Email is required' })}
                         />
                         {errors.validateEmail && <div className="error">{errors.validateEmail.message}</div>}
                     </div>
@@ -207,6 +206,8 @@ const Register = () => {
 }
 
 export default Register;
+
+
 
 
 
