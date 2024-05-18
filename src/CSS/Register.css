@@ -90,7 +90,7 @@ button:hover {
     border-radius: 4px; /* Rundade hörn */
     cursor: pointer; /* Ändra pekaren vid hovring */
     transition: background-color 0.3s; /* Transition för bakgrundsfärgsändring */
-    margin-top: 10px; /* Marginal ovanför knappen */
+    margin-top: 50px; /* Marginal ovanför knappen */
 }
 
 .btn-small:hover {

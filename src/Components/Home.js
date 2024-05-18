@@ -1,4 +1,5 @@
 import React from 'react';
+import ParentComponent from '../Pages/ParentComponent';
 import LogoGrid from '../Components/LogoGrid';
 import '../CSS/Home.css'; 
 
@@ -10,11 +11,13 @@ const Home = () => {
         <p><h4>A web platform that aims to connect current and former members of the organizations within the Jambiz Group.</h4></p>
       </div>
       <LogoGrid />
+     
     </div>
   );
 };
 
 export default Home;
+
 
 
 

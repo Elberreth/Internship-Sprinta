@@ -6,6 +6,7 @@ import '../CSS/FormControls.css';
 import '../CSS/Buttons.css';
 import '../CSS/Popup.css';
 import AgreementPopup from './AgreementPopup';
+import generateRandomCode from '../Utils/RandomCodeGenerator';
 
 const Register = () => {
     const [validationCodeError, setValidationCodeError] = useState("");
@@ -153,11 +154,10 @@ const Register = () => {
                         />
                         {errors.email && <div className="error">{errors.email.message}</div>}
                     </div>
-                    {validationCodeError && <div className="error">{validationCodeError}</div>}
-                    <button type="button" onClick={handleSubmitGetValidationCode} className="btn-wide-purple">Get Validation Code</button>
+                    <button type="button" onClick={registerHandleSubmit(handleSubmitGetValidationCode)} className="btn-wide-purple">Get Validation Code</button>
                     <div className="form-group">
                         <input
-                            type="email"
+                            type="text"
                             className="form-control"
                             id="inputValidateEmail"
                             placeholder="Type in your code (xxxx-xxxx)"
@@ -195,7 +195,7 @@ const Register = () => {
                             <div className="agreement-popup-content">
                                 <span className="popup-btn" onClick={closePopup}>&times;</span>
                                 <h3>Agreement</h3>
-                                <AgreementPopup />
+                                <AgreementPopup onClose={closePopup} />
                             </div>
                         </div>
                     )}
@@ -206,6 +206,7 @@ const Register = () => {
 }
 
 export default Register;
+
 
 
 
