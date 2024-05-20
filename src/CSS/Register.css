@@ -40,7 +40,7 @@ body {
 }
 
 .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 5px;
 }
 
 .form-group label {
@@ -108,7 +108,7 @@ button:hover {
     transition: background-color 0.3s;
     width: 30%; /* Gör knappen bredare */
     text-align: center;
-    margin-top: 10px;
+    margin-top: 20px !important;
 }
 
 .btn-wide-purple:hover {
