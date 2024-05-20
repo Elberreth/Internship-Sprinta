@@ -37,6 +37,7 @@ const Login = () => {
                                 type="text"
                                 className="form-control"
                                 id="inputUserName"
+                                placeholder="Enter your Email"
                                 {...register("uname", { required: 'Username is required' })}
                             />
                             {errors.uname && <div style={{ color: 'red', fontSize: '12px' }} className="error-message">{errors.uname.message}</div>}
@@ -47,6 +48,7 @@ const Login = () => {
                                 type="password"
                                 className="form-control"
                                 id="inputUserPassword"
+                                placeholder="Enter your password"
                                 {...register("password", { required: 'Password is required' })}
                             />
                             {errors.password && <div style={{ color: 'red', fontSize: '12px' }} className="error-message">{errors.password.message}</div>}
@@ -60,6 +62,8 @@ const Login = () => {
 }
 
 export default Login;
+
+
 
 
 
