@@ -15,10 +15,16 @@ body {
     overflow: hidden; 
 }
 
+body {
+    margin: 0; 
+    overflow: hidden; 
+}
+
 .register-form-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: flex-start;
     align-items: flex-start;
     width: 100%;
     max-width: 600px;
@@ -29,6 +35,7 @@ body {
     border: 1px solid #000; 
     overflow: hidden; 
 }
+
 
 .register-form {
     width: 100%;
@@ -68,18 +75,9 @@ body {
 }
 
 button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    background-color: #007bff;
-    color: #fff;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
+  /* Register.css */
 
-button:hover {
-    background-color: #0056b3;
-}
+
 
 .btn-small {
     padding: 10px 20px; /* Justera paddingen för att matcha stilen */
