@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useForm } from "react-hook-form";
+import { useForm } from 'react-hook-form';
 import '../CSS/Global.css';
 import '../CSS/Register.css';
 import '../CSS/FormControls.css';
@@ -12,18 +12,17 @@ const Register = () => {
     const [validationCodeError, setValidationCodeError] = useState("");
     const [showPopup, setShowPopup] = useState(false);
     const [emailSent, setEmailSent] = useState(false);
+    const [accountCreated, setAccountCreated] = useState(false);
+    const [generatedCode, setGeneratedCode] = useState("");
     const popupRef = useRef(null);
-
-    const sendData = async (data) => {
-        console.log(data);
-    }
 
     const {
         register,
-        formState: { errors, isValid }, // Access isValid to check if all fields are valid
-        handleSubmit: registerHandleSubmit,
+        handleSubmit,
+        formState: { errors },
         getValues,
-        setValue,
+        setError,
+        clearErrors
     } = useForm({
         defaultValues: {
             firstname: "",
@@ -38,29 +37,55 @@ const Register = () => {
         }
     });
 
+    const sendData = async (data) => {
+        console.log(data);
+    };
+
     const handleSubmitGetValidationCode = async () => {
         const data = getValues();
         let errorMessage = "";
 
-        if (!data.firstname || !data.lastname || !data.email) {
-            errorMessage += "First Name, Last Name, and Email are required. ";
-        }
-        if (!data.employmentStatus) {
-            errorMessage += "Employment status is required. ";
-        }
-        if (!data.company) {
-            errorMessage += "Company is required. ";
+        if (!data.firstname) {
+            setError('firstname', { type: 'manual', message: 'First Name is required' });
+            errorMessage = true;
+        } else {
+            clearErrors('firstname');
         }
 
-        setValidationCodeError(errorMessage);
-        
+        if (!data.lastname) {
+            setError('lastname', { type: 'manual', message: 'Last Name is required' });
+            errorMessage = true;
+        } else {
+            clearErrors('lastname');
+        }
+
+        if (!data.email) {
+            setError('email', { type: 'manual', message: 'Email is required' });
+            errorMessage = true;
+        } else {
+            clearErrors('email');
+        }
+
+        if (!data.employmentStatus) {
+            setError('employmentStatus', { type: 'manual', message: 'Employment status is required' });
+            errorMessage = true;
+        } else {
+            clearErrors('employmentStatus');
+        }
+
+        if (!data.company) {
+            setError('company', { type: 'manual', message: 'Company is required' });
+            errorMessage = true;
+        } else {
+            clearErrors('company');
+        }
+
         if (!errorMessage) {
-            // Generate random validation code
             const validationCode = generateRandomCode();
-            
-            // Simulate sending the code to the user's email
+            setGeneratedCode(validationCode);
+
             try {
-                await sendEmail(data.email, validationCode); // Define sendEmail function to handle email sending
+                await sendEmail(data.email, validationCode);
                 setEmailSent(true);
                 alert(`Validation code sent to ${data.email}`);
             } catch (error) {
@@ -70,26 +95,56 @@ const Register = () => {
         } else {
             setEmailSent(false);
         }
-    }
+    };
 
     const sendEmail = async (email, code) => {
-        // This function should contain the logic to send an email.
-        
         console.log(`Sending code ${code} to ${email}`);
         return new Promise((resolve, reject) => setTimeout(() => {
-            // Simulating email sending success or failure
-            const success = Math.random() > 0.1; // 90% chance of success
+            const success = Math.random() > 0.1;
             success ? resolve() : reject(new Error("Failed to send email"));
         }, 1000));
-    }
+    };
 
     const openPopup = () => {
         setShowPopup(true);
-    }
+    };
 
     const closePopup = () => {
         setShowPopup(false);
-    }
+    };
+
+    const handleRegister = () => {
+        const { validateEmail, password, confirmPassword, acceptAgreement } = getValues();
+
+        if (!validateEmail) {
+            setError('validateEmail', { type: 'manual', message: 'Please fill in the Validate Email field.' });
+        } else {
+            clearErrors('validateEmail');
+        }
+
+        if (!password) {
+            setError('password', { type: 'manual', message: 'Please fill in the Password field.' });
+        } else {
+            clearErrors('password');
+        }
+
+        if (password !== confirmPassword) {
+            setError('confirmPassword', { type: 'manual', message: 'Passwords do not match.' });
+        } else {
+            clearErrors('confirmPassword');
+        }
+
+        if (!acceptAgreement) {
+            setError('acceptAgreement', { type: 'manual', message: 'You must accept the agreement.' });
+        } else {
+            clearErrors('acceptAgreement');
+        }
+
+        if (!errors.validateEmail && !errors.password && !errors.confirmPassword && !errors.acceptAgreement) {
+            setAccountCreated(true);
+            alert('You have successfully created your Jambiz Alumni Portal account!');
+        }
+    };
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -108,7 +163,7 @@ const Register = () => {
     return (
         <div className="register-page">
             <div className="register-form-container">
-                <form className="register-form" onSubmit={registerHandleSubmit(sendData)}>
+                <form className="register-form" onSubmit={handleSubmit(sendData)}>
                     <h2>Register</h2>
                     <div className="form-group">
                         <select
@@ -182,7 +237,7 @@ const Register = () => {
                         />
                         {errors.email && <div className="error">{errors.email.message}</div>}
                     </div>
-                    <button type="button" onClick={registerHandleSubmit(handleSubmitGetValidationCode)} className="btn-wide-purple">Get Validation Code</button>
+                    <button type="button" onClick={handleSubmit(handleSubmitGetValidationCode)} className="btn-wide-purple">Get Validation Code</button>
                     {validationCodeError && <div className="error">{validationCodeError}</div>}
                     {emailSent && <div className="success">Validation code has been sent to your email.</div>}
                     {!emailSent && validationCodeError && <div className="error">Failed to send validation code. Please check your details and try again.</div>}
@@ -219,8 +274,9 @@ const Register = () => {
                     <div className="checkbox-container">
                         <input type="checkbox" id="acceptAgreement" name="acceptAgreement" {...register("acceptAgreement")} />
                         <label htmlFor="acceptAgreement">Do you accept the Agreement? <a href="#" onClick={openPopup}>View Agreement</a></label>
+                        {errors.acceptAgreement && <div className="error">{errors.acceptAgreement.message}</div>}
                     </div>
-                    <button type="submit" className="btn-small">Register</button>
+                    <button type="button" onClick={handleRegister} className="btn-small">Register</button>
                     {showPopup && (
                         <div className="agreement-popup" ref={popupRef}>
                             <div className="agreement-popup-content">
@@ -234,9 +290,11 @@ const Register = () => {
             </div>
         </div>
     );
-}
+};
 
 export default Register;
+
+
 
 
 
