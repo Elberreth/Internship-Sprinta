@@ -11,6 +11,7 @@ import generateRandomCode from '../Utils/RandomCodeGenerator';
 const Register = () => {
     const [validationCodeError, setValidationCodeError] = useState("");
     const [showPopup, setShowPopup] = useState(false);
+    const [emailSent, setEmailSent] = useState(false);
     const popupRef = useRef(null);
 
     const sendData = async (data) => {
@@ -20,7 +21,9 @@ const Register = () => {
     const {
         register,
         formState: { errors, isValid }, // Access isValid to check if all fields are valid
-        handleSubmit: registerHandleSubmit
+        handleSubmit: registerHandleSubmit,
+        getValues,
+        setValue,
     } = useForm({
         defaultValues: {
             firstname: "",
@@ -35,7 +38,8 @@ const Register = () => {
         }
     });
 
-    const handleSubmitGetValidationCode = (data) => {
+    const handleSubmitGetValidationCode = async () => {
+        const data = getValues();
         let errorMessage = "";
 
         if (!data.firstname || !data.lastname || !data.email) {
@@ -51,8 +55,32 @@ const Register = () => {
         setValidationCodeError(errorMessage);
         
         if (!errorMessage) {
-            // Proceed with validation code logic
+            // Generate random validation code
+            const validationCode = generateRandomCode();
+            
+            // Simulate sending the code to the user's email
+            try {
+                await sendEmail(data.email, validationCode); // Define sendEmail function to handle email sending
+                setEmailSent(true);
+                alert(`Validation code sent to ${data.email}`);
+            } catch (error) {
+                console.error("Error sending email:", error);
+                setEmailSent(false);
+            }
+        } else {
+            setEmailSent(false);
         }
+    }
+
+    const sendEmail = async (email, code) => {
+        // This function should contain the logic to send an email.
+        
+        console.log(`Sending code ${code} to ${email}`);
+        return new Promise((resolve, reject) => setTimeout(() => {
+            // Simulating email sending success or failure
+            const success = Math.random() > 0.1; // 90% chance of success
+            success ? resolve() : reject(new Error("Failed to send email"));
+        }, 1000));
     }
 
     const openPopup = () => {
@@ -155,13 +183,16 @@ const Register = () => {
                         {errors.email && <div className="error">{errors.email.message}</div>}
                     </div>
                     <button type="button" onClick={registerHandleSubmit(handleSubmitGetValidationCode)} className="btn-wide-purple">Get Validation Code</button>
+                    {validationCodeError && <div className="error">{validationCodeError}</div>}
+                    {emailSent && <div className="success">Validation code has been sent to your email.</div>}
+                    {!emailSent && validationCodeError && <div className="error">Failed to send validation code. Please check your details and try again.</div>}
                     <div className="form-group">
                         <input
                             type="text"
                             className="form-control"
                             id="inputValidateEmail"
                             placeholder="Type in your code (xxxx-xxxx)"
-                            {...register("validateEmail", { required: 'Validate Email is required' })}
+                            {...register("validateEmail")}
                         />
                         {errors.validateEmail && <div className="error">{errors.validateEmail.message}</div>}
                     </div>
@@ -171,7 +202,7 @@ const Register = () => {
                             className="form-control"
                             id="inputPassword"
                             placeholder="Password"
-                            {...register("password", { required: 'Password is required' })}
+                            {...register("password")}
                         />
                         {errors.password && <div className="error">{errors.password.message}</div>}
                     </div>
@@ -181,7 +212,7 @@ const Register = () => {
                             className="form-control"
                             id="inputConfirmPassword"
                             placeholder="Confirm Password"
-                            {...register("confirmPassword", { required: 'Confirm Password is required' })}
+                            {...register("confirmPassword")}
                         />
                         {errors.confirmPassword && <div className="error">{errors.confirmPassword.message}</div>}
                     </div>
@@ -206,6 +237,9 @@ const Register = () => {
 }
 
 export default Register;
+
+
+
 
 
 
