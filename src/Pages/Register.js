@@ -20,9 +20,7 @@ const Register = () => {
         register,
         handleSubmit,
         formState: { errors },
-        getValues,
-        setError,
-        clearErrors
+        getValues
     } = useForm({
         defaultValues: {
             firstname: "",
@@ -45,40 +43,17 @@ const Register = () => {
         const data = getValues();
         let errorMessage = "";
 
-        if (!data.firstname) {
-            setError('firstname', { type: 'manual', message: 'First Name is required' });
-            errorMessage = true;
-        } else {
-            clearErrors('firstname');
+        if (!data.firstname || !data.lastname || !data.email) {
+            errorMessage += "First Name, Last Name, and Email are required. ";
         }
-
-        if (!data.lastname) {
-            setError('lastname', { type: 'manual', message: 'Last Name is required' });
-            errorMessage = true;
-        } else {
-            clearErrors('lastname');
-        }
-
-        if (!data.email) {
-            setError('email', { type: 'manual', message: 'Email is required' });
-            errorMessage = true;
-        } else {
-            clearErrors('email');
-        }
-
         if (!data.employmentStatus) {
-            setError('employmentStatus', { type: 'manual', message: 'Employment status is required' });
-            errorMessage = true;
-        } else {
-            clearErrors('employmentStatus');
+            errorMessage += "Employment status is required. ";
+        }
+        if (!data.company) {
+            errorMessage += "Company is required. ";
         }
 
-        if (!data.company) {
-            setError('company', { type: 'manual', message: 'Company is required' });
-            errorMessage = true;
-        } else {
-            clearErrors('company');
-        }
+        setValidationCodeError(errorMessage);
 
         if (!errorMessage) {
             const validationCode = generateRandomCode();
@@ -116,31 +91,26 @@ const Register = () => {
     const handleRegister = () => {
         const { validateEmail, password, confirmPassword, acceptAgreement } = getValues();
 
+        let errorMessage = "";
         if (!validateEmail) {
-            setError('validateEmail', { type: 'manual', message: 'Please fill in the Validate Email field.' });
-        } else {
-            clearErrors('validateEmail');
+            errorMessage += "Please fill in the Validate Email field. ";
         }
 
         if (!password) {
-            setError('password', { type: 'manual', message: 'Please fill in the Password field.' });
-        } else {
-            clearErrors('password');
+            errorMessage += "Please fill in the Password field. ";
         }
 
         if (password !== confirmPassword) {
-            setError('confirmPassword', { type: 'manual', message: 'Passwords do not match.' });
-        } else {
-            clearErrors('confirmPassword');
+            errorMessage += "Passwords do not match. ";
         }
 
         if (!acceptAgreement) {
-            setError('acceptAgreement', { type: 'manual', message: 'You must accept the agreement.' });
-        } else {
-            clearErrors('acceptAgreement');
+            errorMessage += "You must accept the agreement. ";
         }
 
-        if (!errors.validateEmail && !errors.password && !errors.confirmPassword && !errors.acceptAgreement) {
+        setValidationCodeError(errorMessage);
+
+        if (!errorMessage) {
             setAccountCreated(true);
             alert('You have successfully created your Jambiz Alumni Portal account!');
         }
@@ -274,9 +244,10 @@ const Register = () => {
                     <div className="checkbox-container">
                         <input type="checkbox" id="acceptAgreement" name="acceptAgreement" {...register("acceptAgreement")} />
                         <label htmlFor="acceptAgreement">Do you accept the Agreement? <a href="#" onClick={openPopup}>View Agreement</a></label>
-                        {errors.acceptAgreement && <div className="error">{errors.acceptAgreement.message}</div>}
                     </div>
                     <button type="button" onClick={handleRegister} className="btn-small">Register</button>
+                    {validationCodeError && <div className="error">{validationCodeError}</div>}
+                    {accountCreated && <div className="success">You have successfully created your Jambiz Alumni Portal account!</div>}
                     {showPopup && (
                         <div className="agreement-popup" ref={popupRef}>
                             <div className="agreement-popup-content">
@@ -290,10 +261,9 @@ const Register = () => {
             </div>
         </div>
     );
-};
+}
 
 export default Register;
-
 
 
 

@@ -38,7 +38,13 @@ const Login = () => {
                                 className="form-control"
                                 id="inputUserName"
                                 placeholder="Enter your Email"
-                                {...register("uname", { required: 'Username is required' })}
+                                {...register("uname", { 
+                                    required: 'Username is required',
+                                    pattern: {
+                                        value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                                        message: "Invalid email address"
+                                    }
+                                })}
                             />
                             {errors.uname && <div style={{ color: 'red', fontSize: '12px' }} className="error-message">{errors.uname.message}</div>}
                         </div>
@@ -62,6 +68,7 @@ const Login = () => {
 }
 
 export default Login;
+
 
 
 
