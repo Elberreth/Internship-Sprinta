@@ -88,36 +88,49 @@ const Register = () => {
     const closePopup = () => {
         setShowPopup(false);
     };
-
+    const validatePassword = (password) => {
+        const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{6,10}$/;
+        return passwordRegex.test(password);
+    };
+    
     const handleRegister = () => {
         const { validateEmail, password, confirmPassword, acceptAgreement } = getValues();
-
+    
         let errorMessage = "";
-        if (!validateEmail) {
-            errorMessage += "Please fill in the Validate Email field. ";
+    
+        // Validate email format
+        const validationCodePattern = /^\d{4}-\d{4}$/;
+        if (!validateEmail || !validationCodePattern.test(validateEmail)) {
+            errorMessage += "Please fill in the Validate Email field in the format xxxx-xxxx. ";
         }
-
-        if (!password) {
+    
+        if (password) {
+            if (password.length < 6 || password.length > 10 || !validatePassword(password)) {
+                errorMessage += "Password must have at least 1 small-case letter, 1 Capital letter, 1 digit, 1 special character and the length should be between 6-10 characters. ";
+            }
+        } else {
             errorMessage += "Please fill in the Password field. ";
         }
-
+    
         if (password !== confirmPassword) {
             errorMessage += "Passwords do not match. ";
         }
-
+    
         if (!acceptAgreement) {
             errorMessage += "You must accept the agreement. ";
         }
-
+    
         setValidationCodeError(errorMessage);
-
+    
         if (!errorMessage) {
             setAccountCreated(true);
             alert('You have successfully created your Jambiz Alumni Portal account!');
             setRegistrationError("");
-            
         }
     };
+    
+    
+    
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -259,7 +272,7 @@ const Register = () => {
 
 <button type="button" onClick={handleRegister} className="btn-small">Register</button>
 {validationCodeError && <div className="error">{validationCodeError}</div>}
-{accountCreated && <div className="success">Your application have been sent to an Admin for approval</div>}
+{accountCreated && <div className="success">Your application have been sent to an Admin for approval.</div>}
 {showPopup && (
     <div className="agreement-popup" ref={popupRef}>
         <div className="agreement-popup-content">
