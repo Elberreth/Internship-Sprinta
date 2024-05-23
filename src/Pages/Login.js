@@ -1,17 +1,11 @@
 import React from 'react';
 import { useForm } from "react-hook-form";
-import '../CSS/Register.css'; // Importera CSS för register-sidan
+import '../CSS/Register.css'; 
 
 const Login = () => {
 
     const sendData = async (data) => {
-        // await axios.post(Apis.Login, data)
-        //     .then(function (response) {
-        //         console.log("do what do you want here");
-        //     })
-        //     .catch(function (error) {
-        //         console.log(error);
-        //     })
+    
         console.log(data);
     }
 

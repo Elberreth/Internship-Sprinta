@@ -1,5 +1,5 @@
 import React from 'react';
-import '../CSS/About.css'; // Importera CSS-filen för styling
+import '../CSS/About.css'; 
 
 const About = () => {
   return (

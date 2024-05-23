@@ -15,6 +15,7 @@ const Register = () => {
     const [accountCreated, setAccountCreated] = useState(false);
     const [generatedCode, setGeneratedCode] = useState("");
     const popupRef = useRef(null);
+    const [registrationError, setRegistrationError] = useState("");
 
     const {
         register,
@@ -113,6 +114,8 @@ const Register = () => {
         if (!errorMessage) {
             setAccountCreated(true);
             alert('You have successfully created your Jambiz Alumni Portal account!');
+            setRegistrationError("");
+            
         }
     };
 
@@ -211,52 +214,62 @@ const Register = () => {
                     {validationCodeError && <div className="error">{validationCodeError}</div>}
                     {emailSent && <div className="success">Validation code has been sent to your email.</div>}
                     {!emailSent && validationCodeError && <div className="error">Failed to send validation code. Please check your details and try again.</div>}
-                    <div className="form-group">
-                        <input
-                            type="text"
-                            className="form-control"
-                            id="inputValidateEmail"
-                            placeholder="Type in your code (xxxx-xxxx)"
-                            {...register("validateEmail")}
-                        />
-                        {errors.validateEmail && <div className="error">{errors.validateEmail.message}</div>}
-                    </div>
-                    <div className="form-group">
-                        <input
-                            type="password"
-                            className="form-control"
-                            id="inputPassword"
-                            placeholder="Password"
-                            {...register("password")}
-                        />
-                        {errors.password && <div className="error">{errors.password.message}</div>}
-                    </div>
-                    <div className="form-group">
-                        <input
-                            type="password"
-                            className="form-control"
-                            id="inputConfirmPassword"
-                            placeholder="Confirm Password"
-                            {...register("confirmPassword")}
-                        />
-                        {errors.confirmPassword && <div className="error">{errors.confirmPassword.message}</div>}
-                    </div>
-                    <div className="checkbox-container">
-                        <input type="checkbox" id="acceptAgreement" name="acceptAgreement" {...register("acceptAgreement")} />
-                        <label htmlFor="acceptAgreement">Do you accept the Agreement? <a href="#" onClick={openPopup}>View Agreement</a></label>
-                    </div>
-                    <button type="button" onClick={handleRegister} className="btn-small">Register</button>
-                    {validationCodeError && <div className="error">{validationCodeError}</div>}
-                    {accountCreated && <div className="success">You have successfully created your Jambiz Alumni Portal account!</div>}
-                    {showPopup && (
-                        <div className="agreement-popup" ref={popupRef}>
-                            <div className="agreement-popup-content">
-                                <span className="popup-btn" onClick={closePopup}>&times;</span>
-                                <h3>Agreement</h3>
-                                <AgreementPopup onClose={closePopup} />
-                            </div>
-                        </div>
-                    )}
+        {/* Validate Email field */}
+<div className="form-group">
+    <input
+        type="text"
+        className="form-control"
+        id="inputValidateEmail"
+        placeholder="Type in your code (xxxx-xxxx)"
+        {...register("validateEmail")}
+    />
+    {validationCodeError.validateEmail && <div className="error">{validationCodeError.validateEmail}</div>}
+</div>
+
+{/* Password field */}
+<div className="form-group">
+    <input
+        type="password"
+        className="form-control"
+        id="inputPassword"
+        placeholder="Password"
+        {...register("password")}
+    />
+    {validationCodeError.password && <div className="error">{validationCodeError.password}</div>}
+</div>
+
+{/* Confirm Password field */}
+<div className="form-group">
+    <input
+        type="password"
+        className="form-control"
+        id="inputConfirmPassword"
+        placeholder="Confirm Password"
+        {...register("confirmPassword")}
+    />
+    {validationCodeError.confirmPassword && <div className="error">{validationCodeError.confirmPassword}</div>}
+</div>
+
+{/* Accept Agreement field */}
+<div className="checkbox-container">
+    <input type="checkbox" id="acceptAgreement" name="acceptAgreement" {...register("acceptAgreement")} />
+    <label htmlFor="acceptAgreement">Do you accept the Agreement? <a href="#" onClick={openPopup}>View Agreement</a></label>
+    {errors.acceptAgreement && <div className="error">{errors.acceptAgreement.message}</div>}
+</div>
+
+<button type="button" onClick={handleRegister} className="btn-small">Register</button>
+{validationCodeError && <div className="error">{validationCodeError}</div>}
+{accountCreated && <div className="success">Your application have been sent to an Admin for approval</div>}
+{showPopup && (
+    <div className="agreement-popup" ref={popupRef}>
+        <div className="agreement-popup-content">
+            <span className="popup-btn" onClick={closePopup}>&times;</span>
+            <h3>Agreement</h3>
+            <AgreementPopup onClose={closePopup} />
+        </div>
+    </div>
+)}
+
                 </form>
             </div>
         </div>
@@ -264,7 +277,6 @@ const Register = () => {
 }
 
 export default Register;
-
 
 
 

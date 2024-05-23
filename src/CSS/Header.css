@@ -48,9 +48,9 @@ button:hover {
 .btn-small {
     padding: 5px 10px;
     font-size: 12px;
-    width: 100px; /* Justera denna bredd efter behov */
+    width: 100px; 
     text-align: center;
-    margin: 5px auto; /* Centrerar knappen horisontellt */
+    margin: 5px auto; 
     display: block;
 }
   

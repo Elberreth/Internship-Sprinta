@@ -66,7 +66,7 @@ body {
 .form-group input[type="checkbox"] {
     width: auto;
     margin-right: 10px;
-    margin-left: -10px !important; /* Flytta kryssrutan åt vänster */
+    margin-left: -10px !important; 
 }
 
 .error {
@@ -79,37 +79,37 @@ body {
 
 
 .btn-small {
-    padding: 10px 20px; /* Justera paddingen för att matcha stilen */
-    font-size: 14px; /* Justera font-storleken för att matcha stilen */
-    background-color: #007bff; /* Bakgrundsfärg för knappen */
-    color: #fff; /* Textfärg för knappen */
-    border: none; /* Ta bort kantlinjen */
-    border-radius: 4px; /* Rundade hörn */
-    cursor: pointer; /* Ändra pekaren vid hovring */
-    transition: background-color 0.3s; /* Transition för bakgrundsfärgsändring */
-    margin-top: 50px; /* Marginal ovanför knappen */
+    padding: 10px 20px;
+    font-size: 14px; 
+    background-color: #007bff; 
+    color: #fff;
+    border: none; 
+    border-radius: 4px; 
+    cursor: pointer; 
+    transition: background-color 0.3s; 
+    margin-top: 50px; 
 }
 
 .btn-small:hover {
-    background-color: #0056b3; /* Mörkare bakgrundsfärg vid hovring */
+    background-color: #0056b3; 
 }
 
 .btn-wide-purple {
     padding: 10px 20px;
     font-size: 14px;
-    background-color: #800080; /* Lila bakgrundsfärg */
+    background-color: #800080;
     color: #fff;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s;
-    width: 30%; /* Gör knappen bredare */
+    width: 30%; 
     text-align: center;
     margin-top: 20px !important;
 }
 
 .btn-wide-purple:hover {
-    background-color: #660066; /* Mörkare lila bakgrundsfärg vid hovring */
+    background-color: #660066; 
 }
 
 .agreement-popup {
@@ -179,13 +179,19 @@ select {
 .checkbox-container {
     display: flex;
     align-items: center;
-    margin-top: 10px; /* Lägg till lite mellanrum ovanför kryssrutan */
+    margin-top: 10px; 
 }
 .checkbox-container input {
-    margin-right: 5px; /* Justera detta värde för att finjustera avståndet mellan kryssrutan och etiketten */
+    margin-right: 5px;
 }
 
 
+/* Register.css */
+.success {
+    color: green;
+    font-size: 16px; 
+    margin-top: 10px; 
+}
 
 
 
