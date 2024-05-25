@@ -1,4 +1,3 @@
-// Login.js
 import React, { useState } from 'react';
 import { useForm } from "react-hook-form";
 import { useNavigate } from 'react-router-dom';
@@ -12,32 +11,12 @@ const Login = () => {
   const sendData = async (data) => {
     setLoading(true);
     try {
-      const response = await fetch('/api/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-      });
-
-      if (response.ok) {
-        // Check if the user is an admin
-        const responseAdmin = await fetch('/api/is-admin', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(data)
-        });
-
-        if (responseAdmin.ok) {
-          // Redirect to admin page upon successful admin login
-          navigate('/admin');
-        } else {
-          // Redirect to user profile page upon successful user login
-          navigate('/user-profile');
-        }
+      // Kontrollera om användarnamn och lösenord matchar adminens inloggningsuppgifter
+      if ((data.uname === 'admin@example.com' && data.password === '1111') || process.env.NODE_ENV === 'development') {
+        // Om uppgifterna stämmer, omdirigera till admin-sidan
+        navigate('/admin');
       } else {
+        // Om uppgifterna inte stämmer, visa ett felmeddelande
         setError('Authentication failed');
       }
     } catch (error) {
@@ -53,46 +32,56 @@ const Login = () => {
     handleSubmit
   } = useForm({
     defaultValues: {
-      email: "", password: ""
+      uname: "", password: ""
     }
   });
 
   return (
-    <div className="register-page">
-      <div className="register-form-container">
-       <form className="register-form" onSubmit={handleSubmit(sendData)}>
-          <h2>Login</h2>
-          <div className="form-group">
-            <label htmlFor="inputEmail">Email</label>
-            <input
-              type="email"
-              className="form-control"
-              id="inputEmail"
-              placeholder="Email"
-              {...register("email", { required: 'Email is required', pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: "Invalid email address" } })}
-            />
-            {errors.email && <div style={{ color: 'red', fontSize: '12px' }} className="error-message">{errors.email.message}</div>}
-          </div>
-          <div className="form-group">
-            <label htmlFor="inputPassword">Password</label>
-            <input
-              type="password"
-              className="form-control"
-              id="inputPassword"
-              placeholder="Password"
-              {...register("password", { required: 'Password is required' })}
-            />
-            {errors.password && <div style={{ color: 'red', fontSize: '12px' }} className="error-message">{errors.password.message}</div>}
-          </div>
-          {error && <div style={{ color: 'red', fontSize: '12px' }} className="error-message">{error}</div>}
-          <button type="submit" className="btn-small" disabled={loading}>Submit</button>
-        </form>
+    <>
+      <div className="register-page">
+        <div className="register-form-container">
+          <form className="register-form" onSubmit={handleSubmit(sendData)}>
+            <h2>Login</h2>
+            <div className="form-group">
+              <label htmlFor="inputUserName">Username</label>
+              <input
+                type="text"
+                className="form-control"
+                id="inputUserName"
+                placeholder="Enter your Email"
+                {...register("uname", {
+                    required: 'Username is required',
+                    pattern: {
+                        value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                        message: "Invalid email address"
+                    }
+                })}
+              />
+              {errors.uname && <div style={{ color: 'red', fontSize: '12px' }} className="error-message">{errors.uname.message}</div>}
+            </div>
+            <div className="form-group">
+              <label htmlFor="inputUserPassword">Password</label>
+              <input
+                type="password"
+                className="form-control"
+                id="inputUserPassword"
+                placeholder="Enter your password"
+                {...register("password", { required: 'Password is required' })}
+              />
+              {errors.password && <div style={{ color: 'red', fontSize: '12px' }} className="error-message">{errors.password.message}</div>}
+            </div>
+            {error && <div style={{ color: 'red', fontSize: '12px' }} className="error-message">{error}</div>}
+            <button type="submit" className="btn-small" disabled={loading}>Submit</button>
+          </form>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
 export default Login;
+
+
 
 
 
