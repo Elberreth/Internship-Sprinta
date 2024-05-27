@@ -1,51 +1,60 @@
 import React, { useState } from 'react';
-import '../CSS/AdminPage.css';
+import '../CSS/AdminPage.css'; 
 
 const AdminPage = () => {
-  const [users, setUsers] = useState([
-    { id: 1, email: 'user1@example.com', firstName: 'John', lastName: 'Doe', company: 'Company A' },
-    { id: 2, email: 'user2@example.com', firstName: 'Jane', lastName: 'Smith', company: 'Company B' },
-    { id: 3, email: 'user3@example.com', firstName: 'Bill', lastName: 'Jones', company: 'Company C' },
-  ]);
-
-  const [viewMore, setViewMore] = useState(null);
-
-  const handleViewMore = (id) => {
-    if (viewMore === id) {
-      setViewMore(null);
-    } else {
-      setViewMore(id);
-    }
-  };
+  const [showUsers, setShowUsers] = useState(false);
 
   return (
     <div className="admin-page">
-      <h5 className="admin-title">Welcome to the Admin Page</h5>
-      <div className="new-users">
-        <h5>Newly Registered Users</h5>
-        <ul>
-          {users.map((user) => (
-            <li key={user.id}>
-              <p>Email: {user.email}</p>
-              {viewMore === user.id ? (
-                <div>
-                  <p>First Name: {user.firstName}</p>
-                  <p>Last Name: {user.lastName}</p>
-                  <p>Company: {user.company}</p>
-                  <button onClick={() => handleViewMore(user.id)}>View less</button>
-                </div>
-              ) : (
-                <button onClick={() => handleViewMore(user.id)}>View more</button>
-              )}
-            </li>
-          ))}
-        </ul>
+      <div className="menu-column">
+        <div className="menu-header">
+          <h3>BackOffice</h3>
+        </div>
+        <div className="menu-button">
+          <button type="button" onClick={() => setShowUsers(!showUsers)} className="btn btn-primary wider-button">New Users</button>
+          {showUsers && (
+            <>
+              <button type="button" className="btn btn-primary wider-button">All Users</button>
+              <button type="button" className="btn btn-primary wider-button">Companies</button>
+              <button type="button" className="btn btn-primary wider-button">Roles</button>
+            </>
+          )}
+        </div>
+      </div>
+      <div className="content-area">
+      
       </div>
     </div>
   );
-}
+};
 
 export default AdminPage;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
 
 
 

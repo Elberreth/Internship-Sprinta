@@ -4,7 +4,7 @@ const UserProfile = () => {
   const [user, setUser] = useState<any>({});
 
   const fetchUserProfile = async () => {
-    // Placeholder for API call to fetch user profile data
+    
     const response = await fetch('/api/user-profile');
     const data = await response.json();
     setUser(data);
@@ -18,7 +18,7 @@ const UserProfile = () => {
         <p>Name: {user.name}</p>
         <p>Email: {user.email}</p>
         <p>Phone: {user.phone}</p>
-        {/* Add more fields as needed */}
+       
       </div>
     </div>
   );
