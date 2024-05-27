@@ -11,44 +11,31 @@ const Login = () => {
   const sendData = async (data) => {
     setLoading(true);
     try {
-      // Här kan du anropa din backend för autentisering
-      const response = await authenticateUser(data.uname, data.password);
-      if (response.success) {
-        navigate('/admin');
+      // Simulate authentication with backend
+      const response = await fetch('/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (response.ok) {
+        const userData = await response.json();
+        if (userData.role === 'Admin') {
+          navigate('/admin');
+        } else {
+          navigate('/user-profile');
+        }
       } else {
-        setError(response.message);
+        setError('Authentication failed');
       }
     } catch (error) {
       setError('An error occurred while logging in');
     } finally {
       setLoading(false);
     }
-  }
-
-  const authenticateUser = async (username, password) => {
-    // Här ersätter du med din faktiska API-anrop för autentisering
-    return new Promise((resolve) => {
-      // Exempel på API-anrop
-      fetch('/api/authenticate', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username, password }),
-      })
-        .then(response => response.json())
-        .then(data => {
-          if (data.success) {
-            resolve({ success: true });
-          } else {
-            resolve({ success: false, message: 'Authentication failed' });
-          }
-        })
-        .catch(() => {
-          resolve({ success: false, message: 'Authentication failed' });
-        });
-    });
-  }
+  };
 
   const {
     register,
@@ -104,6 +91,7 @@ const Login = () => {
 }
 
 export default Login;
+
 
 
 
