@@ -11,7 +11,7 @@ const Login = () => {
   const sendData = async (data) => {
     setLoading(true);
     try {
-      // Kontrollera om användarnamn och lösenord matchar adminens inloggningsuppgifter
+      
       if ((data.uname === 'admin@example.com' && data.password === '1111') || process.env.NODE_ENV === 'development') {
         // Om uppgifterna stämmer, omdirigera till admin-sidan
         navigate('/admin');

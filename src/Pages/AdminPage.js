@@ -11,24 +11,26 @@ const AdminPage = () => {
           <h3>BackOffice</h3>
         </div>
         <div className="menu-button">
-          <button type="button" onClick={() => setShowUsers(!showUsers)} className="btn btn-primary wider-button">New Users</button>
-          {showUsers && (
-            <>
-              <button type="button" className="btn btn-primary wider-button">All Users</button>
-              <button type="button" className="btn btn-primary wider-button">Companies</button>
-              <button type="button" className="btn btn-primary wider-button">Roles</button>
-            </>
-          )}
+          <button type="button" onClick={() => setShowUsers(true)} className="btn btn-primary wider-button">New Users</button>
+          <button type="button" className="btn btn-primary wider-button">All Users</button>
+          <button type="button" className="btn btn-primary wider-button">Companies</button>
+          <button type="button" className="btn btn-primary wider-button">Roles</button>
         </div>
       </div>
       <div className="content-area">
-      
+        {showUsers && (
+          <>
+            
+          </>
+        )}
       </div>
     </div>
   );
 };
 
 export default AdminPage;
+
+
 
 
 
