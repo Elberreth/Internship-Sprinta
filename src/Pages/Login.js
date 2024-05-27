@@ -11,19 +11,43 @@ const Login = () => {
   const sendData = async (data) => {
     setLoading(true);
     try {
-      // Kontrollera om användarnamn och lösenord matchar adminens inloggningsuppgifter
-      if ((data.uname === 'admin@example.com' && data.password === '1111') || process.env.NODE_ENV === 'development') {
-        // Om uppgifterna stämmer, omdirigera till admin-sidan
+      // Här kan du anropa din backend för autentisering
+      const response = await authenticateUser(data.uname, data.password);
+      if (response.success) {
         navigate('/admin');
       } else {
-        // Om uppgifterna inte stämmer, visa ett felmeddelande
-        setError('Authentication failed');
+        setError(response.message);
       }
     } catch (error) {
       setError('An error occurred while logging in');
     } finally {
       setLoading(false);
     }
+  }
+
+  const authenticateUser = async (username, password) => {
+    // Här ersätter du med din faktiska API-anrop för autentisering
+    return new Promise((resolve) => {
+      // Exempel på API-anrop
+      fetch('/api/authenticate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            resolve({ success: true });
+          } else {
+            resolve({ success: false, message: 'Authentication failed' });
+          }
+        })
+        .catch(() => {
+          resolve({ success: false, message: 'Authentication failed' });
+        });
+    });
   }
 
   const {
@@ -80,6 +104,7 @@ const Login = () => {
 }
 
 export default Login;
+
 
 
 

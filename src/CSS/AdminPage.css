@@ -1,46 +1,4 @@
-.admin-page {
-    display: flex;
-    flex-direction: column;
-    align-items: center; 
-    padding: 20px;
-  }
-  
-  .admin-title {
-    color: #333;
-    font-size: 1.5em; 
-    font-weight: bold; 
-    text-align: center;
-  }
-  
-  .new-users {
-    background-color: #f9f9f9;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    margin-bottom: 20px; 
-    align-self: flex-start; 
-    width: 10%; 
-  }
-  
-  .new-users h3 {
-    margin-bottom: 10px; 
-    font-size: 0.8em; 
-  }
-  
-  .new-users ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .new-users ul li {
-    margin-bottom: 10px;
-  }
-  
-  .new-users ul li button {
-    margin-top: 5px;
-  }
-  
-  
+
   
   
   
