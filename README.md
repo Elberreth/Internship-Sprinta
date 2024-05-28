@@ -37,7 +37,7 @@ portal is ready to go online.
 
 ### 2.1 Trello & GitHub
 
-![TrelloAndGitHubWorkflow](src/main/resources/diagrams/workflow_trello_and_github_1.0.png "Trello and GitHub workflow")
+![TrelloAndGitHubWorkflow](src/resources/diagrams/workflow_trello_and_github_1.0.png "Trello and GitHub workflow")
 
 &rarr; In [Trello](https://trello.com/b/TJcCXBQg/alumni-project):
 
@@ -47,14 +47,14 @@ portal is ready to go online.
 
 > &emsp; - Create a new branch derived from **_dev_**
 >
-> &emsp; ![NewBranch01](src/main/resources/images/NewBranch_01.png)  
-> &emsp; ![NewBranch02](src/main/resources/images/NewBranch_02.png)
+> &emsp; ![NewBranch01](src/resources/images/NewBranch_01.png)  
+> &emsp; ![NewBranch02](src/resources/images/NewBranch_02.png)
 >
 > &emsp; - give the branch a name describing its purpose and prefixed with its  
 > &emsp; corresponding Trello Cards card number:
 >
-> &emsp; ![TrelloCardNumber](src/main/resources/images/TrelloCardNumber.png)  
-> &emsp; ![NewBranch03](src/main/resources/images/NewBranch_03.png)
+> &emsp; ![TrelloCardNumber](src/resources/images/TrelloCardNumber.png)  
+> &emsp; ![NewBranch03](src/resources/images/NewBranch_03.png)
 >
 > Example:
 >
@@ -67,7 +67,7 @@ portal is ready to go online.
 > &emsp; &emsp; &emsp; &rarr; GitHub  
 > &emsp; &emsp; &emsp; &emsp; &rarr; Attach Branch...
 >
-> ![Trello + GitHub + Attach Branch...](src/main/resources/images/TrelloGitHub.png)
+> ![Trello + GitHub + Attach Branch...](src/resources/images/TrelloGitHub.png)
 >
 > &emsp; - ... and choose the recently created branch.
 
