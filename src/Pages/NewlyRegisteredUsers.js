@@ -3,13 +3,15 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 const NewlyRegisteredUsers = () => {
   const [newUsers, setNewUsers] = useState([
-    { name: 'John Doe', email: 'john.doe@example.com', company: 'ABC Company', employed: true },
-    { name: 'Jane Doe', email: 'jane.doe@example.com', company: 'XYZ Corporation', employed: false },
-    // Add more users here
+    { name: 'Bengt Olsson', email: 'bengt@sprinta.se', company: 'Sprinta', employed: true },
+    { name: 'Kurt Kurtsson', email: 'kurt@gmail.com', company: 'Sprinta', employed: false },
+    { name: 'Daniel Carlsson', email: 'unix555@gmail.com', company: 'Sprinta', employed: false },
   ]);
   const [checkedUsers, setCheckedUsers] = useState([]);
   const [acceptedUsers, setAcceptedUsers] = useState([]);
   const [rejectedUsers, setRejectedUsers] = useState([]);
+  const [showAccepted, setShowAccepted] = useState(false);
+  const [showRejected, setShowRejected] = useState(false);
 
   const handleCheckboxChange = (user) => {
     if (checkedUsers.includes(user)) {
@@ -22,27 +24,35 @@ const NewlyRegisteredUsers = () => {
   const handleAccept = () => {
     setAcceptedUsers([...acceptedUsers, ...checkedUsers]);
     setCheckedUsers([]);
+    setShowAccepted(true);
   };
 
   const handleReject = () => {
     setRejectedUsers([...rejectedUsers, ...checkedUsers]);
     setCheckedUsers([]);
+    setShowRejected(true);
   };
 
-  const handleCancel = () => {
-    setCheckedUsers([]);
+  const handleCancelAccept = () => {
+    setShowAccepted(false);
     setAcceptedUsers([]);
+  };
+
+  const handleCancelReject = () => {
+    setShowRejected(false);
     setRejectedUsers([]);
   };
 
   const finalizeAccept = () => {
     setNewUsers(newUsers.filter(user => !acceptedUsers.includes(user)));
     setAcceptedUsers([]);
+    setShowAccepted(false);
   };
 
   const finalizeReject = () => {
     setNewUsers(newUsers.filter(user => !rejectedUsers.includes(user)));
     setRejectedUsers([]);
+    setShowRejected(false);
   };
 
   return (
@@ -77,7 +87,7 @@ const NewlyRegisteredUsers = () => {
         </div>
       </div>
       {/* Accepted Users */}
-      {acceptedUsers.length > 0 && (
+      {showAccepted && acceptedUsers.length > 0 && (
         <div className="mt-3">
           <h5>Accepted Users</h5>
           <ul className="list-group">
@@ -89,12 +99,12 @@ const NewlyRegisteredUsers = () => {
           </ul>
           <div className="mt-2 d-flex justify-content-center">
             <button className="btn btn-primary btn-sm mr-2" style={{ width: '80px', fontSize: '10px' }} onClick={finalizeAccept}>Accept</button>
-            <button className="btn btn-secondary btn-sm" style={{ width: '80px', fontSize: '10px' }} onClick={handleCancel}>Cancel</button>
+            <button className="btn btn-secondary btn-sm" style={{ width: '80px', fontSize: '10px' }} onClick={handleCancelAccept}>Cancel</button>
           </div>
         </div>
       )}
       {/* Rejected Users */}
-      {rejectedUsers.length > 0 && (
+      {showRejected && rejectedUsers.length > 0 && (
         <div className="mt-3">
           <h5>Rejected Users</h5>
           <ul className="list-group">
@@ -106,7 +116,7 @@ const NewlyRegisteredUsers = () => {
           </ul>
           <div className="mt-2 d-flex justify-content-center">
             <button className="btn btn-primary btn-sm mr-2" style={{ width: '80px', fontSize: '10px' }} onClick={finalizeReject}>Accept</button>
-            <button className="btn btn-secondary btn-sm" style={{ width: '80px', fontSize: '10px' }} onClick={handleCancel}>Cancel</button>
+            <button className="btn btn-secondary btn-sm" style={{ width: '80px', fontSize: '10px' }} onClick={handleCancelReject}>Cancel</button>
           </div>
         </div>
       )}
@@ -115,6 +125,8 @@ const NewlyRegisteredUsers = () => {
 };
 
 export default NewlyRegisteredUsers;
+
+
 
 
 
