@@ -4,15 +4,15 @@
 
 .menu-column {
   border-right: 0;
-  padding-left: 70px; /* Öka marginalen från vänsterkanten */
+  padding-left: 70px; 
   padding-top: 50px;
 }
 
 .menu-header {
   text-align: center;
   font-weight: bold;
-  margin-bottom: 20px; /* Lägg till lite mellanrum nedanför BackOffice-texten */
-  margin-right: 1; /* Justera marginalen åt höger */
+  margin-bottom: 20px; 
+  margin-right: 1; 
 }
 
 .bold-text {
@@ -20,7 +20,7 @@
 }
 
 .menu-button button {
-  width: 170px; /* Ändra storleken på knappen efter behov */
+  width: 170px; 
 }
 
 .wider-button {
@@ -33,15 +33,15 @@
   padding: 20px;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; /* Align items at the start of the container */
+  justify-content: flex-start; 
   align-items: center;
   text-align: center;
   margin-top: 30px; /* Adjust this value to align with BackOffice text */
   max-width: 800px; /* Set a maximum width for the content area */
-  width: 100%; /* Ensure the content area takes up available width up to the max-width */
-  margin-left: auto; /* Center the content area horizontally */
-  margin-right: auto; /* Center the content area horizontally */
-  border: 1px solid #ccc; /* Add border to content area */
+  width: 100%; 
+  margin-left: auto; 
+  margin-right: auto; 
+  border: 1px solid #ccc; 
 }
 
 .centered-title {
@@ -50,7 +50,7 @@
 
 .content-title {
   margin-bottom: 20px;
-  font-size: 1.75rem; /* Equivalent to h3 size */
+  font-size: 1.75rem; 
 }
 
 .dropdown-menu {
