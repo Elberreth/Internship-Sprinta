@@ -260,7 +260,7 @@ const Register = () => {
             {validationErrors.confirmPassword && <div className="error">{validationErrors.confirmPassword}</div>}
           </div>
 
-          {/* Accept Agreement field */}
+          
           <div className="checkbox-container">
             <input type="checkbox" id="acceptAgreement" name="acceptAgreement" {...register("acceptAgreement")} />
             <label htmlFor="acceptAgreement">Do you accept the Agreement? <a href="#" onClick={openPopup}>View Agreement</a></label>

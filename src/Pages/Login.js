@@ -13,10 +13,10 @@ const Login = () => {
     try {
       
       if ((data.uname === 'admin@example.com' && data.password === '1111') || process.env.NODE_ENV === 'development') {
-        // Om uppgifterna stämmer, omdirigera till admin-sidan
+        
         navigate('/admin');
       } else {
-        // Om uppgifterna inte stämmer, visa ett felmeddelande
+        
         setError('Authentication failed');
       }
     } catch (error) {

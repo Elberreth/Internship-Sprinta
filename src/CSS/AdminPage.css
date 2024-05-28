@@ -1,39 +1,51 @@
 .admin-page {
   display: flex;
-  height: 100vh; /* Full height of the viewport */
 }
 
 .menu-column {
-  width: 200px; /* Fixed width for the menu */
-  border-right: 1px solid #ccc; /* Border to the right */
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 10px;
-  background-color: #f8f9fa; /* Background color for better visibility */
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  border-right: 1px solid #ccc;
+  padding-right: 15px;
+  width: 200px;
+  padding-top: 50px;
 }
 
 .menu-header {
-  margin-top: 50px; /* Margin from the top */
+  text-align: left;
+  padding-left: 32px;
+  font-weight: bold;
+}
+
+.bold-text {
+  font-weight: bold;
 }
 
 .menu-button {
-  margin-top: 20px; /* Margin from the top */
+  text-align: left;
+  padding-left: 10px;
+  margin-top: 10px;
 }
 
 .wider-button {
-  width: 150px; /* Adjust this value to make the button wider */
+  width: 100%;
+  margin-top: 10px;
 }
 
 .content-area {
-  flex: 1; /* Takes the remaining space */
-  padding: 15px;
-  border: 1px solid #ccc;
-  margin-left: 10px; /* Space between menu and content */
-  background-color: #ffffff; /* Background color for better visibility */
-  overflow-y: auto; /* Allow vertical scrolling if content overflows */
+  flex-grow: 1;
+  padding: 20px;
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+  border: 1px solid #ccc; 
+  text-align: center; 
+  margin-top: 100px;
 }
+
+
+.centered-title {
+  margin: 0; 
+}
+
 
 
 
