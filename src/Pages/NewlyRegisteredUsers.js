@@ -3,9 +3,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 const NewlyRegisteredUsers = () => {
   const [newUsers, setNewUsers] = useState([
-    { name: 'Bengt Olsson', email: 'bengt@sprinta.se', company: 'Sprinta', employed: true },
-    { name: 'Kurt Kurtsson', email: 'kurt@gmail.com', company: 'Sprinta', employed: false },
-    { name: 'Daniel Carlsson', email: 'unix555@gmail.com', company: 'Sprinta', employed: false },
+    { name: 'John Doe', email: 'john.doe@example.com', company: 'Sprinta', employed: true },
+    { name: 'Jane Doe', email: 'jane.doe@example.com', company: 'Sprinta', employed: false },
+    { name: 'Daniel Carlsson', email: 'unix555@gmail.com', company: 'Sprinta', employed: false }
   ]);
   const [checkedUsers, setCheckedUsers] = useState([]);
   const [acceptedUsers, setAcceptedUsers] = useState([]);
@@ -82,8 +82,8 @@ const NewlyRegisteredUsers = () => {
       {/* Accept and Reject buttons */}
       <div className="row mt-3" style={{ maxWidth: '200px', margin: 'auto' }}>
         <div className="col d-flex justify-content-center">
-          <button type="button" className="btn btn-primary btn-sm mr-2" style={{ fontSize: '10px' }} onClick={handleAccept}>Accept</button>
-          <button type="button" className="btn btn-danger btn-sm" style={{ fontSize: '10px' }} onClick={handleReject}>Reject</button>
+          <button type="button" className="btn btn-primary btn-sm mr-2" style={{ fontSize: '10px', marginRight: '10px' }} onClick={handleAccept}>Accept</button>
+          <button type="button" className="btn btn-danger btn-sm" style={{ fontSize: '10px', marginLeft: '10px' }} onClick={handleReject}>Reject</button>
         </div>
       </div>
       {/* Accepted Users */}
@@ -98,8 +98,8 @@ const NewlyRegisteredUsers = () => {
             ))}
           </ul>
           <div className="mt-2 d-flex justify-content-center">
-            <button className="btn btn-primary btn-sm mr-2" style={{ width: '80px', fontSize: '10px' }} onClick={finalizeAccept}>Accept</button>
-            <button className="btn btn-secondary btn-sm" style={{ width: '80px', fontSize: '10px' }} onClick={handleCancelAccept}>Cancel</button>
+            <button className="btn btn-primary btn-sm mr-2" style={{ width: '80px', fontSize: '10px', marginRight: '10px' }} onClick={finalizeAccept}>Accept</button>
+            <button className="btn btn-secondary btn-sm" style={{ width: '80px', fontSize: '10px', marginLeft: '10px' }} onClick={handleCancelAccept}>Cancel</button>
           </div>
         </div>
       )}
@@ -115,8 +115,8 @@ const NewlyRegisteredUsers = () => {
             ))}
           </ul>
           <div className="mt-2 d-flex justify-content-center">
-            <button className="btn btn-primary btn-sm mr-2" style={{ width: '80px', fontSize: '10px' }} onClick={finalizeReject}>Accept</button>
-            <button className="btn btn-secondary btn-sm" style={{ width: '80px', fontSize: '10px' }} onClick={handleCancelReject}>Cancel</button>
+            <button className="btn btn-primary btn-sm mr-2" style={{ width: '80px', fontSize: '10px', marginRight: '10px' }} onClick={finalizeReject}>Accept</button>
+            <button className="btn btn-secondary btn-sm" style={{ width: '80px', fontSize: '10px', marginLeft: '10px' }} onClick={handleCancelReject}>Cancel</button>
           </div>
         </div>
       )}
@@ -125,6 +125,7 @@ const NewlyRegisteredUsers = () => {
 };
 
 export default NewlyRegisteredUsers;
+
 
 
 
