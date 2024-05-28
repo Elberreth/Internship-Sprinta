@@ -24,7 +24,7 @@ const Login = () => {
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   const {
     register,
@@ -80,6 +80,8 @@ const Login = () => {
 }
 
 export default Login;
+
+
 
 
 

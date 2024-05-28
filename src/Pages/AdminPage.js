@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 import '../CSS/AdminPage.css';
 
 const AdminPage = () => {
@@ -22,6 +23,7 @@ const AdminPage = () => {
       </div>
     </div>
   );
+};
 };
 
 export default AdminPage;
