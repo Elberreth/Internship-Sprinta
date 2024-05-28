@@ -1,6 +1,5 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const bcrypt = require('bcrypt');
 const mysql = require('mysql');
 
 const app = express();
@@ -21,64 +20,21 @@ connection.connect(err => {
   console.log('Connected to MySQL database');
 });
 
-// Endpoint for user registration
-app.post('/register', async (req, res) => {
-  const { username, password } = req.body;
-
-  if (!username || !password) {
-    return res.status(400).json({ message: 'All fields are required' });
-  }
+// Endpoint för att spara accepterade användare till databasen
+app.post('/saveAcceptedUsers', async (req, res) => {
+  const { acceptedUsers } = req.body;
 
   try {
-    // Check if username already exists in the database
-    const query = 'SELECT * FROM users WHERE username = ?';
-    const [existingUser] = await promisifyQuery(query, [username]);
-
-    if (existingUser) {
-      return res.status(400).json({ message: 'User already exists' });
+    // Loopa igenom varje accepterad användare och spara till databasen
+    for (const user of acceptedUsers) {
+      const { name, email, company, employed } = user;
+      const query = 'INSERT INTO users (name, email, company, employed) VALUES (?, ?, ?, ?)';
+      await promisifyQuery(query, [name, email, company, employed]);
     }
 
-    // Hash the password
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    // Insert new user into the database
-    const insertQuery = 'INSERT INTO users (username, password) VALUES (?, ?)';
-    await promisifyQuery(insertQuery, [username, hashedPassword]);
-
-    res.json({ message: 'User registered successfully' });
+    res.json({ message: 'Accepted users saved successfully' });
   } catch (error) {
-    console.error('Error registering user:', error);
-    res.status(500).json({ message: 'Internal server error' });
-  }
-});
-
-// Endpoint for user login
-app.post('/login', async (req, res) => {
-  const { username, password } = req.body;
-
-  if (!username || !password) {
-    return res.status(400).json({ message: 'All fields are required' });
-  }
-
-  try {
-    // Fetch user from the database
-    const query = 'SELECT * FROM users WHERE username = ?';
-    const [user] = await promisifyQuery(query, [username]);
-
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
-    }
-
-    // Compare passwords
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-
-    if (!isPasswordValid) {
-      return res.status(401).json({ message: 'Invalid password' });
-    }
-
-    res.json({ message: 'Logged in successfully' });
-  } catch (error) {
-    console.error('Error logging in:', error);
+    console.error('Error saving accepted users:', error);
     res.status(500).json({ message: 'Internal server error' });
   }
 });
@@ -101,3 +57,5 @@ function promisifyQuery(query, values) {
     });
   });
 }
+
+

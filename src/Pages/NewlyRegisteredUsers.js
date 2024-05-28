@@ -3,8 +3,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 const NewlyRegisteredUsers = () => {
   const [newUsers, setNewUsers] = useState([
-    { name: 'John Doe', email: 'john.doe@example.com', company: 'Sprinta', employed: true },
-    { name: 'Jane Doe', email: 'jane.doe@example.com', company: 'Sprinta', employed: false },
+    { name: 'Kurt Kurtson', email: 'kurt@xbus.com', company: 'XBUS', employed: true },
+    { name: 'Conny Connysson', email: 'conny@example.com', company: 'EXCEED', employed: false },
     { name: 'Daniel Carlsson', email: 'unix555@gmail.com', company: 'Sprinta', employed: false }
   ]);
   const [checkedUsers, setCheckedUsers] = useState([]);

@@ -64,6 +64,18 @@
 }
 
 
+.btn-wide-purple {
+  padding: 10px 20px;
+  font-size: 14px;
+  background-color: #800080;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  width: fit-content; /* Använd fit-content för att knappen ska anpassa sig till innehållet */
+  margin: 20px auto; /* Auto margin för att centrera horisontellt */
+}
 
 
 

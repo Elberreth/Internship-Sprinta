@@ -124,7 +124,7 @@ const Register = () => {
 
     if (Object.keys(errors).length === 0) {
       setAccountCreated(true);
-      alert('You have successfully created your Jambiz Alumni Portal account!');
+      alert('Your application have been sent to an admin for approval');
       setRegistrationError("");
     }
   };
