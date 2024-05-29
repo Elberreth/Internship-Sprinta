@@ -76,7 +76,15 @@
   width: fit-content; /* Använd fit-content för att knappen ska anpassa sig till innehållet */
   margin: 20px auto; /* Auto margin för att centrera horisontellt */
 }
-
+.btn-sm-custom {
+  font-size: 10px;
+  padding: 3px 10px;
+}
+.btn-sm-popup {
+  font-size: 10px;
+  padding: 3px 10px;
+  width: 80px; /* Adjust width as needed */
+}
 
 
 
