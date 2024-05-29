@@ -6,7 +6,16 @@ const NewlyRegisteredUsers = () => {
   const [newUsers, setNewUsers] = useState([
     { id: 1, name: 'Kurt Kurtson', email: 'kurt@xbus.com', company: 'XBUS', employed: true },
     { id: 2, name: 'Conny Connysson', email: 'conny@example.com', company: 'EXCEED', employed: false },
-    { id: 3, name: 'Daniel Carlsson', email: 'unix555@gmail.com', company: 'Sprinta', employed: false }
+    { id: 3, name: 'Daniel Carlsson', email: 'unix555@gmail.com', company: 'Sprinta', employed: false },
+    { id: 4, name: 'John Doe', email: 'john.doe@example.com', company: 'Company A', employed: true },
+    { id: 5, name: 'Jane Doe', email: 'jane.doe@example.com', company: 'Company B', employed: false },
+    { id: 6, name: 'Alice Smith', email: 'alice.smith@example.com', company: 'Company C', employed: true },
+    { id: 7, name: 'Bob Johnson', email: 'bob.johnson@example.com', company: 'Company D', employed: false },
+    { id: 8, name: 'Emma Brown', email: 'emma.brown@example.com', company: 'Company E', employed: true },
+    { id: 9, name: 'William Taylor', email: 'william.taylor@example.com', company: 'Company F', employed: false },
+    { id: 10, name: 'Olivia Wilson', email: 'olivia.wilson@example.com', company: 'Company G', employed: true },
+    { id: 11, name: 'James Anderson', email: 'james.anderson@example.com', company: 'Company H', employed: false },
+    { id: 12, name: 'Sophia Martinez', email: 'sophia.martinez@example.com', company: 'Company I', employed: true }
   ]);
   const [checkedUsers, setCheckedUsers] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -40,7 +49,7 @@ const NewlyRegisteredUsers = () => {
   return (
     <div className="container">
       {/* Header row */}
-      <div className="row border p-3">
+      <div className="row border p-3 text-center">
         <div className="col"><strong>Select</strong></div>
         <div className="col"><strong>Last Name</strong></div>
         <div className="col"><strong>First Name</strong></div>
@@ -50,8 +59,8 @@ const NewlyRegisteredUsers = () => {
       </div>
       {/* Users */}
       {newUsers.map((user, index) => (
-        <div key={index} className="row border-top p-3">
-          <div className="col">
+        <div key={index} className="row border-top p-3 text-center">
+          <div className="col d-flex justify-content-center">
             <input type="checkbox" onChange={() => handleCheckboxChange(user.id)} checked={checkedUsers.includes(user.id)} />
           </div>
           <div className="col">{user.name.split(' ')[1]}</div>

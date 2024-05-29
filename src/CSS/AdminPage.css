@@ -5,15 +5,15 @@
 .menu-column {
   padding-left: 70px;
   padding-top: 50px;
-  width: 250px; 
-  flex-shrink: 0; 
+  width: 250px; /* Fast bredd för menykolumnen */
+  flex-shrink: 0; /* Förhindrar att kolumnen minskar vid mindre skärmar */
 }
 
 .menu-header {
   text-align: center;
   font-weight: bold;
   margin-bottom: 20px;
-  margin-right: 1px; 
+  margin-right: 1px; /* Fixar margin-right-värdet */
 }
 
 .bold-text {
@@ -39,11 +39,11 @@
   text-align: center;
   margin-top: 30px;
   max-width: 1400px;
-  width: calc(100% - 250px); 
+  width: calc(100% - 250px); /* För att ta hänsyn till menykolumnens bredd */
   margin-left: auto;
   margin-right: auto;
-  border: 1px solid #ccc; 
-  box-sizing: border-box; 
+  border: 1px solid #ccc; /* Endast content-området har en ram */
+  box-sizing: border-box; /* Ser till att padding inte ökar elementets totala bredd */
 }
 
 .centered-title {
