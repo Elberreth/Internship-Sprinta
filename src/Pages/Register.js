@@ -18,7 +18,7 @@ const Register = () => {
   const [registrationError, setRegistrationError] = useState("");
   const [validationErrors, setValidationErrors] = useState({});
 
-  const {
+const {
     register,
     handleSubmit,
     formState: { errors },
@@ -41,11 +41,11 @@ const Register = () => {
     console.log(data);
   };
 
-  const handleSubmitGetValidationCode = async () => {
-    const data = getValues();
+  const handleSubmitGetValidationCode = async (data) => {
+    console.log(data);
     let errorMessage = "";
 
-    if (!data.firstname || !data.lastname || !data.email) {
+    if (!data.firstname ||!data.lastname ||!data.email) {
       errorMessage += "First Name, Last Name, and Email are required. ";
     }
     if (!data.employmentStatus) {
@@ -78,7 +78,7 @@ const Register = () => {
     console.log(`Sending code ${code} to ${email}`);
     return new Promise((resolve, reject) => setTimeout(() => {
       const success = Math.random() > 0.1;
-      success ? resolve() : reject(new Error("Failed to send email"));
+      success? resolve() : reject(new Error("Failed to send email"));
     }, 1000));
   };
 
@@ -89,34 +89,35 @@ const Register = () => {
   const closePopup = () => {
     setShowPopup(false);
   };
+
   const validatePassword = (password) => {
     const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{6,10}$/;
     return passwordRegex.test(password);
   };
-  
-  const handleRegister = () => {
-    const { validateEmail, password, confirmPassword, acceptAgreement } = getValues();
+
+  const handleRegister = handleSubmit((data) => {
+    const { validateEmail, password, confirmPassword, acceptAgreement } = data;
     let errors = {};
 
     // Validate email format
     const validationCodePattern = /^\d{4}-\d{4}$/;
-    if (!validateEmail || !validationCodePattern.test(validateEmail)) {
+    if (!validateEmail ||!validationCodePattern.test(validateEmail)) {
       errors.validateEmail = "Please fill in the Validate Email field in the format xxxx-xxxx.";
     }
 
     if (password) {
-      if (password.length < 6 || password.length > 10 || !validatePassword(password)) {
-        errors.password = "Password must have at least 1 small-case letter, 1 Capital letter, 1 digit, 1 special character and the length should be between 6-10 characters.";
+      if (password.length < 6 || password.length > 10 ||!validatePassword(password)) {
+        errors.password = "Password must have at least 1 small-case letter,1 Capital letter, 1 digit, 1 special character and the length should be between 6-10 characters.";
       }
     } else {
       errors.password = "Please fill in the Password field.";
     }
 
-    if (password !== confirmPassword) {
+    if (password!== confirmPassword) {
       errors.confirmPassword = "Passwords do not match.";
     }
 
-    if (!acceptAgreement) {
+    if(!acceptAgreement) {
       errors.acceptAgreement = "You must accept the agreement.";
     }
 
@@ -127,11 +128,11 @@ const Register = () => {
       alert('Your application have been sent to an admin for approval');
       setRegistrationError("");
     }
-  };
+  });
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (popupRef.current && !popupRef.current.contains(event.target)) {
+      if (popupRef.current &&!popupRef.current.contains(event.target)) {
         setShowPopup(false);
       }
     };
@@ -167,7 +168,7 @@ const Register = () => {
             </select>
             {errors.company && <div className="error">{errors.company.message}</div>}
           </div>
-          <div className="form-group radio-group">
+         <div className="form-group radio-group">
             <div className="radio-buttons">
               <label>
                 <input
@@ -216,7 +217,7 @@ const Register = () => {
               className="form-control"
               id="inputEmail"
               placeholder="Email"
-              {...register("email", { required: 'Email is required' })}
+              {...register("email", { required: 'Email isrequired' })}
             />
             {errors.email && <div className="error">{errors.email.message}</div>}
           </div>
@@ -260,11 +261,10 @@ const Register = () => {
             {validationErrors.confirmPassword && <div className="error">{validationErrors.confirmPassword}</div>}
           </div>
 
-          
           <div className="checkbox-container">
             <input type="checkbox" id="acceptAgreement" name="acceptAgreement" {...register("acceptAgreement")} />
-            <label htmlFor="acceptAgreement">Do you accept the Agreement? <a href="#" onClick={openPopup}>View Agreement</a></label>
-            {errors.acceptAgreement && <div className="error">{errors.acceptAgreement.message}</div>}
+            <label htmlFor="acceptAgreement">Do you accept the Agreement? <a href="#" onClick={openPopup}>(View Agreement)</a></label>
+            {validationErrors.acceptAgreement && <div className="error">{validationErrors.acceptAgreement}</div>}
           </div>
 
           <button type="button" onClick={handleRegister} className="btn-small">Register</button>
@@ -279,7 +279,6 @@ const Register = () => {
               </div>
             </div>
           )}
-
         </form>
       </div>
     </div>
