@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, Button } from 'react-bootstrap';
+import './../CSS/AdminPage.css';
+
+
+
 
 const NewlyRegisteredUsers = () => {
   const [newUsers, setNewUsers] = useState([
@@ -11,7 +15,7 @@ const NewlyRegisteredUsers = () => {
     { id: 5, name: 'Jane Doe', email: 'jane.doe@example.com', company: 'Company B', employed: false },
     { id: 6, name: 'Alice Smith', email: 'alice.smith@example.com', company: 'Company C', employed: true },
     { id: 7, name: 'Bob Johnson', email: 'bob.johnson@example.com', company: 'Company D', employed: false },
-    { id: 8, name: 'Emma Brown', email: 'emma.brown@example.com', company: 'Company E', employed: true },
+    { id: 8, name: 'Emma Brown', email: 'emma.brown@example.com', company: 'Progress Lead', employed: true },
     { id: 9, name: 'William Taylor', email: 'william.taylor@example.com', company: 'Company F', employed: false },
     { id: 10, name: 'Olivia Wilson', email: 'olivia.wilson@example.com', company: 'Company G', employed: true },
     { id: 11, name: 'James Anderson', email: 'james.anderson@example.com', company: 'Company H', employed: false },
@@ -50,24 +54,34 @@ const NewlyRegisteredUsers = () => {
     <div className="container">
       {/* Header row */}
       <div className="row border p-3 text-center">
-        <div className="col"><strong>Select</strong></div>
-        <div className="col"><strong>Last Name</strong></div>
-        <div className="col"><strong>First Name</strong></div>
-        <div className="col"><strong>E-mail</strong></div>
-        <div className="col"><strong>Company</strong></div>
-        <div className="col"><strong>Employed</strong></div>
+        <div className="col-1"><strong>Select</strong></div>
+        <div className="col-2"><strong>Last Name</strong></div>
+        <div className="col-2"><strong>First Name</strong></div>
+        <div className="col-3"><strong>E-mail</strong></div>
+        <div className="col-2"><strong>Company</strong></div>
+        <div className="col-2"><strong>Employed</strong></div>
       </div>
       {/* Users */}
       {newUsers.map((user, index) => (
-        <div key={index} className="row border-top p-3 text-center">
-          <div className="col d-flex justify-content-center">
+        <div key={index} className="row border-top p-3 text-center align-items-center">
+          <div className="col-1 d-flex justify-content-center">
             <input type="checkbox" onChange={() => handleCheckboxChange(user.id)} checked={checkedUsers.includes(user.id)} />
           </div>
-          <div className="col">{user.name.split(' ')[1]}</div>
-          <div className="col">{user.name.split(' ')[0]}</div>
-          <div className="col">{user.email}</div>
-          <div className="col">{user.company}</div>
-          <div className="col">{user.employed ? 'Yes' : 'No'}</div>
+          <div className="col-2 d-flex justify-content-center align-items-center">
+            <div>{user.name.split(' ')[1]}</div>
+          </div>
+          <div className="col-2 d-flex justify-content-center align-items-center">
+            <div>{user.name.split(' ')[0]}</div>
+          </div>
+          <div className="col-3 d-flex justify-content-center align-items-center">
+            <div>{user.email}</div>
+          </div>
+          <div className="col-2 d-flex justify-content-center align-items-center">
+            <div>{user.company}</div>
+          </div>
+          <div className="col-2 d-flex justify-content-center align-items-center">
+            <div>{user.employed ? 'Yes' : 'No'}</div>
+          </div>
         </div>
       ))}
       {/* Accept and Reject buttons */}
@@ -112,6 +126,11 @@ const NewlyRegisteredUsers = () => {
 };
 
 export default NewlyRegisteredUsers;
+
+
+
+
+
 
 
 

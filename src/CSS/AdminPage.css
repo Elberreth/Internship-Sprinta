@@ -5,15 +5,15 @@
 .menu-column {
   padding-left: 70px;
   padding-top: 50px;
-  width: 250px; /* Fast bredd för menykolumnen */
-  flex-shrink: 0; /* Förhindrar att kolumnen minskar vid mindre skärmar */
+  width: 250px; 
+  flex-shrink: 0; 
 }
 
 .menu-header {
   text-align: center;
   font-weight: bold;
   margin-bottom: 20px;
-  margin-right: 1px; /* Fixar margin-right-värdet */
+  margin-right: 1px; 
 }
 
 .bold-text {
@@ -38,12 +38,12 @@
   align-items: center;
   text-align: center;
   margin-top: 30px;
-  max-width: 1400px;
-  width: calc(100% - 250px); /* För att ta hänsyn till menykolumnens bredd */
+  max-width: 1600px;
+  width: calc(100% - 250px); 
   margin-left: auto;
   margin-right: auto;
-  border: 1px solid #ccc; /* Endast content-området har en ram */
-  box-sizing: border-box; /* Ser till att padding inte ökar elementets totala bredd */
+  border: 1px solid black;
+  box-sizing: border-box; 
 }
 
 .centered-title {
@@ -128,6 +128,11 @@
   .menu-button button {
     width: 100%; 
   }
+  .black-border {
+    border: 2px solid black;
+    padding: 10px; 
+  }
+  
 }
 
 
