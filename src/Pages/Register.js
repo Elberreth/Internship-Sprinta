@@ -4,13 +4,11 @@ import '../CSS/Global.css';
 import '../CSS/Register.css';
 import '../CSS/FormControls.css';
 import '../CSS/Buttons.css';
-import '../CSS/Popup.css';
 import AgreementPopup from './AgreementPopup';
 import generateRandomCode from '../Utils/RandomCodeGenerator';
 
 const Register = () => {
   const [validationCodeError, setValidationCodeError] = useState("");
-  const [showPopup, setShowPopup] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
   const [accountCreated, setAccountCreated] = useState(false);
   const [generatedCode, setGeneratedCode] = useState("");
@@ -18,7 +16,7 @@ const Register = () => {
   const [registrationError, setRegistrationError] = useState("");
   const [validationErrors, setValidationErrors] = useState({});
 
-const {
+  const {
     register,
     handleSubmit,
     formState: { errors },
@@ -64,7 +62,6 @@ const {
       try {
         await sendEmail(data.email, validationCode);
         setEmailSent(true);
-        alert(`Validation code sent to ${data.email}`);
       } catch (error) {
         console.error("Error sending email:", error);
         setEmailSent(false);
@@ -80,14 +77,6 @@ const {
       const success = Math.random() > 0.1;
       success? resolve() : reject(new Error("Failed to send email"));
     }, 1000));
-  };
-
-  const openPopup = () => {
-    setShowPopup(true);
-  };
-
-  const closePopup = () => {
-    setShowPopup(false);
   };
 
   const validatePassword = (password) => {
@@ -107,7 +96,7 @@ const {
 
     if (password) {
       if (password.length < 6 || password.length > 10 ||!validatePassword(password)) {
-        errors.password = "Password must have at least 1 small-case letter,1 Capital letter, 1 digit, 1 special character and the length should be between 6-10 characters.";
+        errors.password = "Password must have at least 1 small-case letter, 1 Capital letter, 1 digit, 1 special character and the length should be between 6-10 characters.";
       }
     } else {
       errors.password = "Please fill in the Password field.";
@@ -117,7 +106,7 @@ const {
       errors.confirmPassword = "Passwords do not match.";
     }
 
-    if(!acceptAgreement) {
+    if (!acceptAgreement) {
       errors.acceptAgreement = "You must accept the agreement.";
     }
 
@@ -125,7 +114,6 @@ const {
 
     if (Object.keys(errors).length === 0) {
       setAccountCreated(true);
-      alert('Your application have been sent to an admin for approval');
       setRegistrationError("");
     }
   });
@@ -133,7 +121,7 @@ const {
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (popupRef.current &&!popupRef.current.contains(event.target)) {
-        setShowPopup(false);
+        // setShowPopup(false);
       }
     };
 
@@ -168,7 +156,7 @@ const {
             </select>
             {errors.company && <div className="error">{errors.company.message}</div>}
           </div>
-         <div className="form-group radio-group">
+          <div className="form-group radio-group">
             <div className="radio-buttons">
               <label>
                 <input
@@ -217,7 +205,7 @@ const {
               className="form-control"
               id="inputEmail"
               placeholder="Email"
-              {...register("email", { required: 'Email isrequired' })}
+              {...register("email", { required: 'Email is required' })}
             />
             {errors.email && <div className="error">{errors.email.message}</div>}
           </div>
@@ -258,27 +246,18 @@ const {
               placeholder="Confirm Password"
               {...register("confirmPassword")}
             />
-            {validationErrors.confirmPassword && <div className="error">{validationErrors.confirmPassword}</div>}
+            {validationErrors.confirmPassword&& <div className="error">{validationErrors.confirmPassword}</div>}
           </div>
 
           <div className="checkbox-container">
             <input type="checkbox" id="acceptAgreement" name="acceptAgreement" {...register("acceptAgreement")} />
-            <label htmlFor="acceptAgreement">Do you accept the Agreement? <a href="#" onClick={openPopup}>(View Agreement)</a></label>
+            <label htmlFor="acceptAgreement">Do you accept the Agreement?</label>
             {validationErrors.acceptAgreement && <div className="error">{validationErrors.acceptAgreement}</div>}
           </div>
 
           <button type="button" onClick={handleRegister} className="btn-small">Register</button>
           {validationCodeError && <div className="error">{validationCodeError}</div>}
           {accountCreated && <div className="success">Your application have been sent to an Admin for approval.</div>}
-          {showPopup && (
-            <div className="agreement-popup" ref={popupRef}>
-              <div className="agreement-popup-content">
-                <span className="popup-btn" onClick={closePopup}>&times;</span>
-                <h3>Agreement</h3>
-                <AgreementPopup onClose={closePopup} />
-              </div>
-            </div>
-          )}
         </form>
       </div>
     </div>
