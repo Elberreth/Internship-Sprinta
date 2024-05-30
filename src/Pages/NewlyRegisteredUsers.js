@@ -1,284 +1,131 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import '../CSS/Global.css';
-import '../CSS/Register.css';
-import '../CSS/FormControls.css';
-import '../CSS/Buttons.css';
-import '../CSS/Popup.css';
-import AgreementPopup from './AgreementPopup';
-import generateRandomCode from '../Utils/RandomCodeGenerator';
+import React, { useState } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Modal, Button } from 'react-bootstrap';
+import './../CSS/AdminPage.css';
 
-const Register = () => {
-  const [validationCodeError, setValidationCodeError] = useState("");
-  const [showPopup, setShowPopup] = useState(false);
-  const [emailSent, setEmailSent] = useState(false);
-  const [accountCreated, setAccountCreated] = useState(false);
-  const [generatedCode, setGeneratedCode] = useState("");
-  const popupRef = useRef(null);
-  const [registrationError, setRegistrationError] = useState("");
-  const [validationErrors, setValidationErrors] = useState({});
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    getValues
-  } = useForm({
-    defaultValues: {
-      firstname: "",
-      lastname: "",
-      email: "",
-      validateEmail: "",
-      password: "",
-      confirmPassword: "",
-      company: "",
-      employmentStatus: "",
-      acceptAgreement: false
-    }
-  });
 
-  const sendData = async (data) => {
-    console.log(data);
-  };
 
-  const handleSubmitGetValidationCode = async () => {
-    const data = getValues();
-    let errorMessage = "";
+const NewlyRegisteredUsers = () => {
+  const [newUsers, setNewUsers] = useState([
+    { id: 1, name: 'Kurt Kurtson', email: 'kurt@xbus.com', company: 'XBUS', employed: true },
+    { id: 2, name: 'Conny Connysson', email: 'conny@example.com', company: 'EXCEED', employed: false },
+    { id: 3, name: 'Daniel Carlsson', email: 'unix555@gmail.com', company: 'Sprinta', employed: false },
+    { id: 4, name: 'John Doe', email: 'john.doe@example.com', company: 'Company A', employed: true },
+    { id: 5, name: 'Jane Doe', email: 'jane.doe@example.com', company: 'Company B', employed: false },
+    { id: 6, name: 'Alice Smith', email: 'alice.smith@example.com', company: 'Company C', employed: true },
+    { id: 7, name: 'Bob Johnson', email: 'bob.johnson@example.com', company: 'Company D', employed: false },
+    { id: 8, name: 'Emma Brown', email: 'emma.brown@example.com', company: 'Progress Lead', employed: true },
+    { id: 9, name: 'William Taylor', email: 'william.taylor@example.com', company: 'Company F', employed: false },
+    { id: 10, name: 'Olivia Wilson', email: 'olivia.wilson@example.com', company: 'Company G', employed: true },
+    { id: 11, name: 'James Anderson', email: 'james.anderson@example.com', company: 'Company H', employed: false },
+    { id: 12, name: 'Sophia Martinez', email: 'sophia.martinez@example.com', company: 'Company I', employed: true }
+  ]);
+  const [checkedUsers, setCheckedUsers] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [modalAction, setModalAction] = useState(null);
 
-    if (!data.firstname || !data.lastname || !data.email) {
-      errorMessage += "First Name, Last Name, and Email are required. ";
-    }
-    if (!data.employmentStatus) {
-      errorMessage += "Employment status is required. ";
-    }
-    if (!data.company) {
-      errorMessage += "Company is required. ";
-    }
-
-    setValidationCodeError(errorMessage);
-
-    if (!errorMessage) {
-      const validationCode = generateRandomCode();
-      setGeneratedCode(validationCode);
-
-      try {
-        await sendEmail(data.email, validationCode);
-        setEmailSent(true);
-        alert(`Validation code sent to ${data.email}`);
-      } catch (error) {
-        console.error("Error sending email:", error);
-        setEmailSent(false);
-      }
+  const handleCheckboxChange = (userId) => {
+    if (checkedUsers.includes(userId)) {
+      setCheckedUsers(checkedUsers.filter(id => id !== userId));
     } else {
-      setEmailSent(false);
+      setCheckedUsers([...checkedUsers, userId]);
     }
   };
 
-  const sendEmail = async (email, code) => {
-    console.log(`Sending code ${code} to ${email}`);
-    return new Promise((resolve, reject) => setTimeout(() => {
-      const success = Math.random() > 0.1;
-      success ? resolve() : reject(new Error("Failed to send email"));
-    }, 1000));
+  const handleAction = (action) => {
+    setModalAction(action);
+    setShowModal(true);
   };
 
-  const openPopup = () => {
-    setShowPopup(true);
+  const handleConfirmAction = () => {
+    if (modalAction === 'accept') {
+      const newlyAcceptedUsers = checkedUsers;
+      setNewUsers(newUsers.filter(user => !newlyAcceptedUsers.includes(user.id)));
+    } else if (modalAction === 'reject') {
+      const newlyRejectedUsers = checkedUsers;
+      setNewUsers(newUsers.filter(user => !newlyRejectedUsers.includes(user.id)));
+    }
+    setCheckedUsers([]);
+    setShowModal(false);
   };
-
-  const closePopup = () => {
-    setShowPopup(false);
-  };
-
-  const validatePassword = (password) => {
-    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{6,10}$/;
-    return passwordRegex.test(password);
-  };
-
-  const handleRegister = () => {
-    const { validateEmail, password, confirmPassword, acceptAgreement } = getValues();
-    let errors = {};
-
-    const validationCodePattern = /^\d{4}-\d{4}$/;
-    if (!validateEmail || !validationCodePattern.test(validateEmail)) {
-      errors.validateEmail = "Please fill in the Validate Email field in the format xxxx-xxxx.";
-    }
-
-    if (password) {
-      if (password.length < 6 || password.length > 10 || !validatePassword(password)) {
-        errors.password = "Password must have at least 1 small-case letter, 1 Capital letter, 1 digit, 1 special character and the length should be between 6-10 characters.";
-      }
-    } else {
-      errors.password = "Please fill in the Password field.";
-    }
-
-    if (password !== confirmPassword) {
-      errors.confirmPassword = "Passwords do not match.";
-    }
-
-    if (!acceptAgreement) {
-      errors.acceptAgreement = "You must accept the agreement.";
-    }
-
-    setValidationErrors(errors);
-
-    if (Object.keys(errors).length === 0) {
-      setAccountCreated(true);
-      alert('Your application have been sent to an admin for approval');
-      setRegistrationError("");
-    }
-  };
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (popupRef.current && !popupRef.current.contains(event.target)) {
-        setShowPopup(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
 
   return (
-    <div className="register-page">
-      <div className="register-form-container">
-        <form className="register-form" onSubmit={handleSubmit(sendData)}>
-          <h2>Register</h2>
-          <div className="form-group">
-            <select
-              id="company"
-              className="form-control"
-              {...register("company", { required: 'Company is required' })}
-            >
-              <option value="">Select Company</option>
-              <option value="XBUS">XBUS</option>
-              <option value="EXCEED">EXCEED</option>
-              <option value="Sprinta">Sprinta</option>
-              <option value="Progress Lead">Progress Lead</option>
-              <option value="Addends">Addends</option>
-              <option value="Podium">Podium</option>
-              <option value="Analytic Lead">Analytic Lead</option>
-              <option value="LearningLead">LearningLead</option>
-              <option value="SwCG">SwCG</option>
-            </select>
-            {errors.company && <div className="error">{errors.company.message}</div>}
-          </div>
-          <div className="form-group radio-group">
-            <div className="radio-buttons">
-              <label>
-                <input
-                  type="radio"
-                  name="employmentStatus"
-                  value="Currently Employed"
-                  {...register("employmentStatus", { required: 'Employment status is required' })}
-                />
-                Currently Employed
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  name="employmentStatus"
-                  value="Previously Employed"
-                  {...register("employmentStatus", { required: 'Employment status is required' })}
-                />
-                Previously Employed
-              </label>
-            </div>
-            {errors.employmentStatus && <div className="error">{errors.employmentStatus.message}</div>}
-          </div>
-          <div className="form-group">
-            <input
-              type="text"
-              className="form-control"
-              id="inputFirstName"
-              placeholder="First Name"
-              {...register("firstname", { required: 'First Name is required' })}
-            />
-            {errors.firstname && <div className="error">{errors.firstname.message}</div>}
-          </div>
-          <div className="form-group">
-            <input
-              type="text"
-              className="form-control"
-              id="inputLastName"
-              placeholder="Last Name"
-              {...register("lastname", { required: 'Last Name is required' })}
-            />
-            {errors.lastname && <div className="error">{errors.lastname.message}</div>}
-          </div>
-          <div className="form-group">
-            <input
-              type="email"
-              className="form-control"
-              id="inputEmail"
-              placeholder="Email"
-              {...register("email", { required: 'Email is required' })}
-            />
-            {errors.email && <div className="error">{errors.email.message}</div>}
-          </div>
-          <button type="button" onClick={handleSubmit(handleSubmitGetValidationCode)} className="btn-wide-purple">Get Validation Code</button>
-          {validationCodeError && <div className="error">{validationCodeError}</div>}
-          {emailSent && <div className="success">Validation code has been sent to your email.</div>}
-          {!emailSent && validationCodeError && <div className="error">Failed to send validation code. Please check your details and try again.</div>}
-          <div className="form-group">
-            <input
-              type="text"
-              className="form-control"
-              id="inputValidateEmail"
-              placeholder="Type in your code (xxxx-xxxx)"
-              {...register("validateEmail")}
-            />
-            {validationErrors.validateEmail && <div className="error">{validationErrors.validateEmail}</div>}
-          </div>
-          <div className="form-group">
-            <input
-              type="password"
-              className="form-control"
-              id="inputPassword"
-              placeholder="Password"
-              {...register("password")}
-            />
-            {validationErrors.password && <div className="error">{validationErrors.password}</div>}
-          </div>
-          <div className="form-group">
-            <input
-              type="password"
-              className="form-control"
-              id="inputConfirmPassword"
-              placeholder="Confirm Password"
-              {...register("confirmPassword")}
-            />
-            {validationErrors.confirmPassword && <div className="error">{validationErrors.confirmPassword}</div>}
-          </div>
-          <div className="checkbox-container">
-            <input type="checkbox" id="acceptAgreement" name="acceptAgreement" {...register("acceptAgreement")} />
-            <label htmlFor="acceptAgreement">Do you accept the Agreement? <a href="#" onClick={openPopup}>View Agreement</a></label>
-            {errors.acceptAgreement && <div className="error">{errors.acceptAgreement.message}</div>}
-          </div>
-          <button type="button" onClick={handleRegister} className="btn-small">Register</button>
-          {validationCodeError && <div className="error">{validationCodeError}</div>}
-          {accountCreated && <div className="success">Your application have been sent to an Admin for approval.</div>}
-          {showPopup && (
-            <div className="agreement-popup" ref={popupRef}>
-              <div className="agreement-popup-content">
-                <span className="popup-btn" onClick={closePopup}>&times;</span>
-                <h3>Agreement</h3>
-                <AgreementPopup onClose={closePopup} />
-              </div>
-            </div>
-          )}
-        </form>
+    <div className="container">
+      {/* Header row */}
+      <div className="row border p-3 text-center">
+        <div className="col-1"><strong>Select</strong></div>
+        <div className="col-2"><strong>Last Name</strong></div>
+        <div className="col-2"><strong>First Name</strong></div>
+        <div className="col-3"><strong>E-mail</strong></div>
+        <div className="col-2"><strong>Company</strong></div>
+        <div className="col-2"><strong>Employed</strong></div>
       </div>
+      {/* Users */}
+      {newUsers.map((user, index) => (
+        <div key={index} className="row border-top p-3 text-center align-items-center">
+          <div className="col-1 d-flex justify-content-center">
+            <input type="checkbox" onChange={() => handleCheckboxChange(user.id)} checked={checkedUsers.includes(user.id)} />
+          </div>
+          <div className="col-2 d-flex justify-content-center align-items-center">
+            <div>{user.name.split(' ')[1]}</div>
+          </div>
+          <div className="col-2 d-flex justify-content-center align-items-center">
+            <div>{user.name.split(' ')[0]}</div>
+          </div>
+          <div className="col-3 d-flex justify-content-center align-items-center">
+            <div>{user.email}</div>
+          </div>
+          <div className="col-2 d-flex justify-content-center align-items-center">
+            <div>{user.company}</div>
+          </div>
+          <div className="col-2 d-flex justify-content-center align-items-center">
+            <div>{user.employed ? 'Yes' : 'No'}</div>
+          </div>
+        </div>
+      ))}
+      {/* Accept and Reject buttons */}
+      <div className="row mt-3" style={{ maxWidth: '200px', margin: 'auto' }}>
+        <div className="col d-flex justify-content-center">
+          <Button
+            variant="primary"
+            className="btn-sm-custom mr-2"
+            onClick={() => handleAction('accept')}
+            disabled={checkedUsers.length === 0}
+          >
+            Accept
+          </Button>
+          <Button
+            variant="danger"
+            className="btn-sm-custom"
+            onClick={() => handleAction('reject')}
+            disabled={checkedUsers.length === 0}
+          >
+            Reject
+          </Button>
+        </div>
+      </div>
+
+      {/* Modal */}
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirm Action</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Are you sure you want to {modalAction} the selected users?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" className="btn-sm-popup" onClick={handleConfirmAction}>
+            Confirm
+          </Button>
+          <Button variant="secondary" className="btn-sm-popup" onClick={() => setShowModal(false)}>
+            Cancel
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
-}
+};
 
-export default Register;
-
+export default NewlyRegisteredUsers;
 
 
 
