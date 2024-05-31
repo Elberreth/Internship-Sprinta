@@ -20,12 +20,12 @@ connection.connect(err => {
   console.log('Connected to MySQL database');
 });
 
-// Endpoint för att spara accepterade användare till databasen
+
 app.post('/saveAcceptedUsers', async (req, res) => {
   const { acceptedUsers } = req.body;
 
   try {
-    // Loopa igenom varje accepterad användare och spara till databasen
+   
     for (const user of acceptedUsers) {
       const { name, email, company, employed } = user;
       const query = 'INSERT INTO users (name, email, company, employed) VALUES (?, ?, ?, ?)';
