@@ -98,22 +98,27 @@ const NewlyRegisteredUsers = () => {
       ))}
       {/* Pagination buttons */}
       <div className="d-flex justify-content-between mt-3">
-        <Button
-          variant="primary"
-          className="pagination-btn"
-          onClick={handlePreviousPage}
-          disabled={currentPage === 1}
-        >
-          Previous Page
-        </Button>
-        <Button
-          variant="primary"
-          className="pagination-btn"
-          onClick={handleNextPage}
-          disabled={indexOfLastUser >= newUsers.length}
-        >
-          Next Page
-        </Button>
+        <div>
+          <Button
+            variant="primary"
+            className="pagination-btn"
+            onClick={handlePreviousPage}
+            style={{ display: currentPage === 1 ? 'none' : 'inline-block' }}
+            disabled={currentPage === 1}
+          >
+            Previous Page
+          </Button>
+        </div>
+        <div className="ml-auto">
+          <Button
+            variant="primary"
+            className="pagination-btn"
+            onClick={handleNextPage}
+            disabled={indexOfLastUser >= newUsers.length}
+          >
+            Next Page
+          </Button>
+        </div>
       </div>
       {/* Accept and Reject buttons */}
       <div className="row mt-3" style={{ maxWidth: '200px', margin: 'auto' }}>
@@ -156,6 +161,9 @@ const NewlyRegisteredUsers = () => {
 };
 
 export default NewlyRegisteredUsers;
+
+
+
 
 
 
