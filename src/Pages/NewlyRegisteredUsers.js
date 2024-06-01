@@ -3,9 +3,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, Button } from 'react-bootstrap';
 import './../CSS/AdminPage.css';
 
-
-
-
 const NewlyRegisteredUsers = () => {
   const [newUsers, setNewUsers] = useState([
     { id: 1, name: 'Kurt Kurtson', email: 'kurt@xbus.com', company: 'XBUS', employed: true },
@@ -21,6 +18,9 @@ const NewlyRegisteredUsers = () => {
     { id: 11, name: 'James Anderson', email: 'james.anderson@example.com', company: 'Company H', employed: false },
     { id: 12, name: 'Sophia Martinez', email: 'sophia.martinez@example.com', company: 'Company I', employed: true }
   ]);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const usersPerPage = 10;
   const [checkedUsers, setCheckedUsers] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [modalAction, setModalAction] = useState(null);
@@ -50,6 +50,18 @@ const NewlyRegisteredUsers = () => {
     setShowModal(false);
   };
 
+  const indexOfLastUser = currentPage * usersPerPage;
+  const indexOfFirstUser = indexOfLastUser - usersPerPage;
+  const currentUsers = newUsers.slice(indexOfFirstUser, indexOfLastUser);
+
+  const handleNextPage = () => {
+    setCurrentPage(currentPage + 1);
+  };
+
+  const handlePreviousPage = () => {
+    setCurrentPage(currentPage - 1);
+  };
+
   return (
     <div className="container">
       {/* Header row */}
@@ -62,7 +74,7 @@ const NewlyRegisteredUsers = () => {
         <div className="col-2"><strong>Employed</strong></div>
       </div>
       {/* Users */}
-      {newUsers.map((user, index) => (
+      {currentUsers.map((user, index) => (
         <div key={index} className="row border-top p-3 text-center align-items-center">
           <div className="col-1 d-flex justify-content-center">
             <input type="checkbox" onChange={() => handleCheckboxChange(user.id)} checked={checkedUsers.includes(user.id)} />
@@ -84,6 +96,25 @@ const NewlyRegisteredUsers = () => {
           </div>
         </div>
       ))}
+      {/* Pagination buttons */}
+      <div className="d-flex justify-content-between mt-3">
+        <Button
+          variant="primary"
+          className="pagination-btn"
+          onClick={handlePreviousPage}
+          disabled={currentPage === 1}
+        >
+          Previous Page
+        </Button>
+        <Button
+          variant="primary"
+          className="pagination-btn"
+          onClick={handleNextPage}
+          disabled={indexOfLastUser >= newUsers.length}
+        >
+          Next Page
+        </Button>
+      </div>
       {/* Accept and Reject buttons */}
       <div className="row mt-3" style={{ maxWidth: '200px', margin: 'auto' }}>
         <div className="col d-flex justify-content-center">
@@ -105,7 +136,6 @@ const NewlyRegisteredUsers = () => {
           </Button>
         </div>
       </div>
-
       {/* Modal */}
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
@@ -126,6 +156,9 @@ const NewlyRegisteredUsers = () => {
 };
 
 export default NewlyRegisteredUsers;
+
+
+
 
 
 

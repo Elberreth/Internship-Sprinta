@@ -1,3 +1,5 @@
+/* AdminPage.css */
+
 .admin-page {
   display: flex;
 }
@@ -89,6 +91,12 @@
   width: 80px;
 }
 
+.pagination-btn {
+  font-size: 12px;
+  padding: 3px 10px;
+  width: auto;
+}
+
 /* Responsive adjustments */
 @media (max-width: 1024px) {
   .content-area {
@@ -128,11 +136,14 @@
   .menu-button button {
     width: 100%; 
   }
+  
   .black-border {
     border: 2px solid black;
     padding: 10px; 
   }
 }
+
+
 
 
 
