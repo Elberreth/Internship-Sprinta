@@ -110,14 +110,15 @@ const NewlyRegisteredUsers = () => {
           </Button>
         </div>
         <div className="ml-auto">
-          <Button
-            variant="primary"
-            className="pagination-btn"
-            onClick={handleNextPage}
-            disabled={indexOfLastUser >= newUsers.length}
-          >
-            Next Page
-          </Button>
+          {indexOfLastUser < newUsers.length && (
+            <Button
+              variant="primary"
+              className="pagination-btn"
+              onClick={handleNextPage}
+            >
+              Next Page
+            </Button>
+          )}
         </div>
       </div>
       {/* Accept and Reject buttons */}
@@ -161,6 +162,7 @@ const NewlyRegisteredUsers = () => {
 };
 
 export default NewlyRegisteredUsers;
+
 
 
 
