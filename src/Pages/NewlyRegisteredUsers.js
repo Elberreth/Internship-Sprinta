@@ -25,12 +25,6 @@ const NewlyRegisteredUsers = () => {
   const [showModal, setShowModal] = useState(false);
   const [modalAction, setModalAction] = useState(null);
 
-  useEffect(() => {
-    if (newUsers.length <= (currentPage - 1) * usersPerPage) {
-      setCurrentPage(1);
-    }
-  }, [newUsers, currentPage, usersPerPage]);
-
   const handleCheckboxChange = (userId) => {
     if (checkedUsers.includes(userId)) {
       setCheckedUsers(checkedUsers.filter(id => id !== userId));
@@ -45,14 +39,14 @@ const NewlyRegisteredUsers = () => {
   };
 
   const handleConfirmAction = () => {
-    if (modalAction === 'accept') {
-      const newlyAcceptedUsers = checkedUsers;
-      setNewUsers(newUsers.filter(user => !newlyAcceptedUsers.includes(user.id)));
-    } else if (modalAction === 'reject') {
-      const newlyRejectedUsers = checkedUsers;
-      setNewUsers(newUsers.filter(user => !newlyRejectedUsers.includes(user.id)));
+    if (modalAction === 'accept' || modalAction === 'reject') {
+      const updatedUsers = newUsers.filter(user => !checkedUsers.includes(user.id));
+      setNewUsers(updatedUsers);
+      setCheckedUsers([]);
+      if (updatedUsers.length <= (currentPage - 1) * usersPerPage) {
+        setCurrentPage(1);
+      }
     }
-    setCheckedUsers([]);
     setShowModal(false);
   };
 
@@ -61,12 +55,20 @@ const NewlyRegisteredUsers = () => {
   const currentUsers = newUsers.slice(indexOfFirstUser, indexOfLastUser);
 
   const handleNextPage = () => {
-    setCurrentPage(currentPage + 1);
+    if (indexOfLastUser < newUsers.length) {
+      setCurrentPage(currentPage + 1);
+    }
   };
 
   const handlePreviousPage = () => {
     setCurrentPage(currentPage - 1);
   };
+
+  useEffect(() => {
+    if (currentUsers.length === 0 && currentPage > 1) {
+      setCurrentPage(1);
+    }
+  }, [currentUsers.length, currentPage]);
 
   return (
     <div className="container">
@@ -168,6 +170,7 @@ const NewlyRegisteredUsers = () => {
 };
 
 export default NewlyRegisteredUsers;
+
 
 
 
