@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, Button } from 'react-bootstrap';
 import './../CSS/AdminPage.css';
@@ -24,6 +24,12 @@ const NewlyRegisteredUsers = () => {
   const [checkedUsers, setCheckedUsers] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [modalAction, setModalAction] = useState(null);
+
+  useEffect(() => {
+    if (newUsers.length <= (currentPage - 1) * usersPerPage) {
+      setCurrentPage(1);
+    }
+  }, [newUsers, currentPage, usersPerPage]);
 
   const handleCheckboxChange = (userId) => {
     if (checkedUsers.includes(userId)) {
@@ -162,6 +168,7 @@ const NewlyRegisteredUsers = () => {
 };
 
 export default NewlyRegisteredUsers;
+
 
 
 
