@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, Button } from 'react-bootstrap';
 import './../CSS/AdminPage.css';
@@ -24,6 +24,7 @@ const NewlyRegisteredUsers = () => {
   const [checkedUsers, setCheckedUsers] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [modalAction, setModalAction] = useState(null);
+  const [sortOrder, setSortOrder] = useState(null);
 
   const handleCheckboxChange = (userId) => {
     if (checkedUsers.includes(userId)) {
@@ -39,14 +40,14 @@ const NewlyRegisteredUsers = () => {
   };
 
   const handleConfirmAction = () => {
-    if (modalAction === 'accept' || modalAction === 'reject') {
-      const updatedUsers = newUsers.filter(user => !checkedUsers.includes(user.id));
-      setNewUsers(updatedUsers);
-      setCheckedUsers([]);
-      if (updatedUsers.length <= (currentPage - 1) * usersPerPage) {
-        setCurrentPage(1);
-      }
+    if (modalAction === 'accept') {
+      const newlyAcceptedUsers = checkedUsers;
+      setNewUsers(newUsers.filter(user => !newlyAcceptedUsers.includes(user.id)));
+    } else if (modalAction === 'reject') {
+      const newlyRejectedUsers = checkedUsers;
+      setNewUsers(newUsers.filter(user => !newlyRejectedUsers.includes(user.id)));
     }
+    setCheckedUsers([]);
     setShowModal(false);
   };
 
@@ -55,7 +56,10 @@ const NewlyRegisteredUsers = () => {
   const currentUsers = newUsers.slice(indexOfFirstUser, indexOfLastUser);
 
   const handleNextPage = () => {
-    if (indexOfLastUser < newUsers.length) {
+    const nextPageUsers = newUsers.slice(indexOfLastUser, indexOfLastUser + usersPerPage);
+    if (nextPageUsers.length === 0) {
+      setCurrentPage(1);
+    } else {
       setCurrentPage(currentPage + 1);
     }
   };
@@ -64,11 +68,17 @@ const NewlyRegisteredUsers = () => {
     setCurrentPage(currentPage - 1);
   };
 
-  useEffect(() => {
-    if (currentUsers.length === 0 && currentPage > 1) {
-      setCurrentPage(1);
+  const handleSort = () => {
+    let sortedUsers;
+    if (sortOrder === 'asc' || sortOrder === null) {
+      sortedUsers = [...newUsers].sort((a, b) => b.employed - a.employed);
+      setSortOrder('desc');
+    } else {
+      sortedUsers = [...newUsers].sort((a, b) => a.employed - b.employed);
+      setSortOrder('asc');
     }
-  }, [currentUsers.length, currentPage]);
+    setNewUsers(sortedUsers);
+  };
 
   return (
     <div className="container">
@@ -77,9 +87,20 @@ const NewlyRegisteredUsers = () => {
         <div className="col-1"><strong>Select</strong></div>
         <div className="col-2"><strong>Last Name</strong></div>
         <div className="col-2"><strong>First Name</strong></div>
-        <div className="col-3"><strong>E-mail</strong></div>
+        <div className="col-2 text-left"><strong>E-mail</strong></div>
         <div className="col-2"><strong>Company</strong></div>
-        <div className="col-2"><strong>Employed</strong></div>
+        <div
+          className="col-2"
+          style={{ cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+          onClick={handleSort}
+        >
+          <strong>Employed</strong>
+          {sortOrder === 'asc' ? (
+            <span style={{ marginLeft: '5px' }}>▲</span>
+          ) : (
+            <span style={{ marginLeft: '5px' }}>▼</span>
+          )}
+        </div>
       </div>
       {/* Users */}
       {currentUsers.map((user, index) => (
@@ -93,7 +114,7 @@ const NewlyRegisteredUsers = () => {
           <div className="col-2 d-flex justify-content-center align-items-center">
             <div>{user.name.split(' ')[0]}</div>
           </div>
-          <div className="col-3 d-flex justify-content-center align-items-center">
+          <div className="col-2 d-flex justify-content-left align-items-center">
             <div>{user.email}</div>
           </div>
           <div className="col-2 d-flex justify-content-center align-items-center">
@@ -170,6 +191,7 @@ const NewlyRegisteredUsers = () => {
 };
 
 export default NewlyRegisteredUsers;
+
 
 
 
