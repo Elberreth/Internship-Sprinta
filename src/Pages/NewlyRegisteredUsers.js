@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, Button } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import './../CSS/AdminPage.css';
 
 const NewlyRegisteredUsers = () => {
@@ -25,6 +26,8 @@ const NewlyRegisteredUsers = () => {
   const [showModal, setShowModal] = useState(false);
   const [modalAction, setModalAction] = useState(null);
   const [sortOrder, setSortOrder] = useState(null);
+
+  const navigate = useNavigate();
 
   const handleCheckboxChange = (userId) => {
     if (checkedUsers.includes(userId)) {
@@ -80,6 +83,10 @@ const NewlyRegisteredUsers = () => {
     setNewUsers(sortedUsers);
   };
 
+  const handleLogout = () => {
+    navigate('/');
+  };
+
   return (
     <div className="container">
       {/* Header row */}
@@ -104,7 +111,10 @@ const NewlyRegisteredUsers = () => {
       </div>
       {/* Users */}
       {currentUsers.map((user, index) => (
-        <div key={index} className="row border-top p-3 text-center align-items-center">
+        <div
+          key={index}
+          className="row border-top p-3 text-center align-items-center user-row"
+        >
           <div className="col-1 d-flex justify-content-center">
             <input type="checkbox" onChange={() => handleCheckboxChange(user.id)} checked={checkedUsers.includes(user.id)} />
           </div>
@@ -186,11 +196,24 @@ const NewlyRegisteredUsers = () => {
           </Button>
         </Modal.Footer>
       </Modal>
+      {/* Logout button */}
+      <div className="row mt-3" style={{ maxWidth: '200px', margin: 'auto' }}>
+        <div className="col d-flex justify-content-center">
+          <Button
+            variant="danger"
+            className="btn-sm-custom"
+            onClick={handleLogout}
+          >
+            Logout
+          </Button>
+        </div>
+      </div>
     </div>
   );
 };
 
 export default NewlyRegisteredUsers;
+
 
 
 
