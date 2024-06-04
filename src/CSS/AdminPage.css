@@ -40,7 +40,7 @@
   align-items: center;
   text-align: center;
   margin-top: 30px;
-  max-width: 1600px;
+  max-width: 1800px;
   width: calc(100% - 250px); 
   margin-left: auto;
   margin-right: auto;
@@ -141,6 +141,12 @@
     border: 2px solid black;
     padding: 10px; 
   }
+  /* src/CSS/AdminPage.css */
+
+.text-left-align {
+  text-align: left;
+}
+
 }
 
 
