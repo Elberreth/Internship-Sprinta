@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
@@ -28,6 +28,17 @@ const NewlyRegisteredUsers = () => {
   const [sortOrder, setSortOrder] = useState(null);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const indexOfLastUser = currentPage * usersPerPage;
+    const indexOfFirstUser = indexOfLastUser - usersPerPage;
+    const currentUsers = newUsers.slice(indexOfFirstUser, indexOfLastUser);
+
+    // If current page is empty, navigate to the first page
+    if (currentUsers.length === 0 && currentPage !== 1) {
+      setCurrentPage(1);
+    }
+  }, [newUsers, currentPage, usersPerPage]);
 
   const handleCheckboxChange = (userId) => {
     if (checkedUsers.includes(userId)) {
@@ -197,6 +208,7 @@ const NewlyRegisteredUsers = () => {
 };
 
 export default NewlyRegisteredUsers;
+
 
 
 
