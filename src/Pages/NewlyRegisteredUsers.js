@@ -83,10 +83,6 @@ const NewlyRegisteredUsers = () => {
     setNewUsers(sortedUsers);
   };
 
-  const handleLogout = () => {
-    navigate('/');
-  };
-
   return (
     <div className="container">
       {/* Header row */}
@@ -196,23 +192,12 @@ const NewlyRegisteredUsers = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-      {/* Logout button */}
-      <div className="row mt-3" style={{ maxWidth: '200px', margin: 'auto' }}>
-        <div className="col d-flex justify-content-center">
-          <Button
-            variant="danger"
-            className="btn-sm-custom"
-            onClick={handleLogout}
-          >
-            Logout
-          </Button>
-        </div>
-      </div>
     </div>
   );
 };
 
 export default NewlyRegisteredUsers;
+
 
 
 
