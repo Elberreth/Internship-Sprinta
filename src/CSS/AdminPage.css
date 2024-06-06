@@ -145,6 +145,9 @@
 
 .text-left-align {
   text-align: left;
+  .user-row:hover {
+    background-color: #f0f0f0;
+  }
 }
 
 }

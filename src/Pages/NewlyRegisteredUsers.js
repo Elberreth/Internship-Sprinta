@@ -165,6 +165,9 @@ const NewlyRegisteredUsers = () => {
         <div
           key={index}
           className="row border-top p-3 text-center align-items-center user-row"
+          style={{ transition: 'background-color 0.3s' }}
+          onMouseEnter={e => e.currentTarget.style.backgroundColor = '#f0f0f0'}
+          onMouseLeave={e => e.currentTarget.style.backgroundColor = 'white'}
         >
           <div className="col-1 d-flex justify-content-center">
             <input type="checkbox" onChange={() => handleCheckboxChange(user.id)} checked={checkedUsers.includes(user.id)} />
@@ -252,6 +255,7 @@ const NewlyRegisteredUsers = () => {
 };
 
 export default NewlyRegisteredUsers;
+
 
 
 
