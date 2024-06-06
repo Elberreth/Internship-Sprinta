@@ -62,7 +62,7 @@ const Header = () => {
                 <Modal.Header closeButton>
                   <Modal.Title>Confirm Logout</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>Are you sure you want to log out?</Modal.Body>
+                <Modal.Body>Are you sure you want to Logout?</Modal.Body>
                 <Modal.Footer>
                   <Button variant="secondary" onClick={handleCloseLogoutModal} className="btn-small">
                     No
