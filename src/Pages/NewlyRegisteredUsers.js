@@ -136,8 +136,8 @@ const NewlyRegisteredUsers = () => {
           <span style={{ marginLeft: '5px' }}>{getSortIcon('firstName')}</span>
         </div>
         <div
-          className="col-2 text-left"
-          style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}
+          className="col-2 text-center"
+          style={{ cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
           onClick={() => handleSort('email')}
         >
           <strong>E-mail</strong>
@@ -178,7 +178,7 @@ const NewlyRegisteredUsers = () => {
           <div className="col-2 d-flex justify-content-center align-items-center">
             <div>{user.name.split(' ')[0]}</div>
           </div>
-          <div className="col-2 d-flex justify-content-left align-items-center">
+          <div className="col-2 d-flex justify-content-center align-items-center">
             <div>{user.email}</div>
           </div>
           <div className="col-2 d-flex justify-content-center align-items-center">
@@ -255,6 +255,7 @@ const NewlyRegisteredUsers = () => {
 };
 
 export default NewlyRegisteredUsers;
+
 
 
 
