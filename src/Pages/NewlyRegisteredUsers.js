@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
@@ -25,20 +25,9 @@ const NewlyRegisteredUsers = () => {
   const [checkedUsers, setCheckedUsers] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [modalAction, setModalAction] = useState(null);
-  const [sortOrder, setSortOrder] = useState(null);
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const indexOfLastUser = currentPage * usersPerPage;
-    const indexOfFirstUser = indexOfLastUser - usersPerPage;
-    const currentUsers = newUsers.slice(indexOfFirstUser, indexOfLastUser);
-
-    // If current page is empty, navigate to the first page
-    if (currentUsers.length === 0 && currentPage !== 1) {
-      setCurrentPage(1);
-    }
-  }, [newUsers, currentPage, usersPerPage]);
 
   const handleCheckboxChange = (userId) => {
     if (checkedUsers.includes(userId)) {
@@ -82,16 +71,47 @@ const NewlyRegisteredUsers = () => {
     setCurrentPage(currentPage - 1);
   };
 
-  const handleSort = () => {
-    let sortedUsers;
-    if (sortOrder === 'asc' || sortOrder === null) {
-      sortedUsers = [...newUsers].sort((a, b) => b.employed - a.employed);
-      setSortOrder('desc');
-    } else {
-      sortedUsers = [...newUsers].sort((a, b) => a.employed - b.employed);
-      setSortOrder('asc');
+  const handleSort = (field) => {
+    let direction = 'asc';
+    if (sortConfig.key === field && sortConfig.direction === 'asc') {
+      direction = 'desc';
     }
+
+    const sortedUsers = [...newUsers].sort((a, b) => {
+      let aValue, bValue;
+
+      switch (field) {
+        case 'lastName':
+          aValue = a.name.split(' ')[1];
+          bValue = b.name.split(' ')[1];
+          break;
+        case 'firstName':
+          aValue = a.name.split(' ')[0];
+          bValue = b.name.split(' ')[0];
+          break;
+        default:
+          aValue = a[field];
+          bValue = b[field];
+      }
+
+      if (aValue < bValue) {
+        return direction === 'asc' ? -1 : 1;
+      }
+      if (aValue > bValue) {
+        return direction === 'asc' ? 1 : -1;
+      }
+      return 0;
+    });
+
     setNewUsers(sortedUsers);
+    setSortConfig({ key: field, direction });
+  };
+
+  const getSortIcon = (field) => {
+    if (sortConfig.key !== field) {
+      return '▼';
+    }
+    return sortConfig.direction === 'asc' ? '▲' : '▼';
   };
 
   return (
@@ -99,21 +119,45 @@ const NewlyRegisteredUsers = () => {
       {/* Header row */}
       <div className="row border p-3 text-center">
         <div className="col-1"><strong>Select</strong></div>
-        <div className="col-2"><strong>Last Name</strong></div>
-        <div className="col-2"><strong>First Name</strong></div>
-        <div className="col-2 text-left"><strong>E-mail</strong></div>
-        <div className="col-2"><strong>Company</strong></div>
         <div
           className="col-2"
           style={{ cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-          onClick={handleSort}
+          onClick={() => handleSort('lastName')}
+        >
+          <strong>Last Name</strong>
+          <span style={{ marginLeft: '5px' }}>{getSortIcon('lastName')}</span>
+        </div>
+        <div
+          className="col-2"
+          style={{ cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+          onClick={() => handleSort('firstName')}
+        >
+          <strong>First Name</strong>
+          <span style={{ marginLeft: '5px' }}>{getSortIcon('firstName')}</span>
+        </div>
+        <div
+          className="col-2 text-left"
+          style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}
+          onClick={() => handleSort('email')}
+        >
+          <strong>E-mail</strong>
+          <span style={{ marginLeft: '5px' }}>{getSortIcon('email')}</span>
+        </div>
+        <div
+          className="col-2"
+          style={{ cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+          onClick={() => handleSort('company')}
+        >
+          <strong>Company</strong>
+          <span style={{ marginLeft: '5px' }}>{getSortIcon('company')}</span>
+        </div>
+        <div
+          className="col-2"
+          style={{ cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+          onClick={() => handleSort('employed')}
         >
           <strong>Employed</strong>
-          {sortOrder === 'asc' ? (
-            <span style={{ marginLeft: '5px' }}>▲</span>
-          ) : (
-            <span style={{ marginLeft: '5px' }}>▼</span>
-          )}
+          <span style={{ marginLeft: '5px' }}>{getSortIcon('employed')}</span>
         </div>
       </div>
       {/* Users */}
@@ -208,6 +252,7 @@ const NewlyRegisteredUsers = () => {
 };
 
 export default NewlyRegisteredUsers;
+
 
 
 
