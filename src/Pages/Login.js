@@ -11,12 +11,12 @@ const Login = () => {
   const sendData = async (data) => {
     setLoading(true);
     try {
-      
       if ((data.uname === 'admin@example.com' && data.password === '1111') || process.env.NODE_ENV === 'development') {
-        
+        localStorage.setItem('isLoggedIn', 'true');
+        console.log('User logged in');
         navigate('/admin');
+        window.dispatchEvent(new Event('storage')); // Trigger storage event to sync state
       } else {
-        
         setError('Authentication failed');
       }
     } catch (error) {
@@ -26,11 +26,7 @@ const Login = () => {
     }
   };
 
-  const {
-    register,
-    formState: { errors },
-    handleSubmit
-  } = useForm({
+  const { register, formState: { errors }, handleSubmit } = useForm({
     defaultValues: {
       uname: "", password: ""
     }
@@ -50,11 +46,11 @@ const Login = () => {
                 id="inputUserName"
                 placeholder="Enter your Email"
                 {...register("uname", {
-                    required: 'Username is required',
-                    pattern: {
-                        value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                        message: "Invalid email address"
-                    }
+                  required: 'Username is required',
+                  pattern: {
+                    value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                    message: "Invalid email address"
+                  }
                 })}
               />
               {errors.uname && <div style={{ color: 'red', fontSize: '12px' }} className="error-message">{errors.uname.message}</div>}
@@ -80,6 +76,24 @@ const Login = () => {
 }
 
 export default Login;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
