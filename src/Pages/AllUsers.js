@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Button } from 'react-bootstrap';  // Lägg till denna import
+import { Button } from 'react-bootstrap';
 import './../CSS/AdminPage.css';
 
 const AllUsers = () => {
   const [allUsers, setAllUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const usersPerPage = 10;
+  const [checkedUsers, setCheckedUsers] = useState([]);
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
   useEffect(() => {
@@ -29,6 +30,21 @@ const AllUsers = () => {
 
   const handlePreviousPage = () => {
     setCurrentPage(currentPage - 1);
+  };
+
+  const handleCheckboxChange = (userId) => {
+    if (checkedUsers.includes(userId)) {
+      setCheckedUsers(checkedUsers.filter(id => id !== userId));
+    } else {
+      setCheckedUsers([...checkedUsers, userId]);
+    }
+  };
+
+  const handleRemove = () => {
+    const updatedUsers = allUsers.filter(user => !checkedUsers.includes(user.id));
+    setAllUsers(updatedUsers);
+    localStorage.setItem('acceptedUsers', JSON.stringify(updatedUsers));
+    setCheckedUsers([]);
   };
 
   const handleSort = (field) => {
@@ -128,7 +144,11 @@ const AllUsers = () => {
           onMouseLeave={e => e.currentTarget.style.backgroundColor = 'white'}
         >
           <div className="col-1 d-flex justify-content-center">
-            <input type="checkbox" />
+            <input
+              type="checkbox"
+              onChange={() => handleCheckboxChange(user.id)}
+              checked={checkedUsers.includes(user.id)}
+            />
           </div>
           <div className="col-2 d-flex justify-content-center align-items-center">
             <div>{user.name.split(' ')[1]}</div>
@@ -171,11 +191,25 @@ const AllUsers = () => {
           )}
         </div>
       </div>
+      <div className="row mt-3" style={{ maxWidth: '200px', margin: 'auto' }}>
+        <div className="col d-flex justify-content-center">
+          <Button
+            variant="danger"
+            className="btn-sm-custom"
+            onClick={handleRemove}
+            disabled={checkedUsers.length === 0}
+          >
+            Remove
+          </Button>
+        </div>
+      </div>
     </div>
   );
 };
 
 export default AllUsers;
+
+
 
 
 

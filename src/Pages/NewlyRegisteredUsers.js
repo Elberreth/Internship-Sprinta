@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
@@ -50,7 +50,13 @@ const NewlyRegisteredUsers = () => {
       updatedUsers = newUsers.filter(user => !newlyAcceptedUsers.includes(user.id));
       const acceptedUsers = newUsers.filter(user => newlyAcceptedUsers.includes(user.id));
       const existingAcceptedUsers = JSON.parse(localStorage.getItem('acceptedUsers')) || [];
-      localStorage.setItem('acceptedUsers', JSON.stringify([...existingAcceptedUsers, ...acceptedUsers]));
+
+      // Undvik dubletter
+      const uniqueAcceptedUsers = acceptedUsers.filter(newUser => 
+        !existingAcceptedUsers.some(existingUser => existingUser.id === newUser.id)
+      );
+
+      localStorage.setItem('acceptedUsers', JSON.stringify([...existingAcceptedUsers, ...uniqueAcceptedUsers]));
     } else if (modalAction === 'reject') {
       const newlyRejectedUsers = checkedUsers;
       updatedUsers = newUsers.filter(user => !newlyRejectedUsers.includes(user.id));
@@ -60,7 +66,7 @@ const NewlyRegisteredUsers = () => {
     setCheckedUsers([]);
     setShowModal(false);
 
-    // If the current page is empty after the update, go to the first page
+    // Om den aktuella sidan är tom efter uppdateringen, gå till första sidan
     if (updatedUsers.length <= (currentPage - 1) * usersPerPage && currentPage > 1) {
       setCurrentPage(1);
     }
@@ -128,7 +134,6 @@ const NewlyRegisteredUsers = () => {
 
   return (
     <div className="container">
-      {/* Header row */}
       <div className="row border p-3 text-center">
         <div className="col-1"><strong>Select</strong></div>
         <div
@@ -172,7 +177,6 @@ const NewlyRegisteredUsers = () => {
           <span style={{ marginLeft: '5px' }}>{getSortIcon('employed')}</span>
         </div>
       </div>
-      {/* Users */}
       {currentUsers.map((user, index) => (
         <div
           key={index}
@@ -201,7 +205,6 @@ const NewlyRegisteredUsers = () => {
           </div>
         </div>
       ))}
-      {/* Pagination buttons */}
       <div className="d-flex justify-content-between mt-3">
         <div>
           <Button
@@ -226,7 +229,6 @@ const NewlyRegisteredUsers = () => {
           )}
         </div>
       </div>
-      {/* Accept and Reject buttons */}
       <div className="row mt-3" style={{ maxWidth: '200px', margin: 'auto' }}>
         <div className="col d-flex justify-content-center">
           <Button
@@ -247,7 +249,6 @@ const NewlyRegisteredUsers = () => {
           </Button>
         </div>
       </div>
-      {/* Modal */}
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Confirm Action</Modal.Title>
@@ -267,6 +268,9 @@ const NewlyRegisteredUsers = () => {
 };
 
 export default NewlyRegisteredUsers;
+
+
+
 
 
 
