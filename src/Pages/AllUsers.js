@@ -195,7 +195,7 @@ const AllUsers = () => {
         <div className="col d-flex justify-content-center">
           <Button
             variant="danger"
-            className="btn-sm-custom"
+            className="btn-sm-popup"
             onClick={handleRemove}
             disabled={checkedUsers.length === 0}
           >
@@ -208,6 +208,7 @@ const AllUsers = () => {
 };
 
 export default AllUsers;
+
 
 
 

@@ -26,7 +26,7 @@ const NewlyRegisteredUsers = () => {
   const [showModal, setShowModal] = useState(false);
   const [modalAction, setModalAction] = useState(null);
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
-  const [showDuplicateModal, setShowDuplicateModal] = useState(false); // Added state for duplicate modal
+  const [showDuplicateModal, setShowDuplicateModal] = useState(false);
 
   const navigate = useNavigate();
 
@@ -275,7 +275,7 @@ const NewlyRegisteredUsers = () => {
         </Modal.Header>
         <Modal.Body>The user is already registered.</Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowDuplicateModal(false)}>
+          <Button variant="secondary" className="btn-sm-popup" onClick={() => setShowDuplicateModal(false)}>
             Close
           </Button>
         </Modal.Footer>
@@ -285,6 +285,7 @@ const NewlyRegisteredUsers = () => {
 };
 
 export default NewlyRegisteredUsers;
+
 
 
 
