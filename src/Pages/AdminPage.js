@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../CSS/AdminPage.css';
 import NewlyRegisteredUsers from './NewlyRegisteredUsers';
+import AllUsers from './AllUsers';
+import Companies from './Companies';
+import Roles from './Roles';
 
 const AdminPage = () => {
   const [selectedMenu, setSelectedMenu] = useState('New Users');
@@ -44,13 +47,29 @@ const AdminPage = () => {
         </div>
       </div>
       <div className="content-area">
-        {selectedMenu === 'New Users' ? (
+        {selectedMenu === 'New Users' && (
           <>
             <h3 className="content-title">Newly Registered Users</h3>
             <NewlyRegisteredUsers />
           </>
-        ) : (
-          <h1 className="centered-title">{selectedMenu}</h1>
+        )}
+        {selectedMenu === 'All Users' && (
+          <>
+            <h3 className="content-title">All Users</h3>
+            <AllUsers />
+          </>
+        )}
+        {selectedMenu === 'Companies' && (
+          <>
+            <h3 className="content-title">Companies</h3>
+            <Companies />
+          </>
+        )}
+        {selectedMenu === 'Roles' && (
+          <>
+            <h3 className="content-title">Roles</h3>
+            <Roles />
+          </>
         )}
       </div>
     </div>
@@ -58,6 +77,9 @@ const AdminPage = () => {
 };
 
 export default AdminPage;
+
+
+
 
 
 

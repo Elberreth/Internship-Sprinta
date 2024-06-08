@@ -3,24 +3,24 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button } from 'react-bootstrap';  // Lägg till denna import
 import './../CSS/AdminPage.css';
 
-const AllUsers = () => {
-  const [allUsers, setAllUsers] = useState([]);
+const Roles = () => {
+  const [roles, setRoles] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const usersPerPage = 10;
+  const rolesPerPage = 10;
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
   useEffect(() => {
-    const storedUsers = JSON.parse(localStorage.getItem('acceptedUsers')) || [];
-    setAllUsers(storedUsers);
+    const storedRoles = JSON.parse(localStorage.getItem('roles')) || [];
+    setRoles(storedRoles);
   }, []);
 
-  const indexOfLastUser = currentPage * usersPerPage;
-  const indexOfFirstUser = indexOfLastUser - usersPerPage;
-  const currentUsers = allUsers.slice(indexOfFirstUser, indexOfLastUser);
+  const indexOfLastRole = currentPage * rolesPerPage;
+  const indexOfFirstRole = indexOfLastRole - rolesPerPage;
+  const currentRoles = roles.slice(indexOfFirstRole, indexOfLastRole);
 
   const handleNextPage = () => {
-    const nextPageUsers = allUsers.slice(indexOfLastUser, indexOfLastUser + usersPerPage);
-    if (nextPageUsers.length === 0) {
+    const nextPageRoles = roles.slice(indexOfLastRole, indexOfLastRole + rolesPerPage);
+    if (nextPageRoles.length === 0) {
       setCurrentPage(1);
     } else {
       setCurrentPage(currentPage + 1);
@@ -37,18 +37,10 @@ const AllUsers = () => {
       direction = 'desc';
     }
 
-    const sortedUsers = [...allUsers].sort((a, b) => {
+    const sortedRoles = [...roles].sort((a, b) => {
       let aValue, bValue;
 
       switch (field) {
-        case 'lastName':
-          aValue = a.name.split(' ')[1];
-          bValue = b.name.split(' ')[1];
-          break;
-        case 'firstName':
-          aValue = a.name.split(' ')[0];
-          bValue = b.name.split(' ')[0];
-          break;
         default:
           aValue = a[field];
           bValue = b[field];
@@ -63,7 +55,7 @@ const AllUsers = () => {
       return 0;
     });
 
-    setAllUsers(sortedUsers);
+    setRoles(sortedRoles);
     setSortConfig({ key: field, direction });
   };
 
@@ -81,45 +73,37 @@ const AllUsers = () => {
         <div
           className="col-2"
           style={{ cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-          onClick={() => handleSort('lastName')}
+          onClick={() => handleSort('name')}
         >
-          <strong>Last Name</strong>
-          <span style={{ marginLeft: '5px' }}>{getSortIcon('lastName')}</span>
+          <strong>Name</strong>
+          <span style={{ marginLeft: '5px' }}>{getSortIcon('name')}</span>
         </div>
         <div
           className="col-2"
           style={{ cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-          onClick={() => handleSort('firstName')}
+          onClick={() => handleSort('department')}
         >
-          <strong>First Name</strong>
-          <span style={{ marginLeft: '5px' }}>{getSortIcon('firstName')}</span>
+          <strong>Department</strong>
+          <span style={{ marginLeft: '5px' }}>{getSortIcon('department')}</span>
         </div>
         <div
           className="col-2 text-center"
           style={{ cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
           onClick={() => handleSort('email')}
         >
-          <strong>E-mail</strong>
+          <strong>Email</strong>
           <span style={{ marginLeft: '5px' }}>{getSortIcon('email')}</span>
         </div>
         <div
           className="col-2"
           style={{ cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-          onClick={() => handleSort('company')}
+          onClick={() => handleSort('phone')}
         >
-          <strong>Company</strong>
-          <span style={{ marginLeft: '5px' }}>{getSortIcon('company')}</span>
-        </div>
-        <div
-          className="col-2"
-          style={{ cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-          onClick={() => handleSort('employed')}
-        >
-          <strong>Employed</strong>
-          <span style={{ marginLeft: '5px' }}>{getSortIcon('employed')}</span>
+          <strong>Phone</strong>
+          <span style={{ marginLeft: '5px' }}>{getSortIcon('phone')}</span>
         </div>
       </div>
-      {currentUsers.map((user, index) => (
+      {currentRoles.map((role, index) => (
         <div
           key={index}
           className="row border-top p-3 text-center align-items-center user-row"
@@ -131,19 +115,16 @@ const AllUsers = () => {
             <input type="checkbox" />
           </div>
           <div className="col-2 d-flex justify-content-center align-items-center">
-            <div>{user.name.split(' ')[1]}</div>
+            <div>{role.name}</div>
           </div>
           <div className="col-2 d-flex justify-content-center align-items-center">
-            <div>{user.name.split(' ')[0]}</div>
+            <div>{role.department}</div>
           </div>
           <div className="col-2 d-flex justify-content-center align-items-center">
-            <div>{user.email}</div>
+            <div>{role.email}</div>
           </div>
           <div className="col-2 d-flex justify-content-center align-items-center">
-            <div>{user.company}</div>
-          </div>
-          <div className="col-2 d-flex justify-content-center align-items-center">
-            <div>{user.employed ? 'Yes' : 'No'}</div>
+            <div>{role.phone}</div>
           </div>
         </div>
       ))}
@@ -160,7 +141,7 @@ const AllUsers = () => {
           </Button>
         </div>
         <div className="ml-auto">
-          {indexOfLastUser < allUsers.length && (
+          {indexOfLastRole < roles.length && (
             <Button
               variant="primary"
               className="pagination-btn"
@@ -175,10 +156,6 @@ const AllUsers = () => {
   );
 };
 
-export default AllUsers;
-
-
-
-
+export default Roles;
 
 

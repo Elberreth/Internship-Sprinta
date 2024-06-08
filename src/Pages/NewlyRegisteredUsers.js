@@ -44,9 +44,13 @@ const NewlyRegisteredUsers = () => {
 
   const handleConfirmAction = () => {
     let updatedUsers;
+    let newlyAcceptedUsers = [];
     if (modalAction === 'accept') {
-      const newlyAcceptedUsers = checkedUsers;
+      newlyAcceptedUsers = checkedUsers;
       updatedUsers = newUsers.filter(user => !newlyAcceptedUsers.includes(user.id));
+      const acceptedUsers = newUsers.filter(user => newlyAcceptedUsers.includes(user.id));
+      const existingAcceptedUsers = JSON.parse(localStorage.getItem('acceptedUsers')) || [];
+      localStorage.setItem('acceptedUsers', JSON.stringify([...existingAcceptedUsers, ...acceptedUsers]));
     } else if (modalAction === 'reject') {
       const newlyRejectedUsers = checkedUsers;
       updatedUsers = newUsers.filter(user => !newlyRejectedUsers.includes(user.id));
@@ -263,6 +267,7 @@ const NewlyRegisteredUsers = () => {
 };
 
 export default NewlyRegisteredUsers;
+
 
 
 

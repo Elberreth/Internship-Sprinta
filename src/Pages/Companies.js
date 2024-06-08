@@ -3,24 +3,24 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button } from 'react-bootstrap';  // Lägg till denna import
 import './../CSS/AdminPage.css';
 
-const AllUsers = () => {
-  const [allUsers, setAllUsers] = useState([]);
+const Companies = () => {
+  const [companies, setCompanies] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const usersPerPage = 10;
+  const companiesPerPage = 10;
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
   useEffect(() => {
-    const storedUsers = JSON.parse(localStorage.getItem('acceptedUsers')) || [];
-    setAllUsers(storedUsers);
+    const storedCompanies = JSON.parse(localStorage.getItem('companies')) || [];
+    setCompanies(storedCompanies);
   }, []);
 
-  const indexOfLastUser = currentPage * usersPerPage;
-  const indexOfFirstUser = indexOfLastUser - usersPerPage;
-  const currentUsers = allUsers.slice(indexOfFirstUser, indexOfLastUser);
+  const indexOfLastCompany = currentPage * companiesPerPage;
+  const indexOfFirstCompany = indexOfLastCompany - companiesPerPage;
+  const currentCompanies = companies.slice(indexOfFirstCompany, indexOfLastCompany);
 
   const handleNextPage = () => {
-    const nextPageUsers = allUsers.slice(indexOfLastUser, indexOfLastUser + usersPerPage);
-    if (nextPageUsers.length === 0) {
+    const nextPageCompanies = companies.slice(indexOfLastCompany, indexOfLastCompany + companiesPerPage);
+    if (nextPageCompanies.length === 0) {
       setCurrentPage(1);
     } else {
       setCurrentPage(currentPage + 1);
@@ -37,18 +37,10 @@ const AllUsers = () => {
       direction = 'desc';
     }
 
-    const sortedUsers = [...allUsers].sort((a, b) => {
+    const sortedCompanies = [...companies].sort((a, b) => {
       let aValue, bValue;
 
       switch (field) {
-        case 'lastName':
-          aValue = a.name.split(' ')[1];
-          bValue = b.name.split(' ')[1];
-          break;
-        case 'firstName':
-          aValue = a.name.split(' ')[0];
-          bValue = b.name.split(' ')[0];
-          break;
         default:
           aValue = a[field];
           bValue = b[field];
@@ -63,7 +55,7 @@ const AllUsers = () => {
       return 0;
     });
 
-    setAllUsers(sortedUsers);
+    setCompanies(sortedCompanies);
     setSortConfig({ key: field, direction });
   };
 
@@ -81,45 +73,37 @@ const AllUsers = () => {
         <div
           className="col-2"
           style={{ cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-          onClick={() => handleSort('lastName')}
+          onClick={() => handleSort('name')}
         >
-          <strong>Last Name</strong>
-          <span style={{ marginLeft: '5px' }}>{getSortIcon('lastName')}</span>
+          <strong>Name</strong>
+          <span style={{ marginLeft: '5px' }}>{getSortIcon('name')}</span>
         </div>
         <div
           className="col-2"
           style={{ cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-          onClick={() => handleSort('firstName')}
+          onClick={() => handleSort('industry')}
         >
-          <strong>First Name</strong>
-          <span style={{ marginLeft: '5px' }}>{getSortIcon('firstName')}</span>
+          <strong>Industry</strong>
+          <span style={{ marginLeft: '5px' }}>{getSortIcon('industry')}</span>
         </div>
         <div
           className="col-2 text-center"
           style={{ cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
           onClick={() => handleSort('email')}
         >
-          <strong>E-mail</strong>
+          <strong>Email</strong>
           <span style={{ marginLeft: '5px' }}>{getSortIcon('email')}</span>
         </div>
         <div
           className="col-2"
           style={{ cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-          onClick={() => handleSort('company')}
+          onClick={() => handleSort('phone')}
         >
-          <strong>Company</strong>
-          <span style={{ marginLeft: '5px' }}>{getSortIcon('company')}</span>
-        </div>
-        <div
-          className="col-2"
-          style={{ cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-          onClick={() => handleSort('employed')}
-        >
-          <strong>Employed</strong>
-          <span style={{ marginLeft: '5px' }}>{getSortIcon('employed')}</span>
+          <strong>Phone</strong>
+          <span style={{ marginLeft: '5px' }}>{getSortIcon('phone')}</span>
         </div>
       </div>
-      {currentUsers.map((user, index) => (
+      {currentCompanies.map((company, index) => (
         <div
           key={index}
           className="row border-top p-3 text-center align-items-center user-row"
@@ -131,19 +115,16 @@ const AllUsers = () => {
             <input type="checkbox" />
           </div>
           <div className="col-2 d-flex justify-content-center align-items-center">
-            <div>{user.name.split(' ')[1]}</div>
+            <div>{company.name}</div>
           </div>
           <div className="col-2 d-flex justify-content-center align-items-center">
-            <div>{user.name.split(' ')[0]}</div>
+            <div>{company.industry}</div>
           </div>
           <div className="col-2 d-flex justify-content-center align-items-center">
-            <div>{user.email}</div>
+            <div>{company.email}</div>
           </div>
           <div className="col-2 d-flex justify-content-center align-items-center">
-            <div>{user.company}</div>
-          </div>
-          <div className="col-2 d-flex justify-content-center align-items-center">
-            <div>{user.employed ? 'Yes' : 'No'}</div>
+            <div>{company.phone}</div>
           </div>
         </div>
       ))}
@@ -160,7 +141,7 @@ const AllUsers = () => {
           </Button>
         </div>
         <div className="ml-auto">
-          {indexOfLastUser < allUsers.length && (
+          {indexOfLastCompany < companies.length && (
             <Button
               variant="primary"
               className="pagination-btn"
@@ -175,10 +156,6 @@ const AllUsers = () => {
   );
 };
 
-export default AllUsers;
-
-
-
-
+export default Companies;
 
 

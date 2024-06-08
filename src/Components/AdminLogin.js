@@ -1,66 +1,80 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import '../CSS/AdminPage.css';
+import NewlyRegisteredUsers from './NewlyRegisteredUsers';
+import AllUsers from './AllUsers';
+import Companies from './Companies';
+import Roles from './Roles';
 
-const NewlyRegisteredUsers = () => {
-  const [acceptedUsers, setAcceptedUsers] = useState([]);
-  const [rejectedUsers, setRejectedUsers] = useState([]);
-  const [checkedUsers, setCheckedUsers] = useState([]);
+const AdminPage = () => {
+  const [selectedMenu, setSelectedMenu] = useState('New Users');
+  const [showDropdown, setShowDropdown] = useState(false);
 
-  const handleAccept = (user) => {
-    setAcceptedUsers([...acceptedUsers, user]);
-    setCheckedUsers(checkedUsers.filter(checkedUser => checkedUser.email !== user.email));
+  const handleMenuChange = (menu) => {
+    setSelectedMenu(menu);
+    setShowDropdown(false);
   };
 
-  const handleReject = (user) => {
-    setRejectedUsers([...rejectedUsers, user]);
-    setCheckedUsers(checkedUsers.filter(checkedUser => checkedUser.email !== user.email));
-  };
-
-  const handleCheckboxChange = (user) => {
-    if (checkedUsers.find(checkedUser => checkedUser.email === user.email)) {
-      setCheckedUsers(checkedUsers.filter(checkedUser => checkedUser.email !== user.email));
-    } else {
-      setCheckedUsers([...checkedUsers, user]);
-    }
-  };
+  const menuOptions = ['New Users', 'All Users', 'Companies', 'Roles'];
 
   return (
-    <div className="container">
-      {/* Header row */}
-      <div className="row border p-3">
-        <div className="col"><strong>Select</strong></div>
-        <div className="col"><strong>Last Name</strong></div>
-        <div className="col"><strong>First Name</strong></div>
-        <div className="col"><strong>E-mail</strong></div>
-        <div className="col"><strong>Company</strong></div>
-        <div className="col"><strong>Employed</strong></div>
-      </div>
-      {/* Users */}
-      {[
-        { name: 'John Doe', email: 'john.doe@example.com', company: 'ABC Company', employed: true },
-        { name: 'Jane Doe', email: 'jane.doe@example.com', company: 'XYZ Corporation', employed: false },
-        // Add more users here
-      ].map((user, index) => (
-        <div key={index} className="row border-top p-3">
-          <div className="col">
-            <input type="checkbox" onChange={() => handleCheckboxChange(user)} />
+    <div className="admin-page">
+      <div className="menu-column">
+        <div className="menu-header">
+          <h3 className="text-center">BackOffice</h3>
+        </div>
+        <div className="menu-button text-center">
+          <div className="dropdown">
+            <button
+              className="btn btn-primary wider-button"
+              type="button"
+              onClick={() => setShowDropdown(!showDropdown)}
+            >
+              Menu
+            </button>
+            {showDropdown && (
+              <ul className="dropdown-menu show">
+                {menuOptions
+                  .filter((option) => option !== selectedMenu)
+                  .map((option) => (
+                    <li key={option} onClick={() => handleMenuChange(option)}>
+                      <span className="dropdown-item">{option}</span>
+                    </li>
+                  ))}
+              </ul>
+            )}
           </div>
-          <div className="col">{user.name.split(' ')[1]}</div>
-          <div className="col">{user.name.split(' ')[0]}</div>
-          <div className="col">{user.email}</div>
-          <div className="col">{user.company}</div>
-          <div className="col">{user.employed ? 'Yes' : 'No'}</div>
         </div>
-      ))}
-      {/* Accept and Reject buttons */}
-      <div className="row mt-3" style={{ maxWidth: '200px', margin: 'auto' }}>
-        <div className="col d-flex justify-content-center">
-          <button type="button" className="btn btn-success btn-sm mr-2" onClick={() => handleAccept({ name: 'John Doe', email: 'john.doe@example.com', company: 'ABC Company', employed: true })}>Accept</button>
-          <button type="button" className="btn btn-danger btn-sm" onClick={() => handleReject({ name: 'Jane Doe', email: 'jane.doe@example.com', company: 'XYZ Corporation', employed: false })}>Reject</button>
-        </div>
+      </div>
+      <div className="content-area">
+        {selectedMenu === 'New Users' && (
+          <>
+            <h3 className="content-title">Newly Registered Users</h3>
+            <NewlyRegisteredUsers />
+          </>
+        )}
+        {selectedMenu === 'All Users' && (
+          <>
+            <h3 className="content-title">All Users</h3>
+            <AllUsers />
+          </>
+        )}
+        {selectedMenu === 'Companies' && (
+          <>
+            <h3 className="content-title">Companies</h3>
+            <Companies />
+          </>
+        )}
+        {selectedMenu === 'Roles' && (
+          <>
+            <h3 className="content-title">Roles</h3>
+            <Roles />
+          </>
+        )}
       </div>
     </div>
   );
 };
 
-export default NewlyRegisteredUsers;
+export default AdminPage;
+
