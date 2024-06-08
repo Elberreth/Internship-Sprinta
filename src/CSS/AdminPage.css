@@ -141,13 +141,13 @@
     border: 2px solid black;
     padding: 10px; 
   }
-  /* src/CSS/AdminPage.css */
+ 
 
 .text-left-align {
   text-align: left;
   .user-row:hover {
-    background-color: #f0f0f0;
-  }
+  background-color: #f0f0f0;
+}
 }
 
 }

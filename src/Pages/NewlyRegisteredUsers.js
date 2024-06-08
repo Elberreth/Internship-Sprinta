@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
@@ -43,15 +43,23 @@ const NewlyRegisteredUsers = () => {
   };
 
   const handleConfirmAction = () => {
+    let updatedUsers;
     if (modalAction === 'accept') {
       const newlyAcceptedUsers = checkedUsers;
-      setNewUsers(newUsers.filter(user => !newlyAcceptedUsers.includes(user.id)));
+      updatedUsers = newUsers.filter(user => !newlyAcceptedUsers.includes(user.id));
     } else if (modalAction === 'reject') {
       const newlyRejectedUsers = checkedUsers;
-      setNewUsers(newUsers.filter(user => !newlyRejectedUsers.includes(user.id)));
+      updatedUsers = newUsers.filter(user => !newlyRejectedUsers.includes(user.id));
     }
+
+    setNewUsers(updatedUsers);
     setCheckedUsers([]);
     setShowModal(false);
+
+    // If the current page is empty after the update, go to the first page
+    if (updatedUsers.length <= (currentPage - 1) * usersPerPage && currentPage > 1) {
+      setCurrentPage(1);
+    }
   };
 
   const indexOfLastUser = currentPage * usersPerPage;
@@ -255,6 +263,7 @@ const NewlyRegisteredUsers = () => {
 };
 
 export default NewlyRegisteredUsers;
+
 
 
 
