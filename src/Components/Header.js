@@ -64,10 +64,10 @@ const Header = () => {
                 </Modal.Header>
                 <Modal.Body>Are you sure you want to Logout?</Modal.Body>
                 <Modal.Footer>
-                  <Button variant="secondary" onClick={handleCloseLogoutModal} className="btn-small">
+                  <Button variant="secondary" onClick={handleCloseLogoutModal} className="btn-sm-popup">
                     No
                   </Button>
-                  <Button variant="primary" onClick={handleLogout} className="btn-small">
+                  <Button variant="primary" onClick={handleLogout} className="btn-sm-popup">
                     Yes
                   </Button>
                 </Modal.Footer>
@@ -86,6 +86,7 @@ const Header = () => {
 };
 
 export default Header;
+
 
 
 
