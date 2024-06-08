@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Button } from 'react-bootstrap';
+import { Button, Modal } from 'react-bootstrap';
 import './../CSS/AdminPage.css';
 
 const AllUsers = () => {
@@ -9,6 +9,7 @@ const AllUsers = () => {
   const usersPerPage = 10;
   const [checkedUsers, setCheckedUsers] = useState([]);
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+  const [showRemoveModal, setShowRemoveModal] = useState(false);
 
   useEffect(() => {
     const storedUsers = JSON.parse(localStorage.getItem('acceptedUsers')) || [];
@@ -45,6 +46,7 @@ const AllUsers = () => {
     setAllUsers(updatedUsers);
     localStorage.setItem('acceptedUsers', JSON.stringify(updatedUsers));
     setCheckedUsers([]);
+    setShowRemoveModal(false);
   };
 
   const handleSort = (field) => {
@@ -196,13 +198,27 @@ const AllUsers = () => {
           <Button
             variant="danger"
             className="btn-sm-popup"
-            onClick={handleRemove}
+            onClick={() => setShowRemoveModal(true)}
             disabled={checkedUsers.length === 0}
           >
             Remove
           </Button>
         </div>
       </div>
+      <Modal show={showRemoveModal} onHide={() => setShowRemoveModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirm Remove</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Are you sure you want to remove the selected users?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" className="btn-sm-popup" onClick={handleRemove}>
+            Confirm
+          </Button>
+          <Button variant="secondary" className="btn-sm-popup" onClick={() => setShowRemoveModal(false)}>
+            Cancel
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
