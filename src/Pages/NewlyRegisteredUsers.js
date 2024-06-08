@@ -282,8 +282,8 @@ const NewlyRegisteredUsers = () => {
           <Modal.Title>Duplicate Users Found</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <p>The following users are already registered:</p>
-          <ul>
+          <p style={{ color: 'red' }}>The following users are already registered:</p>
+          <ul style={{ color: 'red' }}>
             {duplicateUsers.map(user => (
               <li key={user.id}>{user.name} ({user.email})</li>
             ))}
@@ -310,6 +310,7 @@ const NewlyRegisteredUsers = () => {
 };
 
 export default NewlyRegisteredUsers;
+
 
 
 
