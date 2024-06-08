@@ -27,6 +27,8 @@ const NewlyRegisteredUsers = () => {
   const [modalAction, setModalAction] = useState(null);
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
   const [showDuplicateModal, setShowDuplicateModal] = useState(false);
+  const [acceptedUsers, setAcceptedUsers] = useState([]);
+  const [duplicateUsers, setDuplicateUsers] = useState([]);
 
   const navigate = useNavigate();
 
@@ -46,19 +48,26 @@ const NewlyRegisteredUsers = () => {
   const handleConfirmAction = () => {
     let updatedUsers;
     let newlyAcceptedUsers = [];
+    let duplicates = [];
     if (modalAction === 'accept') {
       newlyAcceptedUsers = checkedUsers;
       updatedUsers = newUsers.filter(user => !newlyAcceptedUsers.includes(user.id));
       const acceptedUsers = newUsers.filter(user => newlyAcceptedUsers.includes(user.id));
       const existingAcceptedUsers = JSON.parse(localStorage.getItem('acceptedUsers')) || [];
 
-      // Avoid duplicates
-      const uniqueAcceptedUsers = acceptedUsers.filter(newUser => 
-        !existingAcceptedUsers.some(existingUser => existingUser.id === newUser.id)
-      );
+      // Check for duplicates
+      const uniqueAcceptedUsers = acceptedUsers.filter(newUser => {
+        const isDuplicate = existingAcceptedUsers.some(existingUser => existingUser.id === newUser.id);
+        if (isDuplicate) {
+          duplicates.push(newUser);
+        }
+        return !isDuplicate;
+      });
 
-      if (uniqueAcceptedUsers.length < acceptedUsers.length) {
-        setShowDuplicateModal(true); // Show popup if duplicates found
+      if (duplicates.length > 0) {
+        setDuplicateUsers(duplicates);
+        setAcceptedUsers(uniqueAcceptedUsers);
+        setShowDuplicateModal(true);
       }
 
       localStorage.setItem('acceptedUsers', JSON.stringify([...existingAcceptedUsers, ...uniqueAcceptedUsers]));
@@ -268,12 +277,28 @@ const NewlyRegisteredUsers = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-      {/* Popup för dubletter */}
       <Modal show={showDuplicateModal} onHide={() => setShowDuplicateModal(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>Duplicate User</Modal.Title>
+          <Modal.Title>Duplicate Users Found</Modal.Title>
         </Modal.Header>
-        <Modal.Body>The user is already registered.</Modal.Body>
+        <Modal.Body>
+          <p>The following users are already registered:</p>
+          <ul>
+            {duplicateUsers.map(user => (
+              <li key={user.id}>{user.name} ({user.email})</li>
+            ))}
+          </ul>
+          {acceptedUsers.length > 0 && (
+            <>
+              <p>The following users were accepted:</p>
+              <ul>
+                {acceptedUsers.map(user => (
+                  <li key={user.id}>{user.name} ({user.email})</li>
+                ))}
+              </ul>
+            </>
+          )}
+        </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" className="btn-sm-popup" onClick={() => setShowDuplicateModal(false)}>
             Close
@@ -285,6 +310,7 @@ const NewlyRegisteredUsers = () => {
 };
 
 export default NewlyRegisteredUsers;
+
 
 
 
