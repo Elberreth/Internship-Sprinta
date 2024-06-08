@@ -18,7 +18,7 @@ const Register = () => {
   const [registrationError, setRegistrationError] = useState("");
   const [validationErrors, setValidationErrors] = useState({});
 
-const {
+  const {
     register,
     handleSubmit,
     formState: { errors },
@@ -78,7 +78,7 @@ const {
     console.log(`Sending code ${code} to ${email}`);
     return new Promise((resolve, reject) => setTimeout(() => {
       const success = Math.random() > 0.1;
-      success? resolve() : reject(new Error("Failed to send email"));
+      success ? resolve() : reject(new Error("Failed to send email"));
     }, 1000));
   };
 
@@ -221,7 +221,7 @@ const {
             />
             {errors.email && <div className="error">{errors.email.message}</div>}
           </div>
-          <button type="button" onClick={handleSubmit(handleSubmitGetValidationCode)} className="btn-wide-purple">Get Validation Code</button>
+          <button type="button" onClick={handleSubmit(handleSubmitGetValidationCode)} className="btn-wide-purple btn-move-up">Get Validation Code</button>
           {validationCodeError && <div className="error">{validationCodeError}</div>}
           {emailSent && <div className="success">Validation code has been sent to your email.</div>}
           {!emailSent && validationCodeError && <div className="error">Failed to send validation code. Please check your details and try again.</div>}
@@ -286,6 +286,7 @@ const {
 }
 
 export default Register;
+
 
 
 

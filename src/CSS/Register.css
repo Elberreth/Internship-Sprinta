@@ -1,6 +1,6 @@
 body {
-    margin: 0; 
-    overflow: hidden; 
+    margin: 0;
+    overflow: hidden;
 }
 
 .register-page {
@@ -11,13 +11,8 @@ body {
     min-height: 100vh;
     background-color: #ffffff;
     padding: 20px;
-    margin: 0; 
-    overflow: hidden; 
-}
-
-body {
-    margin: 0; 
-    overflow: hidden; 
+    margin: 0;
+    overflow: hidden;
 }
 
 .register-form-container {
@@ -25,18 +20,15 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    
     width: 100%;
     max-width: 600px;
     margin-top: 20px;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    border: 1px solid #000; 
-    overflow: hidden; 
-    justify-content: center;
+    border: 1px solid #000;
+    overflow: hidden;
 }
-
 
 .register-form {
     width: 100%;
@@ -67,7 +59,7 @@ body {
 .form-group input[type="checkbox"] {
     width: auto;
     margin-right: 10px;
-    margin-left: -10px !important; 
+    margin-left: -10px !important;
 }
 
 .error {
@@ -75,24 +67,20 @@ body {
     font-size: 12px;
 }
 
-
-
-
-
 .btn-small {
     padding: 10px 20px;
-    font-size: 14px; 
-    background-color: #007bff; 
+    font-size: 14px;
+    background-color: #007bff;
     color: #fff;
-    border: none; 
-    border-radius: 4px; 
-    cursor: pointer; 
-    transition: background-color 0.3s; 
-    margin-top: 50px; 
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 50px;
 }
 
 .btn-small:hover {
-    background-color: #0056b3; 
+    background-color: #0056b3;
 }
 
 .btn-wide-purple {
@@ -104,13 +92,19 @@ body {
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s;
-    width: 30%; 
+    width: 30%;
     text-align: center;
     margin-top: 50px !important;
 }
 
 .btn-wide-purple:hover {
-    background-color: #660066; 
+    background-color: #660066;
+}
+
+/* New CSS class to move the button up by 1cm */
+.btn-move-up {
+    position: relative;
+    bottom: 1cm;
 }
 
 .agreement-popup {
@@ -152,7 +146,7 @@ body {
 }
 
 .checkbox-group label {
-    margin-right: 20px; 
+    margin-right: 20px;
     display: flex;
     align-items: center;
 }
@@ -174,25 +168,27 @@ body {
 .radio-buttons label {
     margin-right: 20px;
 }
+
 select {
-    text-align: center; 
+    text-align: center;
 }
+
 .checkbox-container {
     display: flex;
     align-items: center;
-    margin-top: 10px; 
+    margin-top: 10px;
 }
+
 .checkbox-container input {
     margin-right: 5px;
 }
 
-
-/* Register.css */
 .success {
     color: green;
-    font-size: 16px; 
-    margin-top: 10px; 
+    font-size: 16px;
+    margin-top: 10px;
 }
+
 
 
 
