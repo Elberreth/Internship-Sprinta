@@ -26,6 +26,7 @@ const NewlyRegisteredUsers = () => {
   const [showModal, setShowModal] = useState(false);
   const [modalAction, setModalAction] = useState(null);
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+  const [showDuplicateModal, setShowDuplicateModal] = useState(false); // Added state for duplicate modal
 
   const navigate = useNavigate();
 
@@ -51,10 +52,14 @@ const NewlyRegisteredUsers = () => {
       const acceptedUsers = newUsers.filter(user => newlyAcceptedUsers.includes(user.id));
       const existingAcceptedUsers = JSON.parse(localStorage.getItem('acceptedUsers')) || [];
 
-      // Undvik dubletter
+      // Avoid duplicates
       const uniqueAcceptedUsers = acceptedUsers.filter(newUser => 
         !existingAcceptedUsers.some(existingUser => existingUser.id === newUser.id)
       );
+
+      if (uniqueAcceptedUsers.length < acceptedUsers.length) {
+        setShowDuplicateModal(true); // Show popup if duplicates found
+      }
 
       localStorage.setItem('acceptedUsers', JSON.stringify([...existingAcceptedUsers, ...uniqueAcceptedUsers]));
     } else if (modalAction === 'reject') {
@@ -66,7 +71,7 @@ const NewlyRegisteredUsers = () => {
     setCheckedUsers([]);
     setShowModal(false);
 
-    // Om den aktuella sidan är tom efter uppdateringen, gå till första sidan
+    // If the current page is empty after the update, go to the first page
     if (updatedUsers.length <= (currentPage - 1) * usersPerPage && currentPage > 1) {
       setCurrentPage(1);
     }
@@ -263,11 +268,25 @@ const NewlyRegisteredUsers = () => {
           </Button>
         </Modal.Footer>
       </Modal>
+      {/* Popup för dubletter */}
+      <Modal show={showDuplicateModal} onHide={() => setShowDuplicateModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Duplicate User</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>The user is already registered.</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowDuplicateModal(false)}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
 
 export default NewlyRegisteredUsers;
+
+
 
 
 
