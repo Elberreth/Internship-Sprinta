@@ -16,6 +16,13 @@ const AllUsers = () => {
     setAllUsers(storedUsers);
   }, []);
 
+  useEffect(() => {
+    // Gå till första sidan om den nuvarande sidan är tom
+    if ((currentPage - 1) * usersPerPage >= allUsers.length && currentPage > 1) {
+      setCurrentPage(1);
+    }
+  }, [allUsers, currentPage]);
+
   const indexOfLastUser = currentPage * usersPerPage;
   const indexOfFirstUser = indexOfLastUser - usersPerPage;
   const currentUsers = allUsers.slice(indexOfFirstUser, indexOfLastUser);
@@ -211,11 +218,11 @@ const AllUsers = () => {
         </Modal.Header>
         <Modal.Body>Are you sure you want to remove the selected users?</Modal.Body>
         <Modal.Footer>
-          <Button variant="primary" className="btn-sm-popup" onClick={handleRemove}>
-            Confirm
-          </Button>
           <Button variant="secondary" className="btn-sm-popup" onClick={() => setShowRemoveModal(false)}>
             Cancel
+          </Button>
+          <Button variant="danger" className="btn-sm-popup" onClick={handleRemove}>
+            Remove
           </Button>
         </Modal.Footer>
       </Modal>
@@ -224,6 +231,7 @@ const AllUsers = () => {
 };
 
 export default AllUsers;
+
 
 
 
