@@ -101,7 +101,6 @@ body {
     background-color: #660066;
 }
 
-/* New CSS class to move the button up by 1cm */
 .btn-move-up {
     position: relative;
     bottom: 1cm;
@@ -197,7 +196,10 @@ select {
 .validation-message {
     margin-top: 10px;
     color: green;
+    position: relative;
+    bottom: 1cm;
 }
+
 
 
 
