@@ -108,7 +108,7 @@ const Register = () => {
 
     if (password) {
       if (password.length < 6 || password.length > 10 || !validatePassword(password)) {
-        errors.password = "Password must have at least 1 small-case letter,1 Capital letter, 1 digit, 1 special character and the length should be between 6-10 characters.";
+        errors.password = "Password must have at least 1 small-case letter, 1 Capital letter, 1 digit, 1 special character and the length should be between 6-10 characters.";
       }
     } else {
       errors.password = "Please fill in the Password field.";
@@ -238,7 +238,6 @@ const Register = () => {
               {validationErrors.validateEmail && <div className="error">{validationErrors.validateEmail}</div>}
             </div>
 
-            {/* Password field */}
             <div className="form-group">
               <input
                 type="password"
@@ -248,9 +247,11 @@ const Register = () => {
                 {...register("password")}
               />
               {validationErrors.password && <div className="error">{validationErrors.password}</div>}
+              <div className="password-requirements">
+                Password must have at least 1 lowercase letter, 1 uppercase letter, 1 digit, 1 special character, and be 6-10 characters long.
+              </div>
             </div>
 
-            {/* Confirm Password field */}
             <div className="form-group">
               <input
                 type="password"
@@ -289,6 +290,7 @@ const Register = () => {
 }
 
 export default Register;
+
 
 
 

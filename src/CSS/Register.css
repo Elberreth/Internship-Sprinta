@@ -101,6 +101,7 @@ body {
     background-color: #660066;
 }
 
+/* New CSS class to move the button up by 1cm */
 .btn-move-up {
     position: relative;
     bottom: 1cm;
@@ -188,17 +189,19 @@ select {
     margin-top: 10px;
 }
 
-.move-up {
-    position: relative;
-    top: -1cm;
+.password-requirements {
+    color: #555;
+    font-size: 12px;
+    margin-top: 5px;
 }
 
 .validation-message {
-    margin-top: 10px;
-    color: green;
-    position: relative;
-    bottom: 1cm;
+    margin-top: -10px;
+    margin-bottom: 10px;
 }
+
+
+
 
 
 
