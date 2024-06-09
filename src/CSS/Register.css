@@ -189,6 +189,20 @@ select {
     margin-top: 10px;
 }
 
+.move-up {
+    position: relative;
+    top: -1cm;
+}
+
+.validation-message {
+    margin-top: 10px;
+    color: green;
+}
+
+
+
+  
+
 
 
 
