@@ -175,8 +175,9 @@ select {
 
 .checkbox-container {
     display: flex;
-    align-items: center;
+    flex-direction: column;
     margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .checkbox-container input {
@@ -237,6 +238,7 @@ select {
 .message-container {
     margin-top: 10px;
 }
+
 
 
 
