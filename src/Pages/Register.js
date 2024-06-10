@@ -17,6 +17,7 @@ const Register = () => {
   const popupRef = useRef(null);
   const [registrationError, setRegistrationError] = useState("");
   const [validationErrors, setValidationErrors] = useState({});
+  const [showPasswordRequirements, setShowPasswordRequirements] = useState(false);
 
   const {
     register,
@@ -44,7 +45,6 @@ const Register = () => {
 
   const handleSubmitGetValidationCode = async () => {
     const data = getValues();
-    let errorMessage = "";
     let valid = true;
 
     if (!data.firstname) {
@@ -248,17 +248,27 @@ const Register = () => {
               {validationErrors.validateEmail && <div className="error">{validationErrors.validateEmail}</div>}
             </div>
             <div className="form-group">
-              <input
-                type="password"
-                className="form-control"
-                id="inputPassword"
-                placeholder="Password"
-                {...register("password")}
-              />
-              {validationErrors.password && <div className="error">{validationErrors.password}</div>}
-              <div className="password-requirements">
-                Password must have at least 1 small-case letter, 1 capital letter, 1 digit, 1 special character, and be between 6-10 characters long.
+              <div className="password-container">
+                <input
+                  type="password"
+                  className="form-control"
+                  id="inputPassword"
+                  placeholder="Password"
+                  {...register("password")}
+                />
+                <span
+                  className="password-tooltip"
+                  onClick={() => setShowPasswordRequirements(!showPasswordRequirements)}
+                >
+                  ?
+                </span>
+                {showPasswordRequirements && (
+                  <div className="password-requirements-tooltip">
+                    Password must have at least 1 small-case letter, 1 capital letter, 1 digit, 1 special character, and be between 6-10 characters long.
+                  </div>
+                )}
               </div>
+              {validationErrors.password && <div className="error">{validationErrors.password}</div>}
             </div>
             <div className="form-group">
               <input
@@ -297,6 +307,7 @@ const Register = () => {
 };
 
 export default Register;
+
 
 
 
