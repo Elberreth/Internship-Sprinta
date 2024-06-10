@@ -22,7 +22,8 @@ const Register = () => {
     register,
     handleSubmit,
     formState: { errors },
-    getValues
+    getValues,
+    setError
   } = useForm({
     defaultValues: {
       firstname: "",
@@ -43,22 +44,31 @@ const Register = () => {
 
   const handleSubmitGetValidationCode = async () => {
     const data = getValues();
-    console.log(data);
     let errorMessage = "";
+    let valid = true;
 
-    if (!data.firstname || !data.lastname || !data.email) {
-      errorMessage += "First Name, Last Name, and Email are required. ";
+    if (!data.firstname) {
+      setError("firstname", { type: "manual", message: "First Name is required" });
+      valid = false;
+    }
+    if (!data.lastname) {
+      setError("lastname", { type: "manual", message: "Last Name is required" });
+      valid = false;
+    }
+    if (!data.email) {
+      setError("email", { type: "manual", message: "Email is required" });
+      valid = false;
     }
     if (!data.employmentStatus) {
-      errorMessage += "Employment status is required. ";
+      setError("employmentStatus", { type: "manual", message: "Employment status is required" });
+      valid = false;
     }
     if (!data.company) {
-      errorMessage += "Company is required. ";
+      setError("company", { type: "manual", message: "Company is required" });
+      valid = false;
     }
 
-    setValidationCodeError(errorMessage);
-
-    if (!errorMessage) {
+    if (valid) {
       const validationCode = generateRandomCode();
       setGeneratedCode(validationCode);
 
@@ -221,7 +231,7 @@ const Register = () => {
             />
             {errors.email && <div className="error">{errors.email.message}</div>}
           </div>
-          <button type="button" onClick={handleSubmitGetValidationCode} className="btn-wide-purple btn-move-up">Get Validation Code</button>
+          <button type="button" onClick={handleSubmit(handleSubmitGetValidationCode)} className="btn-wide-purple btn-move-up">Get Validation Code</button>
           <div className="validation-message">
             {emailSent && <div className="success">Validation code has been sent to your email.</div>}
             {validationCodeError && <div className="error">{validationCodeError}</div>}
@@ -237,7 +247,6 @@ const Register = () => {
               />
               {validationErrors.validateEmail && <div className="error">{validationErrors.validateEmail}</div>}
             </div>
-
             <div className="form-group">
               <input
                 type="password"
@@ -248,10 +257,9 @@ const Register = () => {
               />
               {validationErrors.password && <div className="error">{validationErrors.password}</div>}
               <div className="password-requirements">
-                Password must have at least 1 lowercase letter, 1 uppercase letter, 1 digit, 1 special character, and be 6-10 characters long.
+                Password must have at least 1 small-case letter, 1 capital letter, 1 digit, 1 special character, and be between 6-10 characters long.
               </div>
             </div>
-
             <div className="form-group">
               <input
                 type="password"
@@ -262,7 +270,6 @@ const Register = () => {
               />
               {validationErrors.confirmPassword && <div className="error">{validationErrors.confirmPassword}</div>}
             </div>
-
             <div className="checkbox-container">
               <input type="checkbox" id="acceptAgreement" name="acceptAgreement" {...register("acceptAgreement")} />
               <label htmlFor="acceptAgreement">Do you accept the Agreement? <a href="#" onClick={openPopup}>(View Agreement)</a></label>
@@ -287,9 +294,10 @@ const Register = () => {
       </div>
     </div>
   );
-}
+};
 
 export default Register;
+
 
 
 
