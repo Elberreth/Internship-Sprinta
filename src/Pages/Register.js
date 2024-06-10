@@ -23,7 +23,8 @@ const Register = () => {
     register,
     handleSubmit,
     formState: { errors },
-    getValues
+    getValues,
+    setError
   } = useForm({
     defaultValues: {
       firstname: "",
@@ -42,30 +43,39 @@ const Register = () => {
     console.log(data);
   };
 
-  const handleSubmitGetValidationCode = async (data) => {
-    console.log(data);
-    let errorMessage = "";
+  const handleSubmitGetValidationCode = async () => {
+    const data = getValues();
+    let valid = true;
 
-    if (!data.firstname || !data.lastname || !data.email) {
-      errorMessage += "First Name, Last Name, and Email are required. ";
+    if (!data.firstname) {
+      setError("firstname", { type: "manual", message: "First Name is required" });
+      valid = false;
+    }
+    if (!data.lastname) {
+      setError("lastname", { type: "manual", message: "Last Name is required" });
+      valid = false;
+    }
+    if (!data.email) {
+      setError("email", { type: "manual", message: "Email is required" });
+      valid = false;
     }
     if (!data.employmentStatus) {
-      errorMessage += "Employment status is required. ";
+      setError("employmentStatus", { type: "manual", message: "Employment status is required" });
+      valid = false;
     }
     if (!data.company) {
-      errorMessage += "Company is required. ";
+      setError("company", { type: "manual", message: "Company is required" });
+      valid = false;
     }
 
-    setValidationCodeError(errorMessage);
-
-    if (!errorMessage) {
+    if (valid) {
       const validationCode = generateRandomCode();
       setGeneratedCode(validationCode);
 
       try {
         await sendEmail(data.email, validationCode);
         setEmailSent(true);
-        alert(`Validation code sent to ${data.email}`);
+        setValidationCodeError(""); // Clear error message when email is sent successfully
       } catch (error) {
         console.error("Error sending email:", error);
         setEmailSent(false);
@@ -108,7 +118,7 @@ const Register = () => {
 
     if (password) {
       if (password.length < 6 || password.length > 10 || !validatePassword(password)) {
-        errors.password = "Password must have at least 1 small-case letter,1 Capital letter, 1 digit, 1 special character and the length should be between 6-10 characters.";
+        errors.password = "Password must have at least 1 small-case letter, 1 Capital letter, 1 digit, 1 special character and the length should be between 6-10 characters.";
       }
     } else {
       errors.password = "Please fill in the Password field.";
@@ -126,7 +136,6 @@ const Register = () => {
 
     if (Object.keys(errors).length === 0) {
       setAccountCreated(true);
-      alert('Your application has been sent to an admin for approval');
       setRegistrationError("");
     }
   });
@@ -223,68 +232,65 @@ const Register = () => {
             {errors.email && <div className="error">{errors.email.message}</div>}
           </div>
           <button type="button" onClick={handleSubmit(handleSubmitGetValidationCode)} className="btn-wide-purple btn-move-up">Get Validation Code</button>
-          {validationCodeError && <div className="error validation-message">{validationCodeError}</div>}
-          {emailSent && <div className="success validation-message">Validation code has been sent to your email.</div>}
-          {!emailSent && validationCodeError && <div className="error validation-message">Failed to send validation code. Please check your details and try again.</div>}
-          {/* Validate Email field */}
-          <div className="form-group">
-            <input
-              type="text"
-              className="form-control"
-              id="inputValidateEmail"
-              placeholder="Type in your code (xxxx-xxxx)"
-              {...register("validateEmail")}
-            />
-            {validationErrors.validateEmail && <div className="error">{validationErrors.validateEmail}</div>}
+          <div className="validation-message">
+            {emailSent && <div className="success">Validation code has been sent to your email.</div>}
+            {validationCodeError && <div className="error">{validationCodeError}</div>}
           </div>
-
-          {/* Password field */}
-          <div className="form-group password-container">
-            <input
-              type="password"
-              className="form-control"
-              id="inputPassword"
-              placeholder="Password"
-              {...register("password")}
-            />
-            <span
-              className="password-tooltip"
-              onMouseEnter={() => setShowPasswordRequirements(true)}
-              onMouseLeave={() => setShowPasswordRequirements(false)}
-            >
-              ?
-            </span>
-            {showPasswordRequirements && (
-              <div className="password-requirements-tooltip">
-                Password must have at least 1 small-case letter, 1 capital letter, 1 digit, 1 special character, and be between 6-10 characters long.
+          <div className="move-up">
+            <div className="form-group">
+              <input
+                type="text"
+                className="form-control"
+                id="inputValidateEmail"
+                placeholder="Type in your code (xxxx-xxxx)"
+                {...register("validateEmail")}
+              />
+              {validationErrors.validateEmail && <div className="error">{validationErrors.validateEmail}</div>}
+            </div>
+            <div className="form-group">
+              <div className="password-container">
+                <input
+                  type="password"
+                  className="form-control"
+                  id="inputPassword"
+                  placeholder="Password"
+                  {...register("password")}
+                />
+                <span
+                  className="password-tooltip"
+                  onClick={() => setShowPasswordRequirements(!showPasswordRequirements)}
+                >
+                  ?
+                </span>
+                {showPasswordRequirements && (
+                  <div className="password-requirements-tooltip">
+                    Password must have at least 1 small-case letter, 1 capital letter, 1 digit, 1 special character, and be between 6-10 characters long.
+                  </div>
+                )}
               </div>
-            )}
-            {validationErrors.password && <div className="error">{validationErrors.password}</div>}
-          </div>
-
-          {/* Confirm Password field */}
-          <div className="form-group">
-            <input
-              type="password"
-              className="form-control"
-              id="inputConfirmPassword"
-              placeholder="Confirm Password"
-              {...register("confirmPassword")}
-            />
-            {validationErrors.confirmPassword && <div className="error">{validationErrors.confirmPassword}</div>}
-          </div>
-
-          <div className="checkbox-container">
-            <label htmlFor="acceptAgreement">
+              {validationErrors.password && <div className="error">{validationErrors.password}</div>}
+            </div>
+            <div className="form-group">
+              <input
+                type="password"
+                className="form-control"
+                id="inputConfirmPassword"
+                placeholder="Confirm Password"
+                {...register("confirmPassword")}
+              />
+              {validationErrors.confirmPassword && <div className="error">{validationErrors.confirmPassword}</div>}
+            </div>
+            <div className="checkbox-container">
               <input type="checkbox" id="acceptAgreement" name="acceptAgreement" {...register("acceptAgreement")} />
-              Do you accept the Agreement? <a href="#" onClick={openPopup}>(View Agreement)</a>
-            </label>
-            {validationErrors.acceptAgreement && <div className="error">{validationErrors.acceptAgreement}</div>}
+              <label htmlFor="acceptAgreement">Do you accept the Agreement? <a href="#" onClick={openPopup}>(View Agreement)</a></label>
+              {validationErrors.acceptAgreement && <div className="error">{validationErrors.acceptAgreement}</div>}
+            </div>
           </div>
-
           <button type="button" onClick={handleRegister} className="btn-small">Register</button>
-          {registrationError && <div className="error">{registrationError}</div>}
-          {accountCreated && <div className="success">Your application has been sent to an Admin for approval.</div>}
+          <div className="message-container">
+            {registrationError && <div className="error">{registrationError}</div>}
+            {accountCreated && <div className="success">Your application have been sent to an Admin for approval.</div>}
+          </div>
           {showPopup && (
             <div className="agreement-popup" ref={popupRef}>
               <div className="agreement-popup-content">
@@ -298,10 +304,9 @@ const Register = () => {
       </div>
     </div>
   );
-}
+};
 
 export default Register;
-
 
 
 
