@@ -1,3 +1,5 @@
+/* Companies.css */
+
 .container {
     max-width: 1600px;
     margin: 0 auto;
@@ -35,9 +37,10 @@
   }
   
   .btn-sm-popup {
-    font-size: 10px;
-    padding: 3px 10px;
-    width: 80px;
+    font-size: 12px;
+    padding: 5px 15px;
+    width: auto;
+    white-space: nowrap;
   }
   
   .tab-content {
@@ -262,6 +265,11 @@
     font-size: 16px;
     margin-top: 10px;
   }
+  
+  
+  
+  
+  
   
   
   
