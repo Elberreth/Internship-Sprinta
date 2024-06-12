@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Tabs, Tab, Button, Modal } from 'react-bootstrap';
-import './../CSS/Companies.css';
+import '../CSS/AdminPage.css'; // Import av CSS-filen
 import cities from '../Utils/Cities';
 
 const Companies = () => {
@@ -147,10 +147,10 @@ const Companies = () => {
       <Tabs defaultActiveKey="add" id="companies-tabs" className="mb-3">
         <Tab eventKey="add" title="Add New">
           <div className="form-group">
-            <label htmlFor="name">Organisation Name</label>
+            <label htmlFor="name"><strong>Organisation Name</strong></label>
             <input
               type="text"
-              className="form-control"
+              className="form-control input-smaller"
               id="name"
               name="name"
               value={newCompany.name}
@@ -159,10 +159,10 @@ const Companies = () => {
             {errors.name && <div className="error">{errors.name}</div>}
           </div>
           <div className="form-group">
-            <label htmlFor="number">Organisation Number</label>
+            <label htmlFor="number"><strong>Organisation Number</strong></label>
             <input
               type="text"
-              className="form-control"
+              className="form-control input-smaller"
               id="number"
               name="number"
               value={newCompany.number}
@@ -171,8 +171,9 @@ const Companies = () => {
             {errors.number && <div className="error">{errors.number}</div>}
           </div>
           <div className="form-group">
+            <label htmlFor="city"><strong>Select City</strong></label>
             <select
-              className="form-control"
+              className="form-control input-smaller"
               id="city"
               name="city"
               value={newCompany.city}
@@ -188,7 +189,7 @@ const Companies = () => {
           <div className="d-flex justify-content-center">
             <Button
               variant="primary"
-              className="btn-sm-custom btn-smaller"
+              className="btn-sm-custom btn-action"
               onClick={handleShowAddModal}
             >
               Add New Company
@@ -291,7 +292,7 @@ const Companies = () => {
           <div className="d-flex justify-content-center mt-3">
             <Button
               variant="danger"
-              className="btn-sm-custom"
+              className="btn-sm-custom btn-action"
               onClick={() => handleShowRemoveModal(selectedCompany)}
               disabled={!selectedCompany}
             >
@@ -299,7 +300,7 @@ const Companies = () => {
             </Button>
             <Button
               variant="primary"
-              className="btn-sm-custom"
+              className="btn-sm-custom btn-action"
               onClick={() => handleShowEditModal(currentCompanies.find(company => company.id === selectedCompany))}
               disabled={!selectedCompany}
             >
@@ -326,10 +327,10 @@ const Companies = () => {
             </Modal.Header>
             <Modal.Body>
               <div className="form-group">
-                <label htmlFor="edit-name">Organisation Name</label>
+                <label htmlFor="edit-name"><strong>Organisation Name</strong></label>
                 <input
                   type="text"
-                  className="form-control"
+                  className="form-control input-smaller"
                   id="edit-name"
                   name="name"
                   value={newCompany.name}
@@ -338,10 +339,10 @@ const Companies = () => {
                 {errors.name && <div className="error">{errors.name}</div>}
               </div>
               <div className="form-group">
-                <label htmlFor="edit-number">Organisation Number</label>
+                <label htmlFor="edit-number"><strong>Organisation Number</strong></label>
                 <input
                   type="text"
-                  className="form-control"
+                  className="form-control input-smaller"
                   id="edit-number"
                   name="number"
                   value={newCompany.number}
@@ -350,8 +351,9 @@ const Companies = () => {
                 {errors.number && <div className="error">{errors.number}</div>}
               </div>
               <div className="form-group">
+                <label htmlFor="edit-city"><strong>Select City</strong></label>
                 <select
-                  className="form-control"
+                  className="form-control input-smaller"
                   id="edit-city"
                   name="city"
                   value={newCompany.city}
@@ -381,6 +383,12 @@ const Companies = () => {
 };
 
 export default Companies;
+
+
+
+
+
+
 
 
 

@@ -1,5 +1,14 @@
-/* AdminPage.css */
+/* Specifik bredd för ett inmatningsfält med id */
+#edit-name {
+  max-width: 150px; /* Justera detta värde till önskad bredd */
+}
 
+/* Specifik bredd för ett inmatningsfält med klass */
+.form-control {
+  max-width: 150px; /* Justera detta värde till önskad bredd */
+}
+
+/* AdminPage.css */
 .admin-page {
   display: flex;
 }
@@ -7,15 +16,15 @@
 .menu-column {
   padding-left: 70px;
   padding-top: 50px;
-  width: 250px; 
-  flex-shrink: 0; 
+  width: 250px;
+  flex-shrink: 0;
 }
 
 .menu-header {
   text-align: center;
   font-weight: bold;
   margin-bottom: 20px;
-  margin-right: 1px; 
+  margin-right: 1px;
 }
 
 .bold-text {
@@ -41,11 +50,11 @@
   text-align: center;
   margin-top: 30px;
   max-width: 1600px;
-  width: calc(100% - 250px); 
+  width: calc(100% - 250px);
   margin-left: auto;
   margin-right: auto;
   border: 1px solid black;
-  box-sizing: border-box; 
+  box-sizing: border-box;
 }
 
 .centered-title {
@@ -68,7 +77,7 @@
 }
 
 .btn-wide-purple {
-  padding: 10px 20px;
+  padding: 6px 14px; /* Adjusted padding for smaller height */
   font-size: 14px;
   background-color: #800080;
   color: #fff;
@@ -81,14 +90,34 @@
 }
 
 .btn-sm-custom {
-  font-size: 10px;
-  padding: 3px 10px;
+  font-size: 12px; /* Adjusted size */
+  padding: 4px 12px; /* Adjusted padding for smaller height */
+  margin-right: 5px;
+  background-color: #007bff; /* Ensure the button color is blue */
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-sm-custom:hover {
+  background-color: #0056b3; /* Darker blue on hover */
 }
 
 .btn-sm-popup {
-  font-size: 10px;
-  padding: 3px 10px;
+  font-size: 12px; /* Adjusted size */
+  padding: 4px 12px; /* Adjusted padding for smaller height */
   width: 80px;
+}
+
+.btn-action {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.btn-action:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
 }
 
 .pagination-btn {
@@ -97,36 +126,48 @@
   width: auto;
 }
 
+/* Added class for smaller input fields */
+.input-smaller {
+  max-width: 400px; /* Adjusted max-width for smaller input fields */
+  margin: 0 auto 10px;
+}
+
+.success {
+  color: green;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
 /* Responsive adjustments */
 @media (max-width: 1024px) {
   .content-area {
     padding: 15px;
-    width: calc(100% - 200px); 
+    width: calc(100% - 200px);
   }
 
   .menu-column {
-    width: 200px; 
+    width: 200px;
     padding-left: 20px;
   }
 }
 
 @media (max-width: 768px) {
   .admin-page {
-    flex-direction: column; 
+    flex-direction: column;
   }
 
   .menu-column {
-    width: 100%; 
+    width: 100%;
     padding-left: 20px;
     padding-top: 20px;
-    border-right: none; 
+    border-right: none;
   }
 
   .content-area {
-    width: 100%; 
+    width: 100%;
     margin-top: 20px;
     padding: 10px;
-    border: 1px solid #ccc; 
+    border: 1px solid #ccc;
   }
 
   .btn-wide-purple {
@@ -134,23 +175,27 @@
   }
 
   .menu-button button {
-    width: 100%; 
+    width: 100%;
   }
-  
+
   .black-border {
     border: 2px solid black;
-    padding: 10px; 
+    padding: 10px;
   }
- 
 
-.text-left-align {
-  text-align: left;
+  .text-left-align {
+    text-align: left;
+  }
+
   .user-row:hover {
-  background-color: #f0f0f0;
-}
+    background-color: #f0f0f0;
+  }
 }
 
-}
+
+
+
+
 
 
 
