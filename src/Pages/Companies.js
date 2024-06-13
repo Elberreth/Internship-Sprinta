@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Tabs, Tab, Button, Modal } from 'react-bootstrap';
-import '../CSS/AdminPage.css'; // Import av CSS-filen
+import '../CSS/Companies.css';
 import cities from '../Utils/Cities';
 
 const Companies = () => {
@@ -20,6 +20,13 @@ const Companies = () => {
   useEffect(() => {
     const storedCompanies = JSON.parse(localStorage.getItem('companies')) || [];
     setCompanies(storedCompanies);
+  }, []);
+
+  useEffect(() => {
+    const selectField = document.querySelector('.select-field option[value=""]');
+    if (selectField) {
+      selectField.style.fontWeight = 'bold';
+    }
   }, []);
 
   const indexOfLastCompany = currentPage * companiesPerPage;
@@ -146,11 +153,11 @@ const Companies = () => {
     <div className="container">
       <Tabs defaultActiveKey="add" id="companies-tabs" className="mb-3">
         <Tab eventKey="add" title="Add New">
-          <div className="form-group">
-            <label htmlFor="name"><strong>Organisation Name</strong></label>
+          <div className="form-group centered">
+            <label htmlFor="name">Organisation Name</label>
             <input
               type="text"
-              className="form-control input-smaller"
+              className="form-control input-field half-width"
               id="name"
               name="name"
               value={newCompany.name}
@@ -158,11 +165,11 @@ const Companies = () => {
             />
             {errors.name && <div className="error">{errors.name}</div>}
           </div>
-          <div className="form-group">
-            <label htmlFor="number"><strong>Organisation Number</strong></label>
+          <div className="form-group centered">
+            <label htmlFor="number">Organisation Number</label>
             <input
               type="text"
-              className="form-control input-smaller"
+              className="form-control input-field half-width"
               id="number"
               name="number"
               value={newCompany.number}
@@ -170,10 +177,10 @@ const Companies = () => {
             />
             {errors.number && <div className="error">{errors.number}</div>}
           </div>
-          <div className="form-group">
-            <label htmlFor="city"><strong>Select City</strong></label>
+          <div className="form-group centered">
+            <label htmlFor="city">City</label>
             <select
-              className="form-control input-smaller"
+              className="form-control input-field half-width select-field"
               id="city"
               name="city"
               value={newCompany.city}
@@ -189,7 +196,7 @@ const Companies = () => {
           <div className="d-flex justify-content-center">
             <Button
               variant="primary"
-              className="btn-sm-custom btn-action"
+              className="btn-sm-custom"
               onClick={handleShowAddModal}
             >
               Add New Company
@@ -292,7 +299,7 @@ const Companies = () => {
           <div className="d-flex justify-content-center mt-3">
             <Button
               variant="danger"
-              className="btn-sm-custom btn-action"
+              className="btn-sm-custom"
               onClick={() => handleShowRemoveModal(selectedCompany)}
               disabled={!selectedCompany}
             >
@@ -300,7 +307,7 @@ const Companies = () => {
             </Button>
             <Button
               variant="primary"
-              className="btn-sm-custom btn-action"
+              className="btn-sm-custom"
               onClick={() => handleShowEditModal(currentCompanies.find(company => company.id === selectedCompany))}
               disabled={!selectedCompany}
             >
@@ -326,11 +333,11 @@ const Companies = () => {
               <Modal.Title>Edit Company</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <div className="form-group">
-                <label htmlFor="edit-name"><strong>Organisation Name</strong></label>
+              <div className="form-group centered">
+                <label htmlFor="edit-name">Organisation Name</label>
                 <input
                   type="text"
-                  className="form-control input-smaller"
+                  className="form-control input-field half-width"
                   id="edit-name"
                   name="name"
                   value={newCompany.name}
@@ -338,11 +345,11 @@ const Companies = () => {
                 />
                 {errors.name && <div className="error">{errors.name}</div>}
               </div>
-              <div className="form-group">
-                <label htmlFor="edit-number"><strong>Organisation Number</strong></label>
+              <div className="form-group centered">
+                <label htmlFor="edit-number">Organisation Number</label>
                 <input
                   type="text"
-                  className="form-control input-smaller"
+                  className="form-control input-field half-width"
                   id="edit-number"
                   name="number"
                   value={newCompany.number}
@@ -350,10 +357,10 @@ const Companies = () => {
                 />
                 {errors.number && <div className="error">{errors.number}</div>}
               </div>
-              <div className="form-group">
-                <label htmlFor="edit-city"><strong>Select City</strong></label>
+              <div className="form-group centered">
+                <label htmlFor="edit-city">City</label>
                 <select
-                  className="form-control input-smaller"
+                  className="form-control input-field half-width select-field"
                   id="edit-city"
                   name="city"
                   value={newCompany.city}
@@ -383,6 +390,10 @@ const Companies = () => {
 };
 
 export default Companies;
+
+
+
+
 
 
 
