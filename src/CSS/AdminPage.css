@@ -130,6 +130,11 @@
   width: 100%;
 }
 
+/* Centered text for modal bodies */
+.centered-modal-body {
+  text-align: center;
+}
+
 /* Hover effect for tabs */
 .nav-tabs .nav-link:hover {
   background-color: gray;
@@ -189,6 +194,7 @@
     background-color: #f0f0f0;
   }
 }
+
 
 
 
