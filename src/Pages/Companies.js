@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Tabs, Tab, Button, Modal } from 'react-bootstrap';
-import './../CSS/Companies.css';
 import cities from '../Utils/Cities';
+import '../CSS/AdminPage.css'; // Korrekt sökväg för att importera CSS-filen
 
 const Companies = () => {
   const [companies, setCompanies] = useState([]);
@@ -146,8 +146,8 @@ const Companies = () => {
     <div className="container">
       <Tabs defaultActiveKey="add" id="companies-tabs" className="mb-3">
         <Tab eventKey="add" title="Add New">
-          <div className="form-group">
-            <label htmlFor="name">Organisation Name</label>
+          <div className="form-group half-width">
+            <label htmlFor="name" className="bold-label">Organisation Name</label>
             <input
               type="text"
               className="form-control"
@@ -158,8 +158,8 @@ const Companies = () => {
             />
             {errors.name && <div className="error">{errors.name}</div>}
           </div>
-          <div className="form-group">
-            <label htmlFor="number">Organisation Number</label>
+          <div className="form-group half-width">
+            <label htmlFor="number" className="bold-label">Organisation Number</label>
             <input
               type="text"
               className="form-control"
@@ -170,7 +170,8 @@ const Companies = () => {
             />
             {errors.number && <div className="error">{errors.number}</div>}
           </div>
-          <div className="form-group">
+          <div className="form-group half-width">
+            <label htmlFor="city" className="bold-label">City</label>
             <select
               className="form-control"
               id="city"
@@ -188,7 +189,7 @@ const Companies = () => {
           <div className="d-flex justify-content-center">
             <Button
               variant="primary"
-              className="btn-sm-custom btn-smaller"
+              className="btn-sm-custom wide-button"
               onClick={handleShowAddModal}
             >
               Add New Company
@@ -291,7 +292,7 @@ const Companies = () => {
           <div className="d-flex justify-content-center mt-3">
             <Button
               variant="danger"
-              className="btn-sm-custom"
+              className="btn-sm-custom common-btn"
               onClick={() => handleShowRemoveModal(selectedCompany)}
               disabled={!selectedCompany}
             >
@@ -299,7 +300,7 @@ const Companies = () => {
             </Button>
             <Button
               variant="primary"
-              className="btn-sm-custom"
+              className="btn-sm-custom common-btn"
               onClick={() => handleShowEditModal(currentCompanies.find(company => company.id === selectedCompany))}
               disabled={!selectedCompany}
             >
@@ -322,11 +323,11 @@ const Companies = () => {
           </Modal>
           <Modal show={showEditModal} onHide={() => setShowEditModal(false)}>
             <Modal.Header closeButton>
-              <Modal.Title>Edit Company</Modal.Title>
+              <Modal.Title className="centered-modal-title">Edit Company</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <div className="form-group">
-                <label htmlFor="edit-name">Organisation Name</label>
+              <div className="form-group half-width">
+                <label htmlFor="edit-name" className="bold-label">Organisation Name</label>
                 <input
                   type="text"
                   className="form-control"
@@ -337,8 +338,8 @@ const Companies = () => {
                 />
                 {errors.name && <div className="error">{errors.name}</div>}
               </div>
-              <div className="form-group">
-                <label htmlFor="edit-number">Organisation Number</label>
+              <div className="form-group half-width">
+                <label htmlFor="edit-number" className="bold-label">Organisation Number</label>
                 <input
                   type="text"
                   className="form-control"
@@ -349,7 +350,8 @@ const Companies = () => {
                 />
                 {errors.number && <div className="error">{errors.number}</div>}
               </div>
-              <div className="form-group">
+              <div className="form-group half-width">
+                <label htmlFor="edit-city" className="bold-label">City</label>
                 <select
                   className="form-control"
                   id="edit-city"
@@ -369,7 +371,7 @@ const Companies = () => {
               <Button variant="secondary" onClick={() => setShowEditModal(false)} className="btn-sm-popup">
                 Cancel
               </Button>
-              <Button variant="primary" onClick={handleEditCompany} className="btn-sm-popup">
+              <Button variant="primary" onClick={handleEditCompany} className="btn-sm-popup wide-button">
                 Save Changes
               </Button>
             </Modal.Footer>
@@ -381,6 +383,12 @@ const Companies = () => {
 };
 
 export default Companies;
+
+
+
+
+
+
 
 
 
