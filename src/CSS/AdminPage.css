@@ -1,3 +1,4 @@
+/* Befintlig stil */
 .admin-page {
   display: flex;
 }
@@ -60,9 +61,13 @@
 }
 
 .dropdown-item {
-  color: black;
+  color: black; /* Ändra textfärgen till svart */
   font-weight: bold;
   cursor: pointer;
+}
+
+.dropdown-item:hover {
+  color: black; /* Håll texten svart även vid hover */
 }
 
 .btn-wide-purple {
@@ -136,6 +141,14 @@
 }
 
 /* Hover effect for tabs */
+.nav-tabs .nav-link {
+  color: black; /* Ändra textfärgen till svart för alla flikar */
+}
+
+.nav-tabs .nav-link.active {
+  color: black !important; /* Ändra textfärgen till svart för aktiva flikar */
+}
+
 .nav-tabs .nav-link:hover {
   background-color: gray;
   color: white; /* Optional: Change text color on hover */
@@ -194,6 +207,7 @@
     background-color: #f0f0f0;
   }
 }
+
 
 
 
