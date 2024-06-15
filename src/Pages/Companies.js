@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Tabs, Tab, Button, Modal } from 'react-bootstrap';
 import cities from '../Utils/Cities';
-import '../CSS/AdminPage.css'; // Korrekt sökväg för att importera CSS-filen
+import '../CSS/AdminPage.css'; 
 
 const Companies = () => {
   const [companies, setCompanies] = useState([]);
