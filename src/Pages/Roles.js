@@ -11,6 +11,7 @@ const Roles = () => {
   const rolesPerPage = 10;
   const usersPerPage = 10;
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+  const [userSortConfig, setUserSortConfig] = useState({ key: null, direction: null });
   const [showAddModal, setShowAddModal] = useState(false);
   const [showRemoveModal, setShowRemoveModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
@@ -21,7 +22,7 @@ const Roles = () => {
   const [selectedRole, setSelectedRole] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
   const [successMessage, setSuccessMessage] = useState('');
-  const [removeType, setRemoveType] = useState(null); // Added to track remove type
+  const [removeType, setRemoveType] = useState(null);
 
   useEffect(() => {
     const storedRoles = JSON.parse(localStorage.getItem('roles')) || [];
@@ -75,11 +76,41 @@ const Roles = () => {
     setSortConfig({ key: field, direction });
   };
 
+  const handleUserSort = (field) => {
+    let direction = 'asc';
+    if (userSortConfig.key === field && userSortConfig.direction === 'asc') {
+      direction = 'desc';
+    }
+
+    const sortedUsers = [...users].sort((a, b) => {
+      let aValue = a[field];
+      let bValue = b[field];
+
+      if (aValue < bValue) {
+        return direction === 'asc' ? -1 : 1;
+      }
+      if (aValue > bValue) {
+        return direction === 'asc' ? 1 : -1;
+      }
+      return 0;
+    });
+
+    setUsers(sortedUsers);
+    setUserSortConfig({ key: field, direction });
+  };
+
   const getSortIcon = (field) => {
     if (sortConfig.key !== field) {
       return '▼';
     }
     return sortConfig.direction === 'asc' ? '▲' : '▼';
+  };
+
+  const getUserSortIcon = (field) => {
+    if (userSortConfig.key !== field) {
+      return '▼';
+    }
+    return userSortConfig.direction === 'asc' ? '▲' : '▼';
   };
 
   const handleAddRole = () => {
@@ -96,7 +127,7 @@ const Roles = () => {
       setNewRole({ name: '' });
       setErrors({});
       setSuccessMessage('Role added successfully');
-      setTimeout(() => setSuccessMessage(''), 3000); // Clear success message after 3 seconds
+      setTimeout(() => setSuccessMessage(''), 3000);
     }
   };
 
@@ -140,7 +171,7 @@ const Roles = () => {
       setNewUser({ firstname: '', lastname: '', email: '', employer: '', role: '' });
       setErrors({});
       setSuccessMessage('User added successfully');
-      setTimeout(() => setSuccessMessage(''), 3000); // Clear success message after 3 seconds
+      setTimeout(() => setSuccessMessage(''), 3000);
     }
   };
 
@@ -197,7 +228,13 @@ const Roles = () => {
 
   const handleShowEditUserModal = (user) => {
     setSelectedUser(user.id);
-    setNewUser({ firstname: user.firstname, lastname: user.lastname, email: user.email, employer: user.employer, role: user.role });
+    setNewUser({
+      firstname: user.firstname,
+      lastname: user.lastname,
+      email: user.email,
+      employer: user.employer,
+      role: user.role
+    });
     setShowEditUserModal(true);
   };
 
@@ -212,7 +249,7 @@ const Roles = () => {
   return (
     <div className="container">
       <Tabs defaultActiveKey="add" id="roles-tabs" className="mb-3">
-        <Tab eventKey="add" title="Add New">
+        <Tab eventKey="add" title="Add New Role">
           <div className="form-group half-width">
             <label htmlFor="name" className="bold-label">Role Name</label>
             <input
@@ -250,7 +287,7 @@ const Roles = () => {
             </Modal.Footer>
           </Modal>
         </Tab>
-        <Tab eventKey="view" title="View All">
+        <Tab eventKey="view" title="View All Roles">
           <div className="row border p-3 text-center">
             <div className="col-1"><strong>Select</strong></div>
             <div
@@ -258,7 +295,7 @@ const Roles = () => {
               style={{ cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
               onClick={() => handleSort('name')}
             >
-              <strong>Name</strong>
+              <strong>Role Name</strong>
               <span style={{ marginLeft: '5px' }}>{getSortIcon('name')}</span>
             </div>
           </div>
@@ -438,10 +475,10 @@ const Roles = () => {
           <div className="d-flex justify-content-center">
             <Button
               variant="primary"
-              className="common-btn wide-button"
+              className="btn-sm-custom wide-button"
               onClick={handleAddUser}
             >
-              Add New User
+              Add User
             </Button>
           </div>
           {successMessage && <div className="success">{successMessage}</div>}
@@ -449,11 +486,46 @@ const Roles = () => {
         <Tab eventKey="viewUsers" title="View Added Users">
           <div className="row border p-3 text-center">
             <div className="col-1"><strong>Select</strong></div>
-            <div className="col-2"><strong>First Name</strong></div>
-            <div className="col-2"><strong>Last Name</strong></div>
-            <div className="col-2"><strong>Email</strong></div>
-            <div className="col-2"><strong>Employer</strong></div>
-            <div className="col-2"><strong>Role</strong></div>
+            <div
+              className="col-2"
+              style={{ cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+              onClick={() => handleUserSort('firstname')}
+            >
+              <strong>First Name</strong>
+              <span style={{ marginLeft: '5px' }}>{getUserSortIcon('firstname')}</span>
+            </div>
+            <div
+              className="col-2"
+              style={{ cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+              onClick={() => handleUserSort('lastname')}
+            >
+              <strong>Last Name</strong>
+              <span style={{ marginLeft: '5px' }}>{getUserSortIcon('lastname')}</span>
+            </div>
+            <div
+              className="col-2"
+              style={{ cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+              onClick={() => handleUserSort('email')}
+            >
+              <strong>Email</strong>
+              <span style={{ marginLeft: '5px' }}>{getUserSortIcon('email')}</span>
+            </div>
+            <div
+              className="col-2"
+              style={{ cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+              onClick={() => handleUserSort('employer')}
+            >
+              <strong>Employer</strong>
+              <span style={{ marginLeft: '5px' }}>{getUserSortIcon('employer')}</span>
+            </div>
+            <div
+              className="col-2"
+              style={{ cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+              onClick={() => handleUserSort('role')}
+            >
+              <strong>Role</strong>
+              <span style={{ marginLeft: '5px' }}>{getUserSortIcon('role')}</span>
+            </div>
           </div>
           {currentUsers.map((user, index) => (
             <div
@@ -633,6 +705,7 @@ const Roles = () => {
 };
 
 export default Roles;
+
 
 
 
