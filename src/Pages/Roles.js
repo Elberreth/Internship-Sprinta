@@ -1,13 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Button } from 'react-bootstrap';  // Lägg till denna import
-import './../CSS/AdminPage.css';
+import { Tabs, Tab, Button, Modal } from 'react-bootstrap';
+import '../CSS/AdminPage.css';
+import employers from '../Utils/Employers';
 
 const Roles = () => {
   const [roles, setRoles] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const rolesPerPage = 10;
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [showRemoveModal, setShowRemoveModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [newRole, setNewRole] = useState({ name: '' });
+  const [newUser, setNewUser] = useState({ firstname: '', lastname: '', email: '', employer: '', role: '' });
+  const [errors, setErrors] = useState({});
+  const [selectedRole, setSelectedRole] = useState(null);
+  const [successMessage, setSuccessMessage] = useState('');
 
   useEffect(() => {
     const storedRoles = JSON.parse(localStorage.getItem('roles')) || [];
@@ -38,13 +47,8 @@ const Roles = () => {
     }
 
     const sortedRoles = [...roles].sort((a, b) => {
-      let aValue, bValue;
-
-      switch (field) {
-        default:
-          aValue = a[field];
-          bValue = b[field];
-      }
+      let aValue = a[field];
+      let bValue = b[field];
 
       if (aValue < bValue) {
         return direction === 'asc' ? -1 : 1;
@@ -66,96 +70,341 @@ const Roles = () => {
     return sortConfig.direction === 'asc' ? '▲' : '▼';
   };
 
+  const handleAddRole = () => {
+    const validationErrors = {};
+    if (!newRole.name) validationErrors.name = 'Role Name is required';
+
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+    } else {
+      const updatedRoles = [...roles, { ...newRole, id: roles.length + 1 }];
+      setRoles(updatedRoles);
+      localStorage.setItem('roles', JSON.stringify(updatedRoles));
+      setShowAddModal(false);
+      setNewRole({ name: '' });
+      setErrors({});
+      setSuccessMessage('Role added successfully');
+      setTimeout(() => setSuccessMessage(''), 3000); // Clear success message after 3 seconds
+    }
+  };
+
+  const handleShowAddModal = () => {
+    const validationErrors = {};
+    if (!newRole.name) validationErrors.name = 'Role Name is required';
+
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+    } else {
+      setShowAddModal(true);
+    }
+  };
+
+  const handleCloseAddModal = () => setShowAddModal(false);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewRole((prevRole) => ({ ...prevRole, [name]: value }));
+  };
+
+  const handleUserInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewUser((prevUser) => ({ ...prevUser, [name]: value }));
+  };
+
+  const handleAddUser = () => {
+    const validationErrors = {};
+    if (!newUser.firstname) validationErrors.firstname = 'First Name is required';
+    if (!newUser.lastname) validationErrors.lastname = 'Last Name is required';
+    if (!newUser.email) validationErrors.email = 'Email is required';
+    if (!newUser.employer) validationErrors.employer = 'Employer is required';
+    if (!newUser.role) validationErrors.role = 'Role is required';
+
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+    } else {
+      // Implement logic to save the new user here
+      setNewUser({ firstname: '', lastname: '', email: '', employer: '', role: '' });
+      setErrors({});
+      setSuccessMessage('User added successfully');
+      setTimeout(() => setSuccessMessage(''), 3000); // Clear success message after 3 seconds
+    }
+  };
+
+  const handleRemoveRole = () => {
+    const updatedRoles = roles.filter(role => role.id !== selectedRole);
+    setRoles(updatedRoles);
+    localStorage.setItem('roles', JSON.stringify(updatedRoles));
+    setShowRemoveModal(false);
+  };
+
+  const handleEditRole = () => {
+    const updatedRoles = roles.map(role =>
+      role.id === selectedRole ? { ...role, ...newRole } : role
+    );
+    setRoles(updatedRoles);
+    localStorage.setItem('roles', JSON.stringify(updatedRoles));
+    setShowEditModal(false);
+    setNewRole({ name: '' });
+  };
+
+  const handleShowRemoveModal = (roleId) => {
+    setSelectedRole(roleId);
+    setShowRemoveModal(true);
+  };
+
+  const handleShowEditModal = (role) => {
+    setSelectedRole(role.id);
+    setNewRole({ name: role.name });
+    setShowEditModal(true);
+  };
+
   return (
     <div className="container">
-      <div className="row border p-3 text-center">
-        <div className="col-1"><strong>Select</strong></div>
-        <div
-          className="col-2"
-          style={{ cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-          onClick={() => handleSort('name')}
-        >
-          <strong>Name</strong>
-          <span style={{ marginLeft: '5px' }}>{getSortIcon('name')}</span>
-        </div>
-        <div
-          className="col-2"
-          style={{ cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-          onClick={() => handleSort('department')}
-        >
-          <strong>Department</strong>
-          <span style={{ marginLeft: '5px' }}>{getSortIcon('department')}</span>
-        </div>
-        <div
-          className="col-2 text-center"
-          style={{ cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-          onClick={() => handleSort('email')}
-        >
-          <strong>Email</strong>
-          <span style={{ marginLeft: '5px' }}>{getSortIcon('email')}</span>
-        </div>
-        <div
-          className="col-2"
-          style={{ cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-          onClick={() => handleSort('phone')}
-        >
-          <strong>Phone</strong>
-          <span style={{ marginLeft: '5px' }}>{getSortIcon('phone')}</span>
-        </div>
-      </div>
-      {currentRoles.map((role, index) => (
-        <div
-          key={index}
-          className="row border-top p-3 text-center align-items-center user-row"
-          style={{ transition: 'background-color 0.3s' }}
-          onMouseEnter={e => e.currentTarget.style.backgroundColor = '#f0f0f0'}
-          onMouseLeave={e => e.currentTarget.style.backgroundColor = 'white'}
-        >
-          <div className="col-1 d-flex justify-content-center">
-            <input type="checkbox" />
+      <Tabs defaultActiveKey="add" id="roles-tabs" className="mb-3">
+        <Tab eventKey="add" title="Add New">
+          <div className="form-group half-width">
+            <label htmlFor="name" className="bold-label">Role Name</label>
+            <input
+              type="text"
+              className="form-control"
+              id="name"
+              name="name"
+              value={newRole.name}
+              onChange={handleInputChange}
+            />
+            {errors.name && <div className="error">{errors.name}</div>}
           </div>
-          <div className="col-2 d-flex justify-content-center align-items-center">
-            <div>{role.name}</div>
-          </div>
-          <div className="col-2 d-flex justify-content-center align-items-center">
-            <div>{role.department}</div>
-          </div>
-          <div className="col-2 d-flex justify-content-center align-items-center">
-            <div>{role.email}</div>
-          </div>
-          <div className="col-2 d-flex justify-content-center align-items-center">
-            <div>{role.phone}</div>
-          </div>
-        </div>
-      ))}
-      <div className="d-flex justify-content-between mt-3">
-        <div>
-          <Button
-            variant="primary"
-            className="pagination-btn"
-            onClick={handlePreviousPage}
-            style={{ display: currentPage === 1 ? 'none' : 'inline-block' }}
-            disabled={currentPage === 1}
-          >
-            Previous Page
-          </Button>
-        </div>
-        <div className="ml-auto">
-          {indexOfLastRole < roles.length && (
+          <div className="d-flex justify-content-center">
             <Button
               variant="primary"
-              className="pagination-btn"
-              onClick={handleNextPage}
+              className="common-btn wide-button"
+              onClick={handleShowAddModal}
             >
-              Next Page
+              Add New Role
             </Button>
-          )}
-        </div>
-      </div>
+          </div>
+          {successMessage && <div className="success">{successMessage}</div>}
+          <Modal show={showAddModal} onHide={handleCloseAddModal}>
+            <Modal.Header closeButton>
+              <Modal.Title>Confirm Add</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>Are you sure you want to add this role?</Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleCloseAddModal} className="btn-sm-popup">
+                Cancel
+              </Button>
+              <Button variant="primary" onClick={handleAddRole} className="btn-sm-popup">
+                Confirm
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </Tab>
+        <Tab eventKey="view" title="View All">
+          <div className="row border p-3 text-center">
+            <div className="col-1"><strong>Select</strong></div>
+            <div
+              className="col-2"
+              style={{ cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+              onClick={() => handleSort('name')}
+            >
+              <strong>Name</strong>
+              <span style={{ marginLeft: '5px' }}>{getSortIcon('name')}</span>
+            </div>
+          </div>
+          {currentRoles.map((role, index) => (
+            <div
+              key={index}
+              className="row border-top p-3 text-center align-items-center user-row"
+              style={{ transition: 'background-color 0.3s' }}
+              onMouseEnter={e => e.currentTarget.style.backgroundColor = '#f0f0f0'}
+              onMouseLeave={e => e.currentTarget.style.backgroundColor = 'white'}
+            >
+              <div className="col-1 d-flex justify-content-center">
+                <input
+                  type="checkbox"
+                  onChange={() => setSelectedRole(role.id)}
+                  checked={selectedRole === role.id}
+                />
+              </div>
+              <div className="col-2 d-flex justify-content-center align-items-center">
+                <div>{role.name}</div>
+              </div>
+            </div>
+          ))}
+          <div className="d-flex justify-content-between mt-3">
+            <div>
+              <Button
+                variant="primary"
+                className="pagination-btn"
+                onClick={handlePreviousPage}
+                style={{ display: currentPage === 1 ? 'none' : 'inline-block' }}
+                disabled={currentPage === 1}
+              >
+                Previous Page
+              </Button>
+            </div>
+            <div className="ml-auto">
+              {indexOfLastRole < roles.length && (
+                <Button
+                  variant="primary"
+                  className="pagination-btn"
+                  onClick={handleNextPage}
+                >
+                  Next Page
+                </Button>
+              )}
+            </div>
+          </div>
+          <div className="d-flex justify-content-center mt-3">
+            <Button
+              variant="danger"
+              className="btn-sm-custom common-btn"
+              onClick={() => handleShowRemoveModal(selectedRole)}
+              disabled={!selectedRole}
+            >
+              Remove
+            </Button>
+            <Button
+              variant="primary"
+              className="btn-sm-custom common-btn"
+              onClick={() => handleShowEditModal(currentRoles.find(role => role.id === selectedRole))}
+              disabled={!selectedRole}
+            >
+              Edit
+            </Button>
+          </div>
+          <Modal show={showRemoveModal} onHide={() => setShowRemoveModal(false)}>
+            <Modal.Header closeButton>
+              <Modal.Title>Confirm Remove</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>Are you sure you want to remove this role?</Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={() => setShowRemoveModal(false)} className="btn-sm-popup">
+                Cancel
+              </Button>
+              <Button variant="primary" onClick={handleRemoveRole} className="btn-sm-popup">
+                Confirm
+              </Button>
+            </Modal.Footer>
+          </Modal>
+          <Modal show={showEditModal} onHide={() => setShowEditModal(false)}>
+            <Modal.Header closeButton>
+              <Modal.Title className="centered-modal-title">Edit Role</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <div className="form-group half-width">
+                <label htmlFor="edit-name" className="bold-label">Role Name</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="edit-name"
+                  name="name"
+                  value={newRole.name}
+                  onChange={handleInputChange}
+                />
+                {errors.name && <div className="error">{errors.name}</div>}
+              </div>
+            </Modal.Body>
+            <Modal.Footer className="d-flex justify-content-center">
+              <Button variant="secondary" onClick={() => setShowEditModal(false)} className="btn-sm-popup">
+                Cancel
+              </Button>
+              <Button variant="primary" onClick={handleEditRole} className="btn-sm-popup wide-button">
+                Save Changes
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </Tab>
+        <Tab eventKey="addUser" title="Add User">
+          <div className="form-group half-width">
+            <label htmlFor="userFirstname" className="bold-label">First Name</label>
+            <input
+              type="text"
+              className="form-control"
+              id="userFirstname"
+              name="firstname"
+              value={newUser.firstname}
+              onChange={handleUserInputChange}
+            />
+            {errors.firstname && <div className="error">{errors.firstname}</div>}
+          </div>
+          <div className="form-group half-width">
+            <label htmlFor="userLastname" className="bold-label">Last Name</label>
+            <input
+              type="text"
+              className="form-control"
+              id="userLastname"
+              name="lastname"
+              value={newUser.lastname}
+              onChange={handleUserInputChange}
+            />
+            {errors.lastname && <div className="error">{errors.lastname}</div>}
+          </div>
+          <div className="form-group half-width">
+            <label htmlFor="userEmail" className="bold-label">Email</label>
+            <input
+              type="email"
+              className="form-control"
+              id="userEmail"
+              name="email"
+              value={newUser.email}
+              onChange={handleUserInputChange}
+            />
+            {errors.email && <div className="error">{errors.email}</div>}
+          </div>
+          <div className="form-group half-width">
+            <label htmlFor="userEmployer" className="bold-label">Employer</label>
+            <select
+              className="form-control"
+              id="userEmployer"
+              name="employer"
+              value={newUser.employer}
+              onChange={handleUserInputChange}
+            >
+              <option value="">Select Employer</option>
+              {employers.map(employer => (
+                <option key={employer} value={employer}>{employer}</option>
+              ))}
+            </select>
+            {errors.employer && <div className="error">{errors.employer}</div>}
+          </div>
+          <div className="form-group half-width">
+            <label htmlFor="userRole" className="bold-label">Role</label>
+            <select
+              className="form-control"
+              id="userRole"
+              name="role"
+              value={newUser.role}
+              onChange={handleUserInputChange}
+            >
+              <option value="">Select Role</option>
+              {roles.map(role => (
+                <option key={role.id} value={role.name}>{role.name}</option>
+              ))}
+            </select>
+            {errors.role && <div className="error">{errors.role}</div>}
+          </div>
+          <div className="d-flex justify-content-center">
+            <Button
+              variant="primary"
+              className="common-btn wide-button"
+              onClick={handleAddUser}
+            >
+              Add New User
+            </Button>
+          </div>
+          {successMessage && <div className="success">{successMessage}</div>}
+        </Tab>
+      </Tabs>
     </div>
   );
 };
 
 export default Roles;
+
+
+
+
+
 
 
