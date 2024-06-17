@@ -1,4 +1,4 @@
-/* Befintlig stil */
+
 .admin-page {
   display: flex;
 }
@@ -61,13 +61,13 @@
 }
 
 .dropdown-item {
-  color: black; /* Ändra textfärgen till svart */
+  color: black; 
   font-weight: bold;
   cursor: pointer;
 }
 
 .dropdown-item:hover {
-  color: black; /* Håll texten svart även vid hover */
+  color: black; 
 }
 
 .btn-wide-purple {
@@ -115,7 +115,7 @@
 
 /* Common style for buttons to match Accept/Reject buttons */
 .common-btn {
-  font-size: 10px;
+  font-size: 11px;
   padding: 3px 10px;
   width: 80px;
 }
@@ -142,11 +142,11 @@
 
 /* Hover effect for tabs */
 .nav-tabs .nav-link {
-  color: black; /* Ändra textfärgen till svart för alla flikar */
+  color: black; 
 }
 
 .nav-tabs .nav-link.active {
-  color: black !important; /* Ändra textfärgen till svart för aktiva flikar */
+  color: black !important; 
 }
 
 .nav-tabs .nav-link:hover {
