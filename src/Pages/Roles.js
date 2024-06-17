@@ -6,30 +6,41 @@ import employers from '../Utils/Employers';
 
 const Roles = () => {
   const [roles, setRoles] = useState([]);
+  const [users, setUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const rolesPerPage = 10;
+  const usersPerPage = 10;
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
   const [showAddModal, setShowAddModal] = useState(false);
   const [showRemoveModal, setShowRemoveModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [showEditUserModal, setShowEditUserModal] = useState(false);
   const [newRole, setNewRole] = useState({ name: '' });
   const [newUser, setNewUser] = useState({ firstname: '', lastname: '', email: '', employer: '', role: '' });
   const [errors, setErrors] = useState({});
   const [selectedRole, setSelectedRole] = useState(null);
+  const [selectedUser, setSelectedUser] = useState(null);
   const [successMessage, setSuccessMessage] = useState('');
 
   useEffect(() => {
     const storedRoles = JSON.parse(localStorage.getItem('roles')) || [];
     setRoles(storedRoles);
+    const storedUsers = JSON.parse(localStorage.getItem('users')) || [];
+    setUsers(storedUsers);
   }, []);
 
   const indexOfLastRole = currentPage * rolesPerPage;
   const indexOfFirstRole = indexOfLastRole - rolesPerPage;
   const currentRoles = roles.slice(indexOfFirstRole, indexOfLastRole);
 
+  const indexOfLastUser = currentPage * usersPerPage;
+  const indexOfFirstUser = indexOfLastUser - usersPerPage;
+  const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
+
   const handleNextPage = () => {
     const nextPageRoles = roles.slice(indexOfLastRole, indexOfLastRole + rolesPerPage);
-    if (nextPageRoles.length === 0) {
+    const nextPageUsers = users.slice(indexOfLastUser, indexOfLastUser + usersPerPage);
+    if (nextPageRoles.length === 0 && nextPageUsers.length === 0) {
       setCurrentPage(1);
     } else {
       setCurrentPage(currentPage + 1);
@@ -122,7 +133,9 @@ const Roles = () => {
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
     } else {
-      // Implement logic to save the new user here
+      const updatedUsers = [...users, { ...newUser, id: users.length + 1 }];
+      setUsers(updatedUsers);
+      localStorage.setItem('users', JSON.stringify(updatedUsers));
       setNewUser({ firstname: '', lastname: '', email: '', employer: '', role: '' });
       setErrors({});
       setSuccessMessage('User added successfully');
@@ -147,6 +160,16 @@ const Roles = () => {
     setNewRole({ name: '' });
   };
 
+  const handleEditUser = () => {
+    const updatedUsers = users.map(user =>
+      user.id === selectedUser ? { ...user, ...newUser } : user
+    );
+    setUsers(updatedUsers);
+    localStorage.setItem('users', JSON.stringify(updatedUsers));
+    setShowEditUserModal(false);
+    setNewUser({ firstname: '', lastname: '', email: '', employer: '', role: '' });
+  };
+
   const handleShowRemoveModal = (roleId) => {
     setSelectedRole(roleId);
     setShowRemoveModal(true);
@@ -156,6 +179,12 @@ const Roles = () => {
     setSelectedRole(role.id);
     setNewRole({ name: role.name });
     setShowEditModal(true);
+  };
+
+  const handleShowEditUserModal = (user) => {
+    setSelectedUser(user.id);
+    setNewUser({ firstname: user.firstname, lastname: user.lastname, email: user.email, employer: user.employer, role: user.role });
+    setShowEditUserModal(true);
   };
 
   return (
@@ -395,12 +424,180 @@ const Roles = () => {
           </div>
           {successMessage && <div className="success">{successMessage}</div>}
         </Tab>
+        <Tab eventKey="viewUsers" title="View Added Users">
+          <div className="row border p-3 text-center">
+            <div className="col-1"><strong>Select</strong></div>
+            <div className="col-2"><strong>First Name</strong></div>
+            <div className="col-2"><strong>Last Name</strong></div>
+            <div className="col-2"><strong>Email</strong></div>
+            <div className="col-2"><strong>Employer</strong></div>
+            <div className="col-2"><strong>Role</strong></div>
+          </div>
+          {currentUsers.map((user, index) => (
+            <div
+              key={index}
+              className="row border-top p-3 text-center align-items-center user-row"
+              style={{ transition: 'background-color 0.3s' }}
+              onMouseEnter={e => e.currentTarget.style.backgroundColor = '#f0f0f0'}
+              onMouseLeave={e => e.currentTarget.style.backgroundColor = 'white'}
+            >
+              <div className="col-1 d-flex justify-content-center">
+                <input
+                  type="checkbox"
+                  onChange={() => setSelectedUser(user.id)}
+                  checked={selectedUser === user.id}
+                />
+              </div>
+              <div className="col-2 d-flex justify-content-center align-items-center">
+                <div>{user.firstname}</div>
+              </div>
+              <div className="col-2 d-flex justify-content-center align-items-center">
+                <div>{user.lastname}</div>
+              </div>
+              <div className="col-2 d-flex justify-content-center align-items-center">
+                <div>{user.email}</div>
+              </div>
+              <div className="col-2 d-flex justify-content-center align-items-center">
+                <div>{user.employer}</div>
+              </div>
+              <div className="col-2 d-flex justify-content-center align-items-center">
+                <div>{user.role}</div>
+              </div>
+            </div>
+          ))}
+          <div className="d-flex justify-content-between mt-3">
+            <div>
+              <Button
+                variant="primary"
+                className="pagination-btn"
+                onClick={handlePreviousPage}
+                style={{ display: currentPage === 1 ? 'none' : 'inline-block' }}
+                disabled={currentPage === 1}
+              >
+                Previous Page
+              </Button>
+            </div>
+            <div className="ml-auto">
+              {indexOfLastUser < users.length && (
+                <Button
+                  variant="primary"
+                  className="pagination-btn"
+                  onClick={handleNextPage}
+                >
+                  Next Page
+                </Button>
+              )}
+            </div>
+          </div>
+          <div className="d-flex justify-content-center mt-3">
+            <Button
+              variant="danger"
+              className="btn-sm-custom common-btn"
+              onClick={() => handleShowRemoveModal(selectedUser)}
+              disabled={!selectedUser}
+            >
+              Remove
+            </Button>
+            <Button
+              variant="primary"
+              className="btn-sm-custom common-btn"
+              onClick={() => handleShowEditUserModal(currentUsers.find(user => user.id === selectedUser))}
+              disabled={!selectedUser}
+            >
+              Edit
+            </Button>
+          </div>
+          <Modal show={showEditUserModal} onHide={() => setShowEditUserModal(false)}>
+            <Modal.Header closeButton>
+              <Modal.Title className="centered-modal-title">Edit User</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <div className="form-group half-width">
+                <label htmlFor="edit-user-firstname" className="bold-label">First Name</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="edit-user-firstname"
+                  name="firstname"
+                  value={newUser.firstname}
+                  onChange={handleUserInputChange}
+                />
+                {errors.firstname && <div className="error">{errors.firstname}</div>}
+              </div>
+              <div className="form-group half-width">
+                <label htmlFor="edit-user-lastname" className="bold-label">Last Name</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="edit-user-lastname"
+                  name="lastname"
+                  value={newUser.lastname}
+                  onChange={handleUserInputChange}
+                />
+                {errors.lastname && <div className="error">{errors.lastname}</div>}
+              </div>
+              <div className="form-group half-width">
+                <label htmlFor="edit-user-email" className="bold-label">Email</label>
+                <input
+                  type="email"
+                  className="form-control"
+                  id="edit-user-email"
+                  name="email"
+                  value={newUser.email}
+                  onChange={handleUserInputChange}
+                />
+                {errors.email && <div className="error">{errors.email}</div>}
+              </div>
+              <div className="form-group half-width">
+                <label htmlFor="edit-user-employer" className="bold-label">Employer</label>
+                <select
+                  className="form-control"
+                  id="edit-user-employer"
+                  name="employer"
+                  value={newUser.employer}
+                  onChange={handleUserInputChange}
+                >
+                  <option value="">Select Employer</option>
+                  {employers.map(employer => (
+                    <option key={employer} value={employer}>{employer}</option>
+                  ))}
+                </select>
+                {errors.employer && <div className="error">{errors.employer}</div>}
+              </div>
+              <div className="form-group half-width">
+                <label htmlFor="edit-user-role" className="bold-label">Role</label>
+                <select
+                  className="form-control"
+                  id="edit-user-role"
+                  name="role"
+                  value={newUser.role}
+                  onChange={handleUserInputChange}
+                >
+                  <option value="">Select Role</option>
+                  {roles.map(role => (
+                    <option key={role.id} value={role.name}>{role.name}</option>
+                  ))}
+                </select>
+                {errors.role && <div className="error">{errors.role}</div>}
+              </div>
+            </Modal.Body>
+            <Modal.Footer className="d-flex justify-content-center">
+              <Button variant="secondary" onClick={() => setShowEditUserModal(false)} className="btn-sm-popup">
+                Cancel
+              </Button>
+              <Button variant="primary" onClick={handleEditUser} className="btn-sm-popup wide-button">
+                Save Changes
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </Tab>
       </Tabs>
     </div>
   );
 };
 
 export default Roles;
+
 
 
 
