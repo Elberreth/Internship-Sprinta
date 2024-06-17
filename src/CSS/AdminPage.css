@@ -1,4 +1,3 @@
-/* AdminPage.css */
 
 .admin-page {
   display: flex;
@@ -7,15 +6,15 @@
 .menu-column {
   padding-left: 70px;
   padding-top: 50px;
-  width: 250px; 
-  flex-shrink: 0; 
+  width: 250px;
+  flex-shrink: 0;
 }
 
 .menu-header {
   text-align: center;
   font-weight: bold;
   margin-bottom: 20px;
-  margin-right: 1px; 
+  margin-right: 1px;
 }
 
 .bold-text {
@@ -41,11 +40,11 @@
   text-align: center;
   margin-top: 30px;
   max-width: 1600px;
-  width: calc(100% - 250px); 
+  width: calc(100% - 250px);
   margin-left: auto;
   margin-right: auto;
   border: 1px solid black;
-  box-sizing: border-box; 
+  box-sizing: border-box;
 }
 
 .centered-title {
@@ -62,9 +61,13 @@
 }
 
 .dropdown-item {
-  color: black;
+  color: black; 
   font-weight: bold;
   cursor: pointer;
+}
+
+.dropdown-item:hover {
+  color: black; 
 }
 
 .btn-wide-purple {
@@ -97,36 +100,90 @@
   width: auto;
 }
 
+/* Specific styles for form fields */
+.half-width {
+  width: 50%;
+  box-sizing: border-box;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Style for labels to be bold */
+.bold-label {
+  font-weight: bold;
+}
+
+/* Common style for buttons to match Accept/Reject buttons */
+.common-btn {
+  font-size: 11px;
+  padding: 3px 10px;
+  width: 80px;
+}
+
+/* Style for Add New Company and Save Changes buttons */
+.wide-button {
+  font-size: 10px;
+  padding: 3px 10px;
+  width: auto;
+  min-width: 150px; /* Ensure the text fits properly */
+  text-align: center;
+}
+
+/* Centered text for modal titles */
+.centered-modal-title {
+  text-align: center;
+  width: 100%;
+}
+
+/* Centered text for modal bodies */
+.centered-modal-body {
+  text-align: center;
+}
+
+/* Hover effect for tabs */
+.nav-tabs .nav-link {
+  color: black; 
+}
+
+.nav-tabs .nav-link.active {
+  color: black !important; 
+}
+
+.nav-tabs .nav-link:hover {
+  background-color: gray;
+  color: white; /* Optional: Change text color on hover */
+}
+
 /* Responsive adjustments */
 @media (max-width: 1024px) {
   .content-area {
     padding: 15px;
-    width: calc(100% - 200px); 
+    width: calc(100% - 200px);
   }
 
   .menu-column {
-    width: 200px; 
+    width: 200px;
     padding-left: 20px;
   }
 }
 
 @media (max-width: 768px) {
   .admin-page {
-    flex-direction: column; 
+    flex-direction: column;
   }
 
   .menu-column {
-    width: 100%; 
+    width: 100%;
     padding-left: 20px;
     padding-top: 20px;
-    border-right: none; 
+    border-right: none;
   }
 
   .content-area {
-    width: 100%; 
+    width: 100%;
     margin-top: 20px;
     padding: 10px;
-    border: 1px solid #ccc; 
+    border: 1px solid #ccc;
   }
 
   .btn-wide-purple {
@@ -134,23 +191,40 @@
   }
 
   .menu-button button {
-    width: 100%; 
+    width: 100%;
   }
   
   .black-border {
     border: 2px solid black;
-    padding: 10px; 
+    padding: 10px;
   }
- 
 
-.text-left-align {
-  text-align: left;
+  .text-left-align {
+    text-align: left;
+  }
+
   .user-row:hover {
-  background-color: #f0f0f0;
-}
+    background-color: #f0f0f0;
+  }
 }
 
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
