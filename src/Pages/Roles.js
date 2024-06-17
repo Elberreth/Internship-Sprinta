@@ -21,6 +21,7 @@ const Roles = () => {
   const [selectedRole, setSelectedRole] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
   const [successMessage, setSuccessMessage] = useState('');
+  const [removeType, setRemoveType] = useState(null); // Added to track remove type
 
   useEffect(() => {
     const storedRoles = JSON.parse(localStorage.getItem('roles')) || [];
@@ -150,6 +151,13 @@ const Roles = () => {
     setShowRemoveModal(false);
   };
 
+  const handleRemoveUser = () => {
+    const updatedUsers = users.filter(user => user.id !== selectedUser);
+    setUsers(updatedUsers);
+    localStorage.setItem('users', JSON.stringify(updatedUsers));
+    setShowRemoveModal(false);
+  };
+
   const handleEditRole = () => {
     const updatedRoles = roles.map(role =>
       role.id === selectedRole ? { ...role, ...newRole } : role
@@ -170,8 +178,14 @@ const Roles = () => {
     setNewUser({ firstname: '', lastname: '', email: '', employer: '', role: '' });
   };
 
-  const handleShowRemoveModal = (roleId) => {
-    setSelectedRole(roleId);
+  const handleShowRemoveModal = (id, type) => {
+    if (type === 'role') {
+      setSelectedRole(id);
+      setRemoveType('role');
+    } else if (type === 'user') {
+      setSelectedUser(id);
+      setRemoveType('user');
+    }
     setShowRemoveModal(true);
   };
 
@@ -185,6 +199,14 @@ const Roles = () => {
     setSelectedUser(user.id);
     setNewUser({ firstname: user.firstname, lastname: user.lastname, email: user.email, employer: user.employer, role: user.role });
     setShowEditUserModal(true);
+  };
+
+  const confirmRemove = () => {
+    if (removeType === 'role') {
+      handleRemoveRole();
+    } else if (removeType === 'user') {
+      handleRemoveUser();
+    }
   };
 
   return (
@@ -206,7 +228,7 @@ const Roles = () => {
           <div className="d-flex justify-content-center">
             <Button
               variant="primary"
-              className="common-btn wide-button"
+              className="btn-sm-custom wide-button"
               onClick={handleShowAddModal}
             >
               Add New Role
@@ -288,7 +310,7 @@ const Roles = () => {
             <Button
               variant="danger"
               className="btn-sm-custom common-btn"
-              onClick={() => handleShowRemoveModal(selectedRole)}
+              onClick={() => handleShowRemoveModal(selectedRole, 'role')}
               disabled={!selectedRole}
             >
               Remove
@@ -304,14 +326,14 @@ const Roles = () => {
           </div>
           <Modal show={showRemoveModal} onHide={() => setShowRemoveModal(false)}>
             <Modal.Header closeButton>
-              <Modal.Title>Confirm Remove</Modal.Title>
+              <Modal.Title className="centered-modal-title">Confirm Remove</Modal.Title>
             </Modal.Header>
-            <Modal.Body>Are you sure you want to remove this role?</Modal.Body>
-            <Modal.Footer>
+            <Modal.Body className="centered-modal-body">Are you sure you want to remove this role?</Modal.Body>
+            <Modal.Footer className="d-flex justify-content-center">
               <Button variant="secondary" onClick={() => setShowRemoveModal(false)} className="btn-sm-popup">
                 Cancel
               </Button>
-              <Button variant="primary" onClick={handleRemoveRole} className="btn-sm-popup">
+              <Button variant="primary" onClick={confirmRemove} className="btn-sm-popup">
                 Confirm
               </Button>
             </Modal.Footer>
@@ -493,7 +515,7 @@ const Roles = () => {
             <Button
               variant="danger"
               className="btn-sm-custom common-btn"
-              onClick={() => handleShowRemoveModal(selectedUser)}
+              onClick={() => handleShowRemoveModal(selectedUser, 'user')}
               disabled={!selectedUser}
             >
               Remove
@@ -507,6 +529,20 @@ const Roles = () => {
               Edit
             </Button>
           </div>
+          <Modal show={showRemoveModal} onHide={() => setShowRemoveModal(false)}>
+            <Modal.Header closeButton>
+              <Modal.Title className="centered-modal-title">Confirm Remove</Modal.Title>
+            </Modal.Header>
+            <Modal.Body className="centered-modal-body">Are you sure you want to remove this user?</Modal.Body>
+            <Modal.Footer className="d-flex justify-content-center">
+              <Button variant="secondary" onClick={() => setShowRemoveModal(false)} className="btn-sm-popup">
+                Cancel
+              </Button>
+              <Button variant="primary" onClick={confirmRemove} className="btn-sm-popup">
+                Confirm
+              </Button>
+            </Modal.Footer>
+          </Modal>
           <Modal show={showEditUserModal} onHide={() => setShowEditUserModal(false)}>
             <Modal.Header closeButton>
               <Modal.Title className="centered-modal-title">Edit User</Modal.Title>
@@ -597,6 +633,10 @@ const Roles = () => {
 };
 
 export default Roles;
+
+
+
+
 
 
 
