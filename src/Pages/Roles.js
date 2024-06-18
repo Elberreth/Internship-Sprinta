@@ -365,9 +365,7 @@ const Roles = () => {
             <Modal.Header closeButton>
               <Modal.Title className="centered-modal-title">Confirm Remove</Modal.Title>
             </Modal.Header>
-            <Modal.Body className="centered-modal-body">
-              {removeType === 'role' ? 'Are you sure you want to remove this role?' : 'Are you sure you want to remove this user?'}
-            </Modal.Body>
+            <Modal.Body className="centered-modal-body">Are you sure you want to remove this role?</Modal.Body>
             <Modal.Footer className="d-flex justify-content-center">
               <Button variant="secondary" onClick={() => setShowRemoveModal(false)} className="btn-sm-popup">
                 Cancel
@@ -451,7 +449,7 @@ const Roles = () => {
               value={newUser.employer}
               onChange={handleUserInputChange}
             >
-              <option value="" className="bold-option">Select Employer</option>
+              <option value="">Select Employer</option>
               {employers.map(employer => (
                 <option key={employer} value={employer}>{employer}</option>
               ))}
@@ -467,7 +465,7 @@ const Roles = () => {
               value={newUser.role}
               onChange={handleUserInputChange}
             >
-              <option value="" className="bold-option">Select Role</option>
+              <option value="">Select Role</option>
               {roles.map(role => (
                 <option key={role.id} value={role.name}>{role.name}</option>
               ))}
@@ -607,9 +605,7 @@ const Roles = () => {
             <Modal.Header closeButton>
               <Modal.Title className="centered-modal-title">Confirm Remove</Modal.Title>
             </Modal.Header>
-            <Modal.Body className="centered-modal-body">
-              {removeType === 'role' ? 'Are you sure you want to remove this role?' : 'Are you sure you want to remove this user?'}
-            </Modal.Body>
+            <Modal.Body className="centered-modal-body">Are you sure you want to remove this user?</Modal.Body>
             <Modal.Footer className="d-flex justify-content-center">
               <Button variant="secondary" onClick={() => setShowRemoveModal(false)} className="btn-sm-popup">
                 Cancel
@@ -669,7 +665,7 @@ const Roles = () => {
                   value={newUser.employer}
                   onChange={handleUserInputChange}
                 >
-                  <option value="" className="bold-option">Select Employer</option>
+                  <option value="">Select Employer</option>
                   {employers.map(employer => (
                     <option key={employer} value={employer}>{employer}</option>
                   ))}
@@ -685,7 +681,7 @@ const Roles = () => {
                   value={newUser.role}
                   onChange={handleUserInputChange}
                 >
-                  <option value="" className="bold-option">Select Role</option>
+                  <option value="">Select Role</option>
                   {roles.map(role => (
                     <option key={role.id} value={role.name}>{role.name}</option>
                   ))}
@@ -709,7 +705,6 @@ const Roles = () => {
 };
 
 export default Roles;
-
 
 
 

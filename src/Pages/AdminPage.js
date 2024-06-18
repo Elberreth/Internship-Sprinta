@@ -15,7 +15,7 @@ const AdminPage = () => {
     setShowDropdown(false);
   };
 
-  const menuOptions = ['New Users', 'All Users', 'Companies', 'Roles'];
+  const menuOptions = ['New Users', 'All Users', 'Companies', 'Access Management'];
 
   return (
     <div className="admin-page">
@@ -65,9 +65,9 @@ const AdminPage = () => {
             <Companies />
           </>
         )}
-        {selectedMenu === 'Roles' && (
+        {selectedMenu === 'Access Management' && (
           <>
-            <h3 className="content-title">Roles</h3>
+            <h3 className="content-title">Access Management</h3>
             <Roles />
           </>
         )}
@@ -77,6 +77,7 @@ const AdminPage = () => {
 };
 
 export default AdminPage;
+
 
 
 
