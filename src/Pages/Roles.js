@@ -248,242 +248,8 @@ const Roles = () => {
 
   return (
     <div className="container">
-      <Tabs defaultActiveKey="add" id="roles-tabs" className="mb-3">
-        <Tab eventKey="add" title="Add New Role">
-          <div className="form-group half-width">
-            <label htmlFor="name" className="bold-label">Role Name</label>
-            <input
-              type="text"
-              className="form-control"
-              id="name"
-              name="name"
-              value={newRole.name}
-              onChange={handleInputChange}
-            />
-            {errors.name && <div className="error">{errors.name}</div>}
-          </div>
-          <div className="d-flex justify-content-center">
-            <Button
-              variant="primary"
-              className="btn-sm-custom wide-button"
-              onClick={handleShowAddModal}
-            >
-              Add New Role
-            </Button>
-          </div>
-          {successMessage && <div className="success">{successMessage}</div>}
-          <Modal show={showAddModal} onHide={handleCloseAddModal}>
-            <Modal.Header closeButton>
-              <Modal.Title>Confirm Add</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>Are you sure you want to add this role?</Modal.Body>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={handleCloseAddModal} className="btn-sm-popup">
-                Cancel
-              </Button>
-              <Button variant="primary" onClick={handleAddRole} className="btn-sm-popup">
-                Confirm
-              </Button>
-            </Modal.Footer>
-          </Modal>
-        </Tab>
-        <Tab eventKey="view" title="View All Roles">
-          <div className="row border p-3 text-center">
-            <div className="col-1"><strong>Select</strong></div>
-            <div
-              className="col-2"
-              style={{ cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-              onClick={() => handleSort('name')}
-            >
-              <strong>Role Name</strong>
-              <span style={{ marginLeft: '5px' }}>{getSortIcon('name')}</span>
-            </div>
-          </div>
-          {currentRoles.map((role, index) => (
-            <div
-              key={index}
-              className="row border-top p-3 text-center align-items-center user-row"
-              style={{ transition: 'background-color 0.3s' }}
-              onMouseEnter={e => e.currentTarget.style.backgroundColor = '#f0f0f0'}
-              onMouseLeave={e => e.currentTarget.style.backgroundColor = 'white'}
-            >
-              <div className="col-1 d-flex justify-content-center">
-                <input
-                  type="checkbox"
-                  onChange={() => setSelectedRole(role.id)}
-                  checked={selectedRole === role.id}
-                />
-              </div>
-              <div className="col-2 d-flex justify-content-center align-items-center">
-                <div>{role.name}</div>
-              </div>
-            </div>
-          ))}
-          <div className="d-flex justify-content-between mt-3">
-            <div>
-              <Button
-                variant="primary"
-                className="pagination-btn"
-                onClick={handlePreviousPage}
-                style={{ display: currentPage === 1 ? 'none' : 'inline-block' }}
-                disabled={currentPage === 1}
-              >
-                Previous Page
-              </Button>
-            </div>
-            <div className="ml-auto">
-              {indexOfLastRole < roles.length && (
-                <Button
-                  variant="primary"
-                  className="pagination-btn"
-                  onClick={handleNextPage}
-                >
-                  Next Page
-                </Button>
-              )}
-            </div>
-          </div>
-          <div className="d-flex justify-content-center mt-3">
-            <Button
-              variant="danger"
-              className="btn-sm-custom common-btn"
-              onClick={() => handleShowRemoveModal(selectedRole, 'role')}
-              disabled={!selectedRole}
-            >
-              Remove
-            </Button>
-            <Button
-              variant="primary"
-              className="btn-sm-custom common-btn"
-              onClick={() => handleShowEditModal(currentRoles.find(role => role.id === selectedRole))}
-              disabled={!selectedRole}
-            >
-              Edit
-            </Button>
-          </div>
-          <Modal show={showRemoveModal} onHide={() => setShowRemoveModal(false)}>
-            <Modal.Header closeButton>
-              <Modal.Title className="centered-modal-title">Confirm Remove</Modal.Title>
-            </Modal.Header>
-            <Modal.Body className="centered-modal-body">Are you sure you want to remove this role?</Modal.Body>
-            <Modal.Footer className="d-flex justify-content-center">
-              <Button variant="secondary" onClick={() => setShowRemoveModal(false)} className="btn-sm-popup">
-                Cancel
-              </Button>
-              <Button variant="primary" onClick={confirmRemove} className="btn-sm-popup">
-                Confirm
-              </Button>
-            </Modal.Footer>
-          </Modal>
-          <Modal show={showEditModal} onHide={() => setShowEditModal(false)}>
-            <Modal.Header closeButton>
-              <Modal.Title className="centered-modal-title">Edit Role</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <div className="form-group half-width">
-                <label htmlFor="edit-name" className="bold-label">Role Name</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="edit-name"
-                  name="name"
-                  value={newRole.name}
-                  onChange={handleInputChange}
-                />
-                {errors.name && <div className="error">{errors.name}</div>}
-              </div>
-            </Modal.Body>
-            <Modal.Footer className="d-flex justify-content-center">
-              <Button variant="secondary" onClick={() => setShowEditModal(false)} className="btn-sm-popup">
-                Cancel
-              </Button>
-              <Button variant="primary" onClick={handleEditRole} className="btn-sm-popup wide-button">
-                Save Changes
-              </Button>
-            </Modal.Footer>
-          </Modal>
-        </Tab>
-        <Tab eventKey="addUser" title="Add User">
-          <div className="form-group half-width">
-            <label htmlFor="userFirstname" className="bold-label">First Name</label>
-            <input
-              type="text"
-              className="form-control"
-              id="userFirstname"
-              name="firstname"
-              value={newUser.firstname}
-              onChange={handleUserInputChange}
-            />
-            {errors.firstname && <div className="error">{errors.firstname}</div>}
-          </div>
-          <div className="form-group half-width">
-            <label htmlFor="userLastname" className="bold-label">Last Name</label>
-            <input
-              type="text"
-              className="form-control"
-              id="userLastname"
-              name="lastname"
-              value={newUser.lastname}
-              onChange={handleUserInputChange}
-            />
-            {errors.lastname && <div className="error">{errors.lastname}</div>}
-          </div>
-          <div className="form-group half-width">
-            <label htmlFor="userEmail" className="bold-label">Email</label>
-            <input
-              type="email"
-              className="form-control"
-              id="userEmail"
-              name="email"
-              value={newUser.email}
-              onChange={handleUserInputChange}
-            />
-            {errors.email && <div className="error">{errors.email}</div>}
-          </div>
-          <div className="form-group half-width">
-            <label htmlFor="userEmployer" className="bold-label">Employer</label>
-            <select
-              className="form-control"
-              id="userEmployer"
-              name="employer"
-              value={newUser.employer}
-              onChange={handleUserInputChange}
-            >
-              <option value="">Select Employer</option>
-              {employers.map(employer => (
-                <option key={employer} value={employer}>{employer}</option>
-              ))}
-            </select>
-            {errors.employer && <div className="error">{errors.employer}</div>}
-          </div>
-          <div className="form-group half-width">
-            <label htmlFor="userRole" className="bold-label">Role</label>
-            <select
-              className="form-control"
-              id="userRole"
-              name="role"
-              value={newUser.role}
-              onChange={handleUserInputChange}
-            >
-              <option value="">Select Role</option>
-              {roles.map(role => (
-                <option key={role.id} value={role.name}>{role.name}</option>
-              ))}
-            </select>
-            {errors.role && <div className="error">{errors.role}</div>}
-          </div>
-          <div className="d-flex justify-content-center">
-            <Button
-              variant="primary"
-              className="btn-sm-custom wide-button"
-              onClick={handleAddUser}
-            >
-              Add User
-            </Button>
-          </div>
-          {successMessage && <div className="success">{successMessage}</div>}
-        </Tab>
-        <Tab eventKey="viewUsers" title="View Added Users">
+      <Tabs defaultActiveKey="viewUsers" id="roles-tabs" className="mb-3">
+        <Tab eventKey="viewUsers" title="Admins">
           <div className="row border p-3 text-center">
             <div className="col-1"><strong>Select</strong></div>
             <div
@@ -699,12 +465,248 @@ const Roles = () => {
             </Modal.Footer>
           </Modal>
         </Tab>
+        <Tab eventKey="addUser" title="Add Admin">
+          <div className="form-group half-width">
+            <label htmlFor="userFirstname" className="bold-label">First Name</label>
+            <input
+              type="text"
+              className="form-control"
+              id="userFirstname"
+              name="firstname"
+              value={newUser.firstname}
+              onChange={handleUserInputChange}
+            />
+            {errors.firstname && <div className="error">{errors.firstname}</div>}
+          </div>
+          <div className="form-group half-width">
+            <label htmlFor="userLastname" className="bold-label">Last Name</label>
+            <input
+              type="text"
+              className="form-control"
+              id="userLastname"
+              name="lastname"
+              value={newUser.lastname}
+              onChange={handleUserInputChange}
+            />
+            {errors.lastname && <div className="error">{errors.lastname}</div>}
+          </div>
+          <div className="form-group half-width">
+            <label htmlFor="userEmail" className="bold-label">Email</label>
+            <input
+              type="email"
+              className="form-control"
+              id="userEmail"
+              name="email"
+              value={newUser.email}
+              onChange={handleUserInputChange}
+            />
+            {errors.email && <div className="error">{errors.email}</div>}
+          </div>
+          <div className="form-group half-width">
+            <label htmlFor="userEmployer" className="bold-label">Employer</label>
+            <select
+              className="form-control"
+              id="userEmployer"
+              name="employer"
+              value={newUser.employer}
+              onChange={handleUserInputChange}
+            >
+              <option value="">Select Employer</option>
+              {employers.map(employer => (
+                <option key={employer} value={employer}>{employer}</option>
+              ))}
+            </select>
+            {errors.employer && <div className="error">{errors.employer}</div>}
+          </div>
+          <div className="form-group half-width">
+            <label htmlFor="userRole" className="bold-label">Role</label>
+            <select
+              className="form-control"
+              id="userRole"
+              name="role"
+              value={newUser.role}
+              onChange={handleUserInputChange}
+            >
+              <option value="">Select Role</option>
+              {roles.map(role => (
+                <option key={role.id} value={role.name}>{role.name}</option>
+              ))}
+            </select>
+            {errors.role && <div className="error">{errors.role}</div>}
+          </div>
+          <div className="d-flex justify-content-center">
+            <Button
+              variant="primary"
+              className="btn-sm-custom wide-button"
+              onClick={handleAddUser}
+            >
+              Add Admin
+            </Button>
+          </div>
+          {successMessage && <div className="success">{successMessage}</div>}
+        </Tab>
+        <Tab eventKey="view" title="View All Roles">
+          <div className="row border p-3 text-center">
+            <div className="col-1"><strong>Select</strong></div>
+            <div
+              className="col-2"
+              style={{ cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+              onClick={() => handleSort('name')}
+            >
+              <strong>Role Name</strong>
+              <span style={{ marginLeft: '5px' }}>{getSortIcon('name')}</span>
+            </div>
+          </div>
+          {currentRoles.map((role, index) => (
+            <div
+              key={index}
+              className="row border-top p-3 text-center align-items-center user-row"
+              style={{ transition: 'background-color 0.3s' }}
+              onMouseEnter={e => e.currentTarget.style.backgroundColor = '#f0f0f0'}
+              onMouseLeave={e => e.currentTarget.style.backgroundColor = 'white'}
+            >
+              <div className="col-1 d-flex justify-content-center">
+                <input
+                  type="checkbox"
+                  onChange={() => setSelectedRole(role.id)}
+                  checked={selectedRole === role.id}
+                />
+              </div>
+              <div className="col-2 d-flex justify-content-center align-items-center">
+                <div>{role.name}</div>
+              </div>
+            </div>
+          ))}
+          <div className="d-flex justify-content-between mt-3">
+            <div>
+              <Button
+                variant="primary"
+                className="pagination-btn"
+                onClick={handlePreviousPage}
+                style={{ display: currentPage === 1 ? 'none' : 'inline-block' }}
+                disabled={currentPage === 1}
+              >
+                Previous Page
+              </Button>
+            </div>
+            <div className="ml-auto">
+              {indexOfLastRole < roles.length && (
+                <Button
+                  variant="primary"
+                  className="pagination-btn"
+                  onClick={handleNextPage}
+                >
+                  Next Page
+                </Button>
+              )}
+            </div>
+          </div>
+          <div className="d-flex justify-content-center mt-3">
+            <Button
+              variant="danger"
+              className="btn-sm-custom common-btn"
+              onClick={() => handleShowRemoveModal(selectedRole, 'role')}
+              disabled={!selectedRole}
+            >
+              Remove
+            </Button>
+            <Button
+              variant="primary"
+              className="btn-sm-custom common-btn"
+              onClick={() => handleShowEditModal(currentRoles.find(role => role.id === selectedRole))}
+              disabled={!selectedRole}
+            >
+              Edit
+            </Button>
+          </div>
+          <Modal show={showRemoveModal} onHide={() => setShowRemoveModal(false)}>
+            <Modal.Header closeButton>
+              <Modal.Title className="centered-modal-title">Confirm Remove</Modal.Title>
+            </Modal.Header>
+            <Modal.Body className="centered-modal-body">Are you sure you want to remove this role?</Modal.Body>
+            <Modal.Footer className="d-flex justify-content-center">
+              <Button variant="secondary" onClick={() => setShowRemoveModal(false)} className="btn-sm-popup">
+                Cancel
+              </Button>
+              <Button variant="primary" onClick={confirmRemove} className="btn-sm-popup">
+                Confirm
+              </Button>
+            </Modal.Footer>
+          </Modal>
+          <Modal show={showEditModal} onHide={() => setShowEditModal(false)}>
+            <Modal.Header closeButton>
+              <Modal.Title className="centered-modal-title">Edit Role</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <div className="form-group half-width">
+                <label htmlFor="edit-name" className="bold-label">Role Name</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="edit-name"
+                  name="name"
+                  value={newRole.name}
+                  onChange={handleInputChange}
+                />
+                {errors.name && <div className="error">{errors.name}</div>}
+              </div>
+            </Modal.Body>
+            <Modal.Footer className="d-flex justify-content-center">
+              <Button variant="secondary" onClick={() => setShowEditModal(false)} className="btn-sm-popup">
+                Cancel
+              </Button>
+              <Button variant="primary" onClick={handleEditRole} className="btn-sm-popup wide-button">
+                Save Changes
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </Tab>
+        <Tab eventKey="add" title="Add New Role">
+          <div className="form-group half-width">
+            <label htmlFor="name" className="bold-label">Role Name</label>
+            <input
+              type="text"
+              className="form-control"
+              id="name"
+              name="name"
+              value={newRole.name}
+              onChange={handleInputChange}
+            />
+            {errors.name && <div className="error">{errors.name}</div>}
+          </div>
+          <div className="d-flex justify-content-center">
+            <Button
+              variant="primary"
+              className="btn-sm-custom wide-button"
+              onClick={handleShowAddModal}
+            >
+              Add New Role
+            </Button>
+          </div>
+          {successMessage && <div className="success">{successMessage}</div>}
+          <Modal show={showAddModal} onHide={handleCloseAddModal}>
+            <Modal.Header closeButton>
+              <Modal.Title>Confirm Add</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>Are you sure you want to add this role?</Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleCloseAddModal} className="btn-sm-popup">
+                Cancel
+              </Button>
+              <Button variant="primary" onClick={handleAddRole} className="btn-sm-popup">
+                Confirm
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </Tab>
       </Tabs>
     </div>
   );
 };
 
 export default Roles;
+
+
 
 
 
