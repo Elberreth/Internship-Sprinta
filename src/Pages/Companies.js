@@ -242,18 +242,18 @@ const Companies = () => {
             <div
               className="col-2"
               style={{ cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-              onClick={() => handleSort('city')}
-            >
-              <strong>City</strong>
-              <span style={{ marginLeft: '5px' }}>{getSortIcon('city')}</span>
-            </div>
-            <div
-              className="col-2"
-              style={{ cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
               onClick={() => handleSort('adminEmail')}
             >
               <strong>Admin Email</strong>
               <span style={{ marginLeft: '5px' }}>{getSortIcon('adminEmail')}</span>
+            </div>
+            <div
+              className="col-2"
+              style={{ cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+              onClick={() => handleSort('city')}
+            >
+              <strong>City</strong>
+              <span style={{ marginLeft: '5px' }}>{getSortIcon('city')}</span>
             </div>
           </div>
           {currentCompanies.map((company, index) => (
@@ -278,10 +278,10 @@ const Companies = () => {
                 <div>{company.number}</div>
               </div>
               <div className="col-2 d-flex justify-content-center align-items-center">
-                <div>{company.city}</div>
+                <div>{company.adminEmail}</div>
               </div>
               <div className="col-2 d-flex justify-content-center align-items-center">
-                <div>{company.adminEmail}</div>
+                <div>{company.city}</div>
               </div>
             </div>
           ))}
@@ -371,6 +371,18 @@ const Companies = () => {
                 {errors.number && <div className="error">{errors.number}</div>}
               </div>
               <div className="form-group half-width">
+                <label htmlFor="edit-adminEmail" className="bold-label">Admin Email</label>
+                <input
+                  type="email"
+                  className="form-control"
+                  id="edit-adminEmail"
+                  name="adminEmail"
+                  value={newCompany.adminEmail}
+                  onChange={handleInputChange}
+                />
+                {errors.adminEmail && <div className="error">{errors.adminEmail}</div>}
+              </div>
+              <div className="form-group half-width">
                 <label htmlFor="edit-city" className="bold-label">City</label>
                 <select
                   className="form-control"
@@ -385,18 +397,6 @@ const Companies = () => {
                   ))}
                 </select>
                 {errors.city && <div className="error">{errors.city}</div>}
-              </div>
-              <div className="form-group half-width">
-                <label htmlFor="edit-adminEmail" className="bold-label">Admin Email</label>
-                <input
-                  type="email"
-                  className="form-control"
-                  id="edit-adminEmail"
-                  name="adminEmail"
-                  value={newCompany.adminEmail}
-                  onChange={handleInputChange}
-                />
-                {errors.adminEmail && <div className="error">{errors.adminEmail}</div>}
               </div>
             </Modal.Body>
             <Modal.Footer className="d-flex justify-content-center">
@@ -415,6 +415,8 @@ const Companies = () => {
 };
 
 export default Companies;
+
+
 
 
 
