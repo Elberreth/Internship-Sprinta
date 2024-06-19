@@ -121,7 +121,7 @@
 
 /* Style for Add New Company and Save Changes buttons */
 .wide-button {
-  font-size: 10px;
+  font-size: 12px;
   padding: 3px 10px;
   width: auto;
   min-width: 150px; /* Ensure the text fits properly */
