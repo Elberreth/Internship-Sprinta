@@ -12,7 +12,7 @@ const Companies = () => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [showRemoveModal, setShowRemoveModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
-  const [newCompany, setNewCompany] = useState({ name: '', number: '', city: '' });
+  const [newCompany, setNewCompany] = useState({ name: '', number: '', adminEmail: '', city: '' });
   const [errors, setErrors] = useState({});
   const [selectedCompany, setSelectedCompany] = useState(null);
   const [successMessage, setSuccessMessage] = useState('');
@@ -46,13 +46,8 @@ const Companies = () => {
     }
 
     const sortedCompanies = [...companies].sort((a, b) => {
-      let aValue, bValue;
-
-      switch (field) {
-        default:
-          aValue = a[field];
-          bValue = b[field];
-      }
+      let aValue = a[field];
+      let bValue = b[field];
 
       if (aValue < bValue) {
         return direction === 'asc' ? -1 : 1;
@@ -78,6 +73,7 @@ const Companies = () => {
     const validationErrors = {};
     if (!newCompany.name) validationErrors.name = 'Organisation Name is required';
     if (!newCompany.number) validationErrors.number = 'Organisation Number is required';
+    if (!newCompany.adminEmail) validationErrors.adminEmail = 'Admin Email is required';
     if (!newCompany.city) validationErrors.city = 'City is required';
 
     if (Object.keys(validationErrors).length > 0) {
@@ -87,7 +83,7 @@ const Companies = () => {
       setCompanies(updatedCompanies);
       localStorage.setItem('companies', JSON.stringify(updatedCompanies));
       setShowAddModal(false);
-      setNewCompany({ name: '', number: '', city: '' });
+      setNewCompany({ name: '', number: '', adminEmail: '', city: '' });
       setErrors({});
       setSuccessMessage('Company added successfully');
       setTimeout(() => setSuccessMessage(''), 3000); // Clear success message after 3 seconds
@@ -98,6 +94,7 @@ const Companies = () => {
     const validationErrors = {};
     if (!newCompany.name) validationErrors.name = 'Organisation Name is required';
     if (!newCompany.number) validationErrors.number = 'Organisation Number is required';
+    if (!newCompany.adminEmail) validationErrors.adminEmail = 'Admin Email is required';
     if (!newCompany.city) validationErrors.city = 'City is required';
 
     if (Object.keys(validationErrors).length > 0) {
@@ -128,7 +125,7 @@ const Companies = () => {
     setCompanies(updatedCompanies);
     localStorage.setItem('companies', JSON.stringify(updatedCompanies));
     setShowEditModal(false);
-    setNewCompany({ name: '', number: '', city: '' });
+    setNewCompany({ name: '', number: '', adminEmail: '', city: '' });
   };
 
   const handleShowRemoveModal = (companyId) => {
@@ -138,7 +135,7 @@ const Companies = () => {
 
   const handleShowEditModal = (company) => {
     setSelectedCompany(company.id);
-    setNewCompany({ name: company.name, number: company.number, city: company.city });
+    setNewCompany({ name: company.name, number: company.number, adminEmail: company.adminEmail, city: company.city });
     setShowEditModal(true);
   };
 
@@ -171,6 +168,18 @@ const Companies = () => {
             {errors.number && <div className="error">{errors.number}</div>}
           </div>
           <div className="form-group half-width">
+            <label htmlFor="adminEmail" className="bold-label">Admin Email</label>
+            <input
+              type="email"
+              className="form-control"
+              id="adminEmail"
+              name="adminEmail"
+              value={newCompany.adminEmail}
+              onChange={handleInputChange}
+            />
+            {errors.adminEmail && <div className="error">{errors.adminEmail}</div>}
+          </div>
+          <div className="form-group half-width">
             <label htmlFor="city" className="bold-label">City</label>
             <select
               className="form-control"
@@ -189,7 +198,7 @@ const Companies = () => {
           <div className="d-flex justify-content-center">
             <Button
               variant="primary"
-              className="btn-sm-custom wide-button"
+              className="common-btn wide-button"
               onClick={handleShowAddModal}
             >
               Add New Company
@@ -233,6 +242,14 @@ const Companies = () => {
             <div
               className="col-2"
               style={{ cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+              onClick={() => handleSort('adminEmail')}
+            >
+              <strong>Admin Email</strong>
+              <span style={{ marginLeft: '5px' }}>{getSortIcon('adminEmail')}</span>
+            </div>
+            <div
+              className="col-2"
+              style={{ cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
               onClick={() => handleSort('city')}
             >
               <strong>City</strong>
@@ -259,6 +276,9 @@ const Companies = () => {
               </div>
               <div className="col-2 d-flex justify-content-center align-items-center">
                 <div>{company.number}</div>
+              </div>
+              <div className="col-2 d-flex justify-content-center align-items-center">
+                <div>{company.adminEmail}</div>
               </div>
               <div className="col-2 d-flex justify-content-center align-items-center">
                 <div>{company.city}</div>
@@ -351,6 +371,18 @@ const Companies = () => {
                 {errors.number && <div className="error">{errors.number}</div>}
               </div>
               <div className="form-group half-width">
+                <label htmlFor="edit-adminEmail" className="bold-label">Admin Email</label>
+                <input
+                  type="email"
+                  className="form-control"
+                  id="edit-adminEmail"
+                  name="adminEmail"
+                  value={newCompany.adminEmail}
+                  onChange={handleInputChange}
+                />
+                {errors.adminEmail && <div className="error">{errors.adminEmail}</div>}
+              </div>
+              <div className="form-group half-width">
                 <label htmlFor="edit-city" className="bold-label">City</label>
                 <select
                   className="form-control"
@@ -383,6 +415,12 @@ const Companies = () => {
 };
 
 export default Companies;
+
+
+
+
+
+
 
 
 
