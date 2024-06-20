@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Tabs, Tab, Button, Modal } from 'react-bootstrap';
 import cities from '../Utils/Cities';
-import '../CSS/AdminPage.css'; 
+import '../CSS/AdminPage.css';
 
 const Companies = () => {
   const [companies, setCompanies] = useState([]);
+  const [selectedCompanies, setSelectedCompanies] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const companiesPerPage = 10;
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
@@ -86,22 +87,12 @@ const Companies = () => {
       setNewCompany({ name: '', number: '', adminEmail: '', city: '' });
       setErrors({});
       setSuccessMessage('Company added successfully');
-      setTimeout(() => setSuccessMessage(''), 3000); // Clear success message after 3 seconds
+      setTimeout(() => setSuccessMessage(''), 3000);
     }
   };
 
   const handleShowAddModal = () => {
-    const validationErrors = {};
-    if (!newCompany.name) validationErrors.name = 'Organisation Name is required';
-    if (!newCompany.number) validationErrors.number = 'Organisation Number is required';
-    if (!newCompany.adminEmail) validationErrors.adminEmail = 'Admin Email is required';
-    if (!newCompany.city) validationErrors.city = 'City is required';
-
-    if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
-    } else {
-      setShowAddModal(true);
-    }
+    setShowAddModal(true);
   };
 
   const handleCloseAddModal = () => setShowAddModal(false);
@@ -112,7 +103,7 @@ const Companies = () => {
   };
 
   const handleRemoveCompany = () => {
-    const updatedCompanies = companies.filter(company => company.id !== selectedCompany);
+    const updatedCompanies = companies.filter(company => !selectedCompanies.includes(company.id));
     setCompanies(updatedCompanies);
     localStorage.setItem('companies', JSON.stringify(updatedCompanies));
     setShowRemoveModal(false);
@@ -128,8 +119,7 @@ const Companies = () => {
     setNewCompany({ name: '', number: '', adminEmail: '', city: '' });
   };
 
-  const handleShowRemoveModal = (companyId) => {
-    setSelectedCompany(companyId);
+  const handleShowRemoveModal = () => {
     setShowRemoveModal(true);
   };
 
@@ -137,6 +127,14 @@ const Companies = () => {
     setSelectedCompany(company.id);
     setNewCompany({ name: company.name, number: company.number, adminEmail: company.adminEmail, city: company.city });
     setShowEditModal(true);
+  };
+
+  const handleCheckboxChange = (companyId) => {
+    setSelectedCompanies(prevSelected =>
+      prevSelected.includes(companyId)
+        ? prevSelected.filter(id => id !== companyId)
+        : [...prevSelected, companyId]
+    );
   };
 
   return (
@@ -242,33 +240,37 @@ const Companies = () => {
             <div
               className="col-2"
               style={{ cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-              onClick={() => handleSort('adminEmail')}
-            >
-              <strong>Admin Email</strong>
-              <span style={{ marginLeft: '5px' }}>{getSortIcon('adminEmail')}</span>
-            </div>
-            <div
-              className="col-2"
-              style={{ cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
               onClick={() => handleSort('city')}
             >
               <strong>City</strong>
               <span style={{ marginLeft: '5px' }}>{getSortIcon('city')}</span>
+            </div>
+            <div
+              className="col-2"
+              style={{ cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+              onClick={() => handleSort('adminEmail')}
+            >
+              <strong>Admin Email</strong>
+              <span style={{ marginLeft: '5px' }}>{getSortIcon('adminEmail')}</span>
             </div>
           </div>
           {currentCompanies.map((company, index) => (
             <div
               key={index}
               className="row border-top p-3 text-center align-items-center user-row"
-              style={{ transition: 'background-color 0.3s' }}
+              style={{ transition: 'background-color 0.3s', cursor: 'pointer' }}
               onMouseEnter={e => e.currentTarget.style.backgroundColor = '#f0f0f0'}
               onMouseLeave={e => e.currentTarget.style.backgroundColor = 'white'}
+              onClick={() => handleShowEditModal(company)}
             >
-              <div className="col-1 d-flex justify-content-center">
+              <div className="col-1 d-flex justify-content-center" onClick={(e) => e.stopPropagation()}>
                 <input
                   type="checkbox"
-                  onChange={() => setSelectedCompany(company.id)}
-                  checked={selectedCompany === company.id}
+                  onChange={(e) => {
+                    e.stopPropagation();
+                    handleCheckboxChange(company.id);
+                  }}
+                  checked={selectedCompanies.includes(company.id)}
                 />
               </div>
               <div className="col-2 d-flex justify-content-center align-items-center">
@@ -278,10 +280,10 @@ const Companies = () => {
                 <div>{company.number}</div>
               </div>
               <div className="col-2 d-flex justify-content-center align-items-center">
-                <div>{company.adminEmail}</div>
+                <div>{company.city}</div>
               </div>
               <div className="col-2 d-flex justify-content-center align-items-center">
-                <div>{company.city}</div>
+                <div>{company.adminEmail}</div>
               </div>
             </div>
           ))}
@@ -313,25 +315,17 @@ const Companies = () => {
             <Button
               variant="danger"
               className="btn-sm-custom common-btn"
-              onClick={() => handleShowRemoveModal(selectedCompany)}
-              disabled={!selectedCompany}
+              onClick={handleShowRemoveModal}
+              disabled={selectedCompanies.length === 0}
             >
               Remove
-            </Button>
-            <Button
-              variant="primary"
-              className="btn-sm-custom common-btn"
-              onClick={() => handleShowEditModal(currentCompanies.find(company => company.id === selectedCompany))}
-              disabled={!selectedCompany}
-            >
-              Edit
             </Button>
           </div>
           <Modal show={showRemoveModal} onHide={() => setShowRemoveModal(false)}>
             <Modal.Header closeButton>
               <Modal.Title>Confirm Remove</Modal.Title>
             </Modal.Header>
-            <Modal.Body>Are you sure you want to remove this company?</Modal.Body>
+            <Modal.Body>Are you sure you want to remove the selected companies?</Modal.Body>
             <Modal.Footer>
               <Button variant="secondary" onClick={() => setShowRemoveModal(false)} className="btn-sm-popup">
                 Cancel
@@ -415,6 +409,9 @@ const Companies = () => {
 };
 
 export default Companies;
+
+
+
 
 
 
