@@ -545,7 +545,7 @@ const Roles = () => {
           </div>
           {successMessage && <div className="success">{successMessage}</div>}
         </Tab>
-        <Tab eventKey="view" title="View All Roles">
+        <Tab eventKey="view" title="Roles">
           <div className="row border p-3 text-center">
             <div className="col-1"><strong>Select</strong></div>
             <div
@@ -661,7 +661,7 @@ const Roles = () => {
             </Modal.Footer>
           </Modal>
         </Tab>
-        <Tab eventKey="add" title="Add New Role">
+        <Tab eventKey="add" title="Add Role">
           <div className="form-group half-width">
             <label htmlFor="name" className="bold-label">Role Name</label>
             <input
@@ -680,7 +680,7 @@ const Roles = () => {
               className="btn-sm-custom wide-button"
               onClick={handleShowAddModal}
             >
-              Add New Role
+              Add Role
             </Button>
           </div>
           {successMessage && <div className="success">{successMessage}</div>}
@@ -705,6 +705,7 @@ const Roles = () => {
 };
 
 export default Roles;
+
 
 
 

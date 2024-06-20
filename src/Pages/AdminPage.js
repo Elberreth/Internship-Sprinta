@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../CSS/AdminPage.css';
 import NewlyRegisteredUsers from './NewlyRegisteredUsers';
 import AllUsers from './AllUsers';
-import Organisations from './Companies'; 
+import Companies from './Companies'; 
 import Roles from './Roles';
 
 const AdminPage = () => {
@@ -15,7 +15,7 @@ const AdminPage = () => {
     setShowDropdown(false);
   };
 
-  const menuOptions = ['New Users', 'All Users', 'Organisations', 'Access Management']; 
+  const menuOptions = ['New Users', 'All Users', 'Companies', 'Access Management']; 
 
   return (
     <div className="admin-page">
@@ -59,10 +59,10 @@ const AdminPage = () => {
             <AllUsers />
           </>
         )}
-        {selectedMenu === 'Organisations' && ( 
+        {selectedMenu === 'Companies' && ( 
           <>
-            <h3 className="content-title">Organisations</h3> 
-            <Organisations />
+            <h3 className="content-title">Companies</h3> 
+            <Companies />
           </>
         )}
         {selectedMenu === 'Access Management' && (
@@ -77,6 +77,7 @@ const AdminPage = () => {
 };
 
 export default AdminPage;
+
 
 
 
