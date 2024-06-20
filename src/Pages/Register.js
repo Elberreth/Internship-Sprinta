@@ -7,7 +7,7 @@ import '../CSS/Buttons.css';
 import '../CSS/Popup.css';
 import AgreementPopup from './AgreementPopup';
 import generateRandomCode from '../Utils/RandomCodeGenerator';
-import employers from '../Utils/Employers'; // Import employers list
+import employers from '../Utils/Employers';
 
 const Register = () => {
   const [validationCodeError, setValidationCodeError] = useState("");
@@ -47,7 +47,7 @@ const Register = () => {
     console.log(data);
     let errorMessage = "";
 
-    if (!data.firstname || !data.lastname || !data.email) {
+    if (!data.firstname ||!data.lastname ||!data.email) {
       errorMessage += "First Name, Last Name, and Email are required. ";
     }
     if (!data.employmentStatus) {
@@ -102,23 +102,23 @@ const Register = () => {
 
     // Validate email format
     const validationCodePattern = /^\d{4}-\d{4}$/;
-    if (!validateEmail || !validationCodePattern.test(validateEmail)) {
+    if (!validateEmail ||!validationCodePattern.test(validateEmail)) {
       errors.validateEmail = "Please fill in the Validate Email field in the format xxxx-xxxx.";
     }
 
     if (password) {
-      if (password.length < 6 || password.length > 10 || !validatePassword(password)) {
+      if (password.length < 6 || password.length > 10 ||!validatePassword(password)) {
         errors.password = "Password must have at least 1 small-case letter,1 Capital letter, 1 digit, 1 special character and the length should be between 6-10 characters.";
       }
     } else {
       errors.password = "Please fill in the Password field.";
     }
 
-    if (password !== confirmPassword) {
+    if (password!== confirmPassword) {
       errors.confirmPassword = "Passwords do not match.";
     }
 
-    if (!acceptAgreement) {
+    if(!acceptAgreement) {
       errors.acceptAgreement = "You must accept the agreement.";
     }
 
@@ -133,7 +133,7 @@ const Register = () => {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (popupRef.current && !popupRef.current.contains(event.target)) {
+      if (popupRef.current &&!popupRef.current.contains(event.target)) {
         setShowPopup(false);
       }
     };
@@ -157,13 +157,13 @@ const Register = () => {
               {...register("company", { required: 'Company is required' })}
             >
               <option value="">Select Company</option>
-              {employers.map((employer) => (
-                <option key={employer} value={employer}>{employer}</option>
+              {employers.map((employer, index) => (
+                <option key={index} value={employer}>{employer}</option>
               ))}
             </select>
             {errors.company && <div className="error">{errors.company.message}</div>}
           </div>
-          <div className="form-group radio-group">
+         <div className="form-group radio-group">
             <div className="radio-buttons">
               <label>
                 <input
@@ -296,6 +296,7 @@ const Register = () => {
 }
 
 export default Register;
+
 
 
 
