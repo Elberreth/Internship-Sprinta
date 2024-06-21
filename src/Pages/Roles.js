@@ -122,14 +122,19 @@ const Roles = () => {
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
     } else {
-      const updatedRoles = [...roles, { ...newRole, id: roles.length + 1 }];
-      setRoles(updatedRoles);
-      localStorage.setItem('roles', JSON.stringify(updatedRoles));
-      setShowAddModal(false);
-      setNewRole({ name: '' });
-      setErrors({});
-      setSuccessMessage('Role added successfully');
-      setTimeout(() => setSuccessMessage(''), 3000);
+      const roleExists = roles.some(role => role.name.toLowerCase() === newRole.name.toLowerCase());
+      if (roleExists) {
+        setErrors({ name: 'Role already exists' });
+      } else {
+        const updatedRoles = [...roles, { ...newRole, id: roles.length + 1 }];
+        setRoles(updatedRoles);
+        localStorage.setItem('roles', JSON.stringify(updatedRoles));
+        setShowAddModal(false);
+        setNewRole({ name: '' });
+        setErrors({});
+        setSuccessMessage('Role added successfully');
+        setTimeout(() => setSuccessMessage(''), 3000);
+      }
     }
   };
 
@@ -160,13 +165,18 @@ const Roles = () => {
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
     } else {
-      const updatedUsers = [...users, { ...newUser, id: users.length + 1 }];
-      setUsers(updatedUsers);
-      localStorage.setItem('users', JSON.stringify(updatedUsers));
-      setNewUser({ firstname: '', lastname: '', email: '', employer: '', role: '' });
-      setErrors({});
-      setSuccessMessage('User added successfully');
-      setTimeout(() => setSuccessMessage(''), 3000);
+      const userExists = users.some(user => user.email.toLowerCase() === newUser.email.toLowerCase());
+      if (userExists) {
+        setErrors({ email: 'User already exists' });
+      } else {
+        const updatedUsers = [...users, { ...newUser, id: users.length + 1 }];
+        setUsers(updatedUsers);
+        localStorage.setItem('users', JSON.stringify(updatedUsers));
+        setNewUser({ firstname: '', lastname: '', email: '', employer: '', role: '' });
+        setErrors({});
+        setSuccessMessage('User added successfully');
+        setTimeout(() => setSuccessMessage(''), 3000);
+      }
     }
   };
 
@@ -252,7 +262,7 @@ const Roles = () => {
       <Tabs defaultActiveKey="viewUsers" id="roles-tabs" className="mb-3">
         <Tab eventKey="viewUsers" title="Admins">
           <div className="row border p-3 text-center">
-            <div className="col-1"><strong>Select</strong></div>
+            <div className="col-1 select-column"><strong>Select</strong></div>
             <div
               className="col-2"
               style={{ cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
@@ -303,7 +313,7 @@ const Roles = () => {
               onMouseLeave={e => e.currentTarget.style.backgroundColor = 'white'}
               onClick={() => handleShowEditUserModal(user)}
             >
-              <div className="col-1 d-flex justify-content-center" onClick={(e) => e.stopPropagation()}>
+              <div className="col-1 d-flex justify-content-center select-column" onClick={(e) => e.stopPropagation()}>
                 <input
                   type="checkbox"
                   onChange={(e) => {
@@ -544,7 +554,7 @@ const Roles = () => {
         </Tab>
         <Tab eventKey="view" title="Roles">
           <div className="row border p-3 text-center">
-            <div className="col-1"><strong>Select</strong></div>
+            <div className="col-1 select-column"><strong>Select</strong></div>
             <div
               className="col-2"
               style={{ cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
@@ -563,7 +573,7 @@ const Roles = () => {
               onMouseLeave={e => e.currentTarget.style.backgroundColor = 'white'}
               onClick={() => handleShowEditModal(role)}
             >
-              <div className="col-1 d-flex justify-content-center" onClick={(e) => e.stopPropagation()}>
+              <div className="col-1 d-flex justify-content-center select-column" onClick={(e) => e.stopPropagation()}>
                 <input
                   type="checkbox"
                   onChange={(e) => {
@@ -698,6 +708,8 @@ const Roles = () => {
 };
 
 export default Roles;
+
+
 
 
 

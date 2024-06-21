@@ -150,7 +150,7 @@
 
 .nav-tabs .nav-link:hover {
   background-color: gray;
-  color: white; /* Optional: Change text color on hover */
+  color: white; 
 }
 
 /* Responsive adjustments */
@@ -205,7 +205,26 @@
   .user-row:hover {
     background-color: #f0f0f0;
   }
+  
+  .select-column {
+    border-right: 2px solid black;
+    padding-right: 5px;
+    pointer-events: none; /* Disable click events for the entire column */
+  }
+  
+  .select-column input {
+    pointer-events: all; /* Enable click events for the input elements */
+  }
+  
+  /* Add padding to the right of the select column to prevent edit triggering */
+  .select-column-padding {
+    padding-right: 20px;
+    padding-left: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
 }
+
 
 
 
