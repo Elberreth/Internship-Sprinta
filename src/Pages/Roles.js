@@ -7,6 +7,8 @@ import employers from '../Utils/Employers';
 const Roles = () => {
   const [roles, setRoles] = useState([]);
   const [users, setUsers] = useState([]);
+  const [selectedUsers, setSelectedUsers] = useState([]);
+  const [selectedRoles, setSelectedRoles] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const rolesPerPage = 10;
   const usersPerPage = 10;
@@ -120,26 +122,24 @@ const Roles = () => {
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
     } else {
-      const updatedRoles = [...roles, { ...newRole, id: roles.length + 1 }];
-      setRoles(updatedRoles);
-      localStorage.setItem('roles', JSON.stringify(updatedRoles));
-      setShowAddModal(false);
-      setNewRole({ name: '' });
-      setErrors({});
-      setSuccessMessage('Role added successfully');
-      setTimeout(() => setSuccessMessage(''), 3000);
+      const roleExists = roles.some(role => role.name.toLowerCase() === newRole.name.toLowerCase());
+      if (roleExists) {
+        setErrors({ name: 'Role already exists' });
+      } else {
+        const updatedRoles = [...roles, { ...newRole, id: roles.length + 1 }];
+        setRoles(updatedRoles);
+        localStorage.setItem('roles', JSON.stringify(updatedRoles));
+        setShowAddModal(false);
+        setNewRole({ name: '' });
+        setErrors({});
+        setSuccessMessage('Role added successfully');
+        setTimeout(() => setSuccessMessage(''), 3000);
+      }
     }
   };
 
   const handleShowAddModal = () => {
-    const validationErrors = {};
-    if (!newRole.name) validationErrors.name = 'Role Name is required';
-
-    if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
-    } else {
-      setShowAddModal(true);
-    }
+    setShowAddModal(true);
   };
 
   const handleCloseAddModal = () => setShowAddModal(false);
@@ -165,25 +165,30 @@ const Roles = () => {
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
     } else {
-      const updatedUsers = [...users, { ...newUser, id: users.length + 1 }];
-      setUsers(updatedUsers);
-      localStorage.setItem('users', JSON.stringify(updatedUsers));
-      setNewUser({ firstname: '', lastname: '', email: '', employer: '', role: '' });
-      setErrors({});
-      setSuccessMessage('User added successfully');
-      setTimeout(() => setSuccessMessage(''), 3000);
+      const userExists = users.some(user => user.email.toLowerCase() === newUser.email.toLowerCase());
+      if (userExists) {
+        setErrors({ email: 'User already exists' });
+      } else {
+        const updatedUsers = [...users, { ...newUser, id: users.length + 1 }];
+        setUsers(updatedUsers);
+        localStorage.setItem('users', JSON.stringify(updatedUsers));
+        setNewUser({ firstname: '', lastname: '', email: '', employer: '', role: '' });
+        setErrors({});
+        setSuccessMessage('User added successfully');
+        setTimeout(() => setSuccessMessage(''), 3000);
+      }
     }
   };
 
   const handleRemoveRole = () => {
-    const updatedRoles = roles.filter(role => role.id !== selectedRole);
+    const updatedRoles = roles.filter(role => !selectedRoles.includes(role.id));
     setRoles(updatedRoles);
     localStorage.setItem('roles', JSON.stringify(updatedRoles));
     setShowRemoveModal(false);
   };
 
   const handleRemoveUser = () => {
-    const updatedUsers = users.filter(user => user.id !== selectedUser);
+    const updatedUsers = users.filter(user => !selectedUsers.includes(user.id));
     setUsers(updatedUsers);
     localStorage.setItem('users', JSON.stringify(updatedUsers));
     setShowRemoveModal(false);
@@ -209,14 +214,8 @@ const Roles = () => {
     setNewUser({ firstname: '', lastname: '', email: '', employer: '', role: '' });
   };
 
-  const handleShowRemoveModal = (id, type) => {
-    if (type === 'role') {
-      setSelectedRole(id);
-      setRemoveType('role');
-    } else if (type === 'user') {
-      setSelectedUser(id);
-      setRemoveType('user');
-    }
+  const handleShowRemoveModal = (type) => {
+    setRemoveType(type);
     setShowRemoveModal(true);
   };
 
@@ -238,6 +237,18 @@ const Roles = () => {
     setShowEditUserModal(true);
   };
 
+  const handleCheckboxChange = (id, type) => {
+    if (type === 'user') {
+      setSelectedUsers(prevSelected =>
+        prevSelected.includes(id) ? prevSelected.filter(selectedId => selectedId !== id) : [...prevSelected, id]
+      );
+    } else if (type === 'role') {
+      setSelectedRoles(prevSelected =>
+        prevSelected.includes(id) ? prevSelected.filter(selectedId => selectedId !== id) : [...prevSelected, id]
+      );
+    }
+  };
+
   const confirmRemove = () => {
     if (removeType === 'role') {
       handleRemoveRole();
@@ -251,7 +262,7 @@ const Roles = () => {
       <Tabs defaultActiveKey="viewUsers" id="roles-tabs" className="mb-3">
         <Tab eventKey="viewUsers" title="Admins">
           <div className="row border p-3 text-center">
-            <div className="col-1"><strong>Select</strong></div>
+            <div className="col-1 select-column"><strong>Select</strong></div>
             <div
               className="col-2"
               style={{ cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
@@ -297,15 +308,19 @@ const Roles = () => {
             <div
               key={index}
               className="row border-top p-3 text-center align-items-center user-row"
-              style={{ transition: 'background-color 0.3s' }}
+              style={{ transition: 'background-color 0.3s', cursor: 'pointer' }}
               onMouseEnter={e => e.currentTarget.style.backgroundColor = '#f0f0f0'}
               onMouseLeave={e => e.currentTarget.style.backgroundColor = 'white'}
+              onClick={() => handleShowEditUserModal(user)}
             >
-              <div className="col-1 d-flex justify-content-center">
+              <div className="col-1 d-flex justify-content-center select-column" onClick={(e) => e.stopPropagation()}>
                 <input
                   type="checkbox"
-                  onChange={() => setSelectedUser(user.id)}
-                  checked={selectedUser === user.id}
+                  onChange={(e) => {
+                    e.stopPropagation();
+                    handleCheckboxChange(user.id, 'user');
+                  }}
+                  checked={selectedUsers.includes(user.id)}
                 />
               </div>
               <div className="col-2 d-flex justify-content-center align-items-center">
@@ -353,25 +368,17 @@ const Roles = () => {
             <Button
               variant="danger"
               className="btn-sm-custom common-btn"
-              onClick={() => handleShowRemoveModal(selectedUser, 'user')}
-              disabled={!selectedUser}
+              onClick={() => handleShowRemoveModal('user')}
+              disabled={selectedUsers.length === 0}
             >
               Remove
-            </Button>
-            <Button
-              variant="primary"
-              className="btn-sm-custom common-btn"
-              onClick={() => handleShowEditUserModal(currentUsers.find(user => user.id === selectedUser))}
-              disabled={!selectedUser}
-            >
-              Edit
             </Button>
           </div>
           <Modal show={showRemoveModal} onHide={() => setShowRemoveModal(false)}>
             <Modal.Header closeButton>
               <Modal.Title className="centered-modal-title">Confirm Remove</Modal.Title>
             </Modal.Header>
-            <Modal.Body className="centered-modal-body">Are you sure you want to remove this user?</Modal.Body>
+            <Modal.Body className="centered-modal-body">Are you sure you want to remove the selected items?</Modal.Body>
             <Modal.Footer className="d-flex justify-content-center">
               <Button variant="secondary" onClick={() => setShowRemoveModal(false)} className="btn-sm-popup">
                 Cancel
@@ -547,7 +554,7 @@ const Roles = () => {
         </Tab>
         <Tab eventKey="view" title="Roles">
           <div className="row border p-3 text-center">
-            <div className="col-1"><strong>Select</strong></div>
+            <div className="col-1 select-column"><strong>Select</strong></div>
             <div
               className="col-2"
               style={{ cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
@@ -561,15 +568,19 @@ const Roles = () => {
             <div
               key={index}
               className="row border-top p-3 text-center align-items-center user-row"
-              style={{ transition: 'background-color 0.3s' }}
+              style={{ transition: 'background-color 0.3s', cursor: 'pointer' }}
               onMouseEnter={e => e.currentTarget.style.backgroundColor = '#f0f0f0'}
               onMouseLeave={e => e.currentTarget.style.backgroundColor = 'white'}
+              onClick={() => handleShowEditModal(role)}
             >
-              <div className="col-1 d-flex justify-content-center">
+              <div className="col-1 d-flex justify-content-center select-column" onClick={(e) => e.stopPropagation()}>
                 <input
                   type="checkbox"
-                  onChange={() => setSelectedRole(role.id)}
-                  checked={selectedRole === role.id}
+                  onChange={(e) => {
+                    e.stopPropagation();
+                    handleCheckboxChange(role.id, 'role');
+                  }}
+                  checked={selectedRoles.includes(role.id)}
                 />
               </div>
               <div className="col-2 d-flex justify-content-center align-items-center">
@@ -605,25 +616,17 @@ const Roles = () => {
             <Button
               variant="danger"
               className="btn-sm-custom common-btn"
-              onClick={() => handleShowRemoveModal(selectedRole, 'role')}
-              disabled={!selectedRole}
+              onClick={() => handleShowRemoveModal('role')}
+              disabled={selectedRoles.length === 0}
             >
               Remove
-            </Button>
-            <Button
-              variant="primary"
-              className="btn-sm-custom common-btn"
-              onClick={() => handleShowEditModal(currentRoles.find(role => role.id === selectedRole))}
-              disabled={!selectedRole}
-            >
-              Edit
             </Button>
           </div>
           <Modal show={showRemoveModal} onHide={() => setShowRemoveModal(false)}>
             <Modal.Header closeButton>
               <Modal.Title className="centered-modal-title">Confirm Remove</Modal.Title>
             </Modal.Header>
-            <Modal.Body className="centered-modal-body">Are you sure you want to remove this role?</Modal.Body>
+            <Modal.Body className="centered-modal-body">Are you sure you want to remove the selected items?</Modal.Body>
             <Modal.Footer className="d-flex justify-content-center">
               <Button variant="secondary" onClick={() => setShowRemoveModal(false)} className="btn-sm-popup">
                 Cancel
@@ -705,6 +708,9 @@ const Roles = () => {
 };
 
 export default Roles;
+
+
+
 
 
 
