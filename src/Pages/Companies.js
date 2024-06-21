@@ -70,23 +70,29 @@ const Companies = () => {
     return sortConfig.direction === 'asc' ? '▲' : '▼';
   };
 
-  const handleAddCompany = () => {
+  const validateCompany = (company, existingCompanies, ignoreId = null) => {
     const validationErrors = {};
-    if (!newCompany.name) validationErrors.name = 'Organisation Name is required';
-    if (!newCompany.number) validationErrors.number = 'Organisation Number is required';
-    if (!newCompany.adminEmail) validationErrors.adminEmail = 'Admin Email is required';
-    if (!newCompany.city) validationErrors.city = 'City is required';
+    if (!company.name) validationErrors.name = 'Organisation Name is required';
+    if (!company.number) validationErrors.number = 'Organisation Number is required';
+    if (!company.adminEmail) validationErrors.adminEmail = 'Admin Email is required';
+    if (!company.city) validationErrors.city = 'City is required';
 
-    if (companies.some(company => company.name === newCompany.name)) {
-      validationErrors.name = 'Organisation with this name already exists';
-    }
-    if (companies.some(company => company.number === newCompany.number)) {
-      validationErrors.number = 'Organisation with this number already exists';
-    }
-    if (companies.some(company => company.adminEmail === newCompany.adminEmail)) {
-      validationErrors.adminEmail = 'Admin with this email already exists';
+    const isDuplicate = existingCompanies.some(existingCompany =>
+      existingCompany.id !== ignoreId &&
+      existingCompany.name === company.name &&
+      existingCompany.number === company.number &&
+      existingCompany.adminEmail === company.adminEmail
+    );
+
+    if (isDuplicate) {
+      validationErrors.name = 'Organisation with the same name, number, and admin email already exists';
     }
 
+    return validationErrors;
+  };
+
+  const handleAddCompany = () => {
+    const validationErrors = validateCompany(newCompany, companies);
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
     } else {
@@ -120,13 +126,21 @@ const Companies = () => {
   };
 
   const handleEditCompany = () => {
-    const updatedCompanies = companies.map(company =>
-      company.id === selectedCompany ? { ...company, ...newCompany } : company
-    );
-    setCompanies(updatedCompanies);
-    localStorage.setItem('companies', JSON.stringify(updatedCompanies));
-    setShowEditModal(false);
-    setNewCompany({ name: '', number: '', adminEmail: '', city: '' });
+    const validationErrors = validateCompany(newCompany, companies, selectedCompany);
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+    } else {
+      const updatedCompanies = companies.map(company =>
+        company.id === selectedCompany ? { ...company, ...newCompany } : company
+      );
+      setCompanies(updatedCompanies);
+      localStorage.setItem('companies', JSON.stringify(updatedCompanies));
+      setShowEditModal(false);
+      setNewCompany({ name: '', number: '', adminEmail: '', city: '' });
+      setErrors({});
+      setSuccessMessage('Company updated successfully');
+      setTimeout(() => setSuccessMessage(''), 3000);
+    }
   };
 
   const handleShowRemoveModal = () => {
@@ -230,9 +244,7 @@ const Companies = () => {
         </Tab>
         <Tab eventKey="view" title="View All">
           <div className="row border p-3 text-center">
-            <div className="col-1 select-column">
-              <strong>Select</strong>
-            </div>
+            <div className="col-1 select-column"><strong>Select</strong></div>
             <div
               className="col-2"
               style={{ cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
@@ -421,6 +433,8 @@ const Companies = () => {
 };
 
 export default Companies;
+
+
 
 
 
