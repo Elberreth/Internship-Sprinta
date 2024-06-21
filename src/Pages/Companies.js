@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Tabs, Tab, Button, Modal } from 'react-bootstrap';
 import cities from '../Utils/Cities';
+import employers from '../Utils/Employers';
 import '../CSS/AdminPage.css';
 
 const Companies = () => {
@@ -167,14 +168,18 @@ const Companies = () => {
         <Tab eventKey="add" title="Add New">
           <div className="form-group half-width">
             <label htmlFor="name" className="bold-label">Organisation Name</label>
-            <input
-              type="text"
+            <select
               className="form-control"
               id="name"
               name="name"
               value={newCompany.name}
               onChange={handleInputChange}
-            />
+            >
+              <option value="">Select Organisation</option>
+              {employers.map(employer => (
+                <option key={employer} value={employer}>{employer}</option>
+              ))}
+            </select>
             {errors.name && <div className="error">{errors.name}</div>}
           </div>
           <div className="form-group half-width">
@@ -366,14 +371,18 @@ const Companies = () => {
             <Modal.Body>
               <div className="form-group half-width">
                 <label htmlFor="edit-name" className="bold-label">Organisation Name</label>
-                <input
-                  type="text"
+                <select
                   className="form-control"
                   id="edit-name"
                   name="name"
                   value={newCompany.name}
                   onChange={handleInputChange}
-                />
+                >
+                  <option value="">Select Organisation</option>
+                  {employers.map(employer => (
+                    <option key={employer} value={employer}>{employer}</option>
+                  ))}
+                </select>
                 {errors.name && <div className="error">{errors.name}</div>}
               </div>
               <div className="form-group half-width">
@@ -433,6 +442,7 @@ const Companies = () => {
 };
 
 export default Companies;
+
 
 
 
