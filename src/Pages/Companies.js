@@ -77,6 +77,16 @@ const Companies = () => {
     if (!newCompany.adminEmail) validationErrors.adminEmail = 'Admin Email is required';
     if (!newCompany.city) validationErrors.city = 'City is required';
 
+    if (companies.some(company => company.name === newCompany.name)) {
+      validationErrors.name = 'Organisation with this name already exists';
+    }
+    if (companies.some(company => company.number === newCompany.number)) {
+      validationErrors.number = 'Organisation with this number already exists';
+    }
+    if (companies.some(company => company.adminEmail === newCompany.adminEmail)) {
+      validationErrors.adminEmail = 'Admin with this email already exists';
+    }
+
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
     } else {
@@ -139,7 +149,7 @@ const Companies = () => {
 
   return (
     <div className="container">
-      <Tabs defaultActiveKey="add" id="companies-tabs" className="mb-3">
+      <Tabs defaultActiveKey="view" id="companies-tabs" className="mb-3">
         <Tab eventKey="add" title="Add New">
           <div className="form-group half-width">
             <label htmlFor="name" className="bold-label">Organisation Name</label>
@@ -220,7 +230,9 @@ const Companies = () => {
         </Tab>
         <Tab eventKey="view" title="View All">
           <div className="row border p-3 text-center">
-            <div className="col-1"><strong>Select</strong></div>
+            <div className="col-1 select-column">
+              <strong>Select</strong>
+            </div>
             <div
               className="col-2"
               style={{ cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
@@ -263,7 +275,7 @@ const Companies = () => {
               onMouseLeave={e => e.currentTarget.style.backgroundColor = 'white'}
               onClick={() => handleShowEditModal(company)}
             >
-              <div className="col-1 d-flex justify-content-center" onClick={(e) => e.stopPropagation()}>
+              <div className="col-1 select-column" onClick={(e) => e.stopPropagation()}>
                 <input
                   type="checkbox"
                   onChange={(e) => {
@@ -409,6 +421,7 @@ const Companies = () => {
 };
 
 export default Companies;
+
 
 
 
