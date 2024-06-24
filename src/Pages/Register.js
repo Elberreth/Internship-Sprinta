@@ -7,6 +7,7 @@ import '../CSS/Buttons.css';
 import '../CSS/Popup.css';
 import AgreementPopup from './AgreementPopup';
 import generateRandomCode from '../Utils/RandomCodeGenerator';
+import employers from '../Utils/Employers';
 
 const Register = () => {
   const [validationCodeError, setValidationCodeError] = useState("");
@@ -156,15 +157,9 @@ const Register = () => {
               {...register("company", { required: 'Company is required' })}
             >
               <option value="">Select Company</option>
-              <option value="XBUS">XBUS</option>
-              <option value="EXCEED">EXCEED</option>
-              <option value="Sprinta">Sprinta</option>
-              <option value="Progress Lead">Progress Lead</option>
-              <option value="Addends">Addends</option>
-              <option value="Podium">Podium</option>
-              <option value="Analytic Lead">Analytic Lead</option>
-              <option value="LearningLead">LearningLead</option>
-              <option value="SwCG">SwCG</option>
+              {employers.map((employer, index) => (
+                <option key={index} value={employer}>{employer}</option>
+              ))}
             </select>
             {errors.company && <div className="error">{errors.company.message}</div>}
           </div>
@@ -301,6 +296,9 @@ const Register = () => {
 }
 
 export default Register;
+
+
+
 
 
 
