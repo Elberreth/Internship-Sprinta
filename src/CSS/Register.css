@@ -1,6 +1,6 @@
 body {
     margin: 0;
-    overflow: hidden;
+    overflow: auto; 
 }
 
 .register-page {
@@ -12,7 +12,7 @@ body {
     background-color: #ffffff;
     padding: 20px;
     margin: 0;
-    overflow: hidden;
+    overflow: auto; 
 }
 
 .register-form-container {
@@ -27,9 +27,8 @@ body {
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     border: 1px solid #000;
-    overflow: hidden;
-    max-height: 80vh; /* Limit the height to enable scrolling */
-    overflow-y: auto; /* Enable vertical scrolling */
+    max-height: 80vh; 
+    overflow-y: auto; 
 }
 
 .register-form {
@@ -103,7 +102,6 @@ body {
     background-color: #660066;
 }
 
-/* New CSS class to move the button up by 1cm */
 .btn-move-up {
     position: relative;
     bottom: 1cm;
@@ -128,6 +126,8 @@ body {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     max-width: 500px;
     width: 90%;
+    overflow-y: auto;
+    max-height: 90vh; 
 }
 
 .agreement-link {
@@ -240,6 +240,8 @@ select {
 .message-container {
     margin-top: 10px;
 }
+
+
 
   
 
