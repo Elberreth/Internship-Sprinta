@@ -399,7 +399,3 @@ export default Register;
 
 
 
-
-
-
-
