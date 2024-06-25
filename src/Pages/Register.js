@@ -1,9 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import '../CSS/Global.css';
+
 import '../CSS/Register.css';
 import '../CSS/FormControls.css';
-import '../CSS/Buttons.css';
+
 import '../CSS/Popup.css';
 import AgreementPopup from './AgreementPopup';
 import generateRandomCode from '../Utils/RandomCodeGenerator';
