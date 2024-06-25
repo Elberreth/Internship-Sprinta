@@ -80,7 +80,7 @@ button {
   color: #fff;
   border: none;
   border-radius: 4px;
-  padding: 5px 40px; /* Öka bredden */
+  padding: 5px 40px; 
   font-size: 14px;
   cursor: pointer;
   transition: background-color 0.3s;
@@ -99,11 +99,11 @@ button {
 .popup-content {
   font-size: 12px;
   max-height: 80vh;
-  overflow-y: auto; /* Tillåt vertikal skrollning */
+  overflow-y: auto; 
 }
 
 .popup-scrollable-content {
-  max-height: 70vh; /* Justera denna höjd för att tillåta mer skrollutrymme */
+  max-height: 70vh; 
   overflow-y: auto;
 }
 
