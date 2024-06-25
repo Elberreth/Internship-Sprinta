@@ -1,9 +1,11 @@
 body {
     margin: 0;
-    overflow: hidden;
-}
-
-.register-page {
+    padding: 0;
+    overflow: auto; /* Tillåt skrollning för hela sidan */
+    height: 100vh;
+  }
+  
+  .register-page {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -11,63 +13,69 @@ body {
     min-height: 100vh;
     background-color: #ffffff;
     padding: 20px;
-    margin: 0;
-    overflow: hidden;
-}
-
-.register-form-container {
+    overflow: auto; /* Tillåt skrollning för hela sidan */
+    width: 100%;
+  }
+  
+  .register-form-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     width: 100%;
     max-width: 600px;
-    margin-top: 20px;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     border: 1px solid #000;
-    overflow: hidden;
-}
-
-.register-form {
+    overflow-y: auto; /* Tillåt vertikal skrollning */
+    max-height: 80vh; /* Begränsa höjden för att möjliggöra skrollning */
+  }
+  
+  @media (max-width: 768px) {
+    .register-form-container {
+      max-height: 70vh; /* Vid små skärmar minskar vi maxhöjden ytterligare för att tillåta mer skrollbarhet */
+    }
+  }
+  
+  .register-form {
     width: 100%;
-}
-
-.register-form h2 {
+  }
+  
+  .register-form h2 {
     text-align: center;
     margin-bottom: 20px;
-}
-
-.form-group {
-    margin-bottom: 5px;
-}
-
-.form-group label {
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-group label {
     display: block;
     margin-bottom: 5px;
-}
-
-.form-group input, .form-group select {
+  }
+  
+  .form-group input, .form-group select {
     width: 100%;
     padding: 8px;
     box-sizing: border-box;
     border: 1px solid #ccc;
     border-radius: 4px;
-}
-
-.form-group input[type="checkbox"] {
+  }
+  
+  .form-group input[type="checkbox"] {
     width: auto;
     margin-right: 10px;
     margin-left: -10px !important;
-}
-
-.error {
+  }
+  
+  .error {
     color: red;
     font-size: 12px;
-}
-
-.btn-small {
+  }
+  
+  .btn-small {
     padding: 10px 20px;
     font-size: 14px;
     background-color: #007bff;
@@ -76,14 +84,14 @@ body {
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s;
-    margin-top: 50px;
-}
-
-.btn-small:hover {
+    margin-top: 20px;
+  }
+  
+  .btn-small:hover {
     background-color: #0056b3;
-}
-
-.btn-wide-purple {
+  }
+  
+  .btn-wide-purple {
     padding: 10px 20px;
     font-size: 14px;
     background-color: #800080;
@@ -92,22 +100,21 @@ body {
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s;
-    width: 30%;
+    width: fit-content;
     text-align: center;
-    margin-top: 50px !important;
-}
-
-.btn-wide-purple:hover {
+    margin-top: 20px;
+  }
+  
+  .btn-wide-purple:hover {
     background-color: #660066;
-}
-
-/* New CSS class to move the button up by 1cm */
-.btn-move-up {
+  }
+  
+  .btn-move-up {
     position: relative;
-    bottom: 1cm;
-}
-
-.agreement-popup {
+    top: -1cm; /* Flytta upp elementet 1cm */
+  }
+  
+  .agreement-popup {
     position: fixed;
     top: 0;
     left: 0;
@@ -117,108 +124,116 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.agreement-popup-content {
+  }
+  
+  .agreement-popup-content {
     background-color: #fff;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     max-width: 500px;
     width: 90%;
-}
-
-.agreement-link {
+    overflow-y: auto; /* Tillåt vertikal skrollning för popup */
+    max-height: 80vh; /* Begränsa höjden för popup */
+  }
+  
+  @media (max-width: 768px) {
+    .agreement-popup-content {
+      max-height: 70vh; /* Vid små skärmar minskar vi maxhöjden ytterligare för att tillåta mer skrollbarhet */
+    }
+  }
+  
+  .agreement-link {
     color: #007bff;
     text-decoration: underline;
     cursor: pointer;
-}
-
-.agreement-link:hover {
+  }
+  
+  .agreement-link:hover {
     color: #0056b3;
-}
-
-.checkbox-group {
+  }
+  
+  .checkbox-group {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 15px;
-}
-
-.checkbox-group label {
+  }
+  
+  .checkbox-group label {
     margin-right: 20px;
     display: flex;
     align-items: center;
-}
-
-.radio-group {
+  }
+  
+  .radio-group {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-bottom: 15px;
-}
-
-.radio-buttons {
+  }
+  
+  .radio-buttons {
     display: flex;
     flex-direction: row;
     justify-content: center;
     width: 100%;
-}
-
-.radio-buttons label {
+  }
+  
+  .radio-buttons label {
     margin-right: 20px;
-}
-
-select {
+  }
+  
+  select {
     text-align: center;
-}
-
-.checkbox-container {
+  }
+  
+  .checkbox-container {
     display: flex;
     flex-direction: column;
     margin-top: 10px;
     margin-bottom: 10px;
-}
-
-.checkbox-container input {
+  }
+  
+  .checkbox-container input {
     margin-right: 5px;
-}
-
-.success {
+  }
+  
+  .success {
     color: green;
     font-size: 16px;
     margin-top: 10px;
-}
-
-.password-requirements {
+  }
+  
+  .password-requirements {
     color: #555;
     font-size: 12px;
     margin-top: 5px;
-}
-
-.validation-message {
-    margin-top: -40px;
+  }
+  
+  .validation-message {
+    margin-top: 10px;
     margin-bottom: 10px;
-}
-
-.password-container {
+  }
+  
+  .password-container {
     display: flex;
     align-items: center;
     position: relative;
-}
-
-.password-tooltip {
+  }
+  
+  .password-tooltip {
     margin-left: 10px;
     cursor: pointer;
     font-size: 18px;
     color: #007bff;
-}
-
-.password-tooltip:hover {
+  }
+  
+  .password-tooltip:hover {
     color: #0056b3;
-}
-
-.password-requirements-tooltip {
+  }
+  
+  .password-requirements-tooltip {
     position: absolute;
     top: 30px;
     left: 50%;
@@ -233,11 +248,28 @@ select {
     font-size: 12px;
     color: #333;
     text-align: center;
-}
-
-.message-container {
+  }
+  
+  .message-container {
     margin-top: 10px;
-}
+  }
+  
+  .popup-btn {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 10px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 20px;
+  }
+  
+  .popup-btn:hover {
+    background-color: #0056b3;
+  }
+  
 
 
 
