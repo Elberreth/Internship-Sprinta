@@ -14,9 +14,7 @@ const Register = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
   const [accountCreated, setAccountCreated] = useState(false);
-  const [generatedCode, setGeneratedCode] = useState("");
   const popupRef = useRef(null);
-  const [registrationError, setRegistrationError] = useState("");
   const [validationErrors, setValidationErrors] = useState({});
   const [showPasswordRequirements, setShowPasswordRequirements] = useState(false);
 
@@ -24,7 +22,6 @@ const Register = () => {
     register,
     handleSubmit,
     formState: { errors },
-    getValues
   } = useForm({
     defaultValues: {
       firstname: "",
@@ -61,7 +58,6 @@ const Register = () => {
 
     if (!errorMessage) {
       const validationCode = generateRandomCode();
-      setGeneratedCode(validationCode);
 
       try {
         await sendEmail(data.email, validationCode);
@@ -100,6 +96,7 @@ const Register = () => {
     const { validateEmail, password, confirmPassword, acceptAgreement } = data;
     let errors = {};
 
+    // Validate email format
     const validationCodePattern = /^\d{4}-\d{4}$/;
     if (!validateEmail || !validationCodePattern.test(validateEmail)) {
       errors.validateEmail = "Please fill in the Validate Email field in the format xxxx-xxxx.";
@@ -107,7 +104,7 @@ const Register = () => {
 
     if (password) {
       if (password.length < 6 || password.length > 10 || !validatePassword(password)) {
-        errors.password = "Password must have at least 1 small-case letter, 1 capital letter, 1 digit, 1 special character and the length should be between 6-10 characters.";
+        errors.password = "Password must have at least 1 small-case letter, 1 Capital letter, 1 digit, 1 special character and the length should be between 6-10 characters.";
       }
     } else {
       errors.password = "Please fill in the Password field.";
@@ -126,7 +123,6 @@ const Register = () => {
     if (Object.keys(errors).length === 0) {
       setAccountCreated(true);
       alert('Your application have been sent to an admin for approval');
-      setRegistrationError("");
     }
   });
 
@@ -267,7 +263,7 @@ const Register = () => {
           <div className="checkbox-container">
             <div className="agreement-container">
               <input type="checkbox" id="acceptAgreement" name="acceptAgreement" {...register("acceptAgreement")} />
-              <label htmlFor="acceptAgreement">Do you accept the Agreement? <a href="#" onClick={openPopup}>(View Agreement)</a></label>
+              <label htmlFor="acceptAgreement">Do you accept the Agreement? <span onClick={openPopup} className="agreement-link">(View Agreement)</span></label>
             </div>
             {validationErrors.acceptAgreement && <div className="error agreement-error">{validationErrors.acceptAgreement}</div>}
           </div>
@@ -278,10 +274,8 @@ const Register = () => {
           {showPopup && (
             <div className="agreement-popup" ref={popupRef}>
               <div className="agreement-popup-content">
-                <span className="popup-btn" onClick={closePopup}>&times;</span>
                 <h3>Agreement</h3>
                 <AgreementPopup onClose={closePopup} />
-                <button onClick={closePopup} className="popup-btn">Close</button>
               </div>
             </div>
           )}
@@ -292,6 +286,8 @@ const Register = () => {
 }
 
 export default Register;
+
+
 
 
 

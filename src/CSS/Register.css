@@ -135,6 +135,7 @@ body {
     width: 90%;
     overflow-y: auto; /* Tillåt vertikal skrollning för popup */
     max-height: 80vh; /* Begränsa höjden för popup */
+    font-size: 12px; /* Minska textstorleken i popupen */
   }
   
   @media (max-width: 768px) {
@@ -269,6 +270,7 @@ body {
   .popup-btn:hover {
     background-color: #0056b3;
   }
+  
   
 
 

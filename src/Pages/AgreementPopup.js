@@ -41,13 +41,14 @@ const AgreementPopup = ({ onClose }) => {
         <div>
           <p>By using our service, you acknowledge that you have read and understood these user terms and agree to comply with them.</p>
         </div>
-        <button onClick={onClose}>Close</button>
+        <button className="popup-btn-close" onClick={onClose}>Close</button>
       </div>
     </div>
   );
 };
 
 export default AgreementPopup;
+
 
 
 
