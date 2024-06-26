@@ -75,6 +75,7 @@ button {
   display: block;
   margin: 20px auto 0;
 }
+
 .popup-btn-close {
   background-color: #007bff;
   color: #fff;
@@ -106,6 +107,18 @@ button {
   max-height: 70vh; 
   overflow-y: auto;
 }
+
+/* Specifik justering för "User Agreement for Jambiz Alumni Portal" */
+.main-title {
+  font-size: 1.5em; /* Gör denna text en storlek större */
+  font-weight: bold; /* Gör denna text bold */
+}
+
+
+
+
+
+
 
 
 
