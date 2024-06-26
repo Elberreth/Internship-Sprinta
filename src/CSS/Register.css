@@ -1,23 +1,23 @@
 body {
     margin: 0;
     padding: 0;
-    overflow: auto; 
-    height: 100vh;
-  }
-  
-  .register-page {
+    font-family: Arial, sans-serif;
+    overflow: hidden; /* Förhindra sidans skrollning */
+    height: 100vh; /* Sätt höjden till hela vyhöjden */
+}
+
+.register-page {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    min-height: 100vh;
+    height: 100vh; /* Sätt höjden till hela vyhöjden */
     background-color: #ffffff;
     padding: 20px;
-    overflow: auto; 
-    width: 100%;
-  }
-  
-  .register-form-container {
+    overflow: auto; /* Tillåt skrollning för register-sidan */
+}
+
+.register-form-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -28,54 +28,49 @@ body {
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     border: 1px solid #000;
-    overflow-y: auto; 
-    max-height: 80vh; 
-  }
-  
-  @media (max-width: 768px) {
-    .register-form-container {
-      max-height: 70vh; 
-    }
-  }
-  
-  .register-form {
+    max-height: calc(100vh - 40px); /* Justera höjden för att möjliggöra mer skrollning */
+    overflow-y: auto; /* Tillåt vertikal skrollning */
+}
+
+.register-form {
     width: 100%;
-  }
-  
-  .register-form h2 {
+}
+
+.register-form h2 {
     text-align: center;
     margin-bottom: 20px;
-  }
-  
-  .form-group {
+}
+
+.form-group {
     margin-bottom: 15px;
-  }
-  
-  .form-group label {
+}
+
+.form-group label {
     display: block;
     margin-bottom: 5px;
-  }
-  
-  .form-group input, .form-group select {
+}
+
+.form-group input, .form-group select {
     width: 100%;
     padding: 8px;
     box-sizing: border-box;
     border: 1px solid #ccc;
     border-radius: 4px;
-  }
-  
-  .form-group input[type="checkbox"] {
+}
+
+.form-group input[type="checkbox"] {
     width: auto;
     margin-right: 10px;
     margin-left: -10px !important;
-  }
-  
-  .error {
+}
+
+.error {
     color: red;
     font-size: 12px;
-  }
-  
-  .btn-small {
+    text-align: center; /* Centrera texten */
+}
+
+.btn-small {
     padding: 10px 20px;
     font-size: 14px;
     background-color: #007bff;
@@ -85,13 +80,13 @@ body {
     cursor: pointer;
     transition: background-color 0.3s;
     margin-top: 20px;
-  }
-  
-  .btn-small:hover {
+}
+
+.btn-small:hover {
     background-color: #0056b3;
-  }
-  
-  .btn-wide-purple {
+}
+
+.btn-wide-purple {
     padding: 10px 20px;
     font-size: 14px;
     background-color: #800080;
@@ -103,18 +98,13 @@ body {
     width: fit-content;
     text-align: center;
     margin-top: 20px;
-  }
-  
-  .btn-wide-purple:hover {
+}
+
+.btn-wide-purple:hover {
     background-color: #660066;
-  }
-  
-  .btn-move-up {
-    position: relative;
-    top: -1cm; 
-  }
-  
-  .agreement-popup {
+}
+
+.agreement-popup {
     position: fixed;
     top: 0;
     left: 0;
@@ -124,117 +114,110 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-  }
-  
-  .agreement-popup-content {
+}
+
+.agreement-popup-content {
     background-color: #fff;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     max-width: 500px;
     width: 90%;
-    overflow-y: auto; 
-    max-height: 80vh; 
-    font-size: 12px; 
-  }
-  
-  @media (max-width: 768px) {
-    .agreement-popup-content {
-      max-height: 70vh; 
-    }
-  }
-  
-  .agreement-link {
+    overflow-y: auto;
+    max-height: 90vh;
+}
+
+.agreement-link {
     color: #007bff;
     text-decoration: underline;
     cursor: pointer;
-  }
-  
-  .agreement-link:hover {
+}
+
+.agreement-link:hover {
     color: #0056b3;
-  }
-  
-  .checkbox-group {
+}
+
+.checkbox-group {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     margin-bottom: 15px;
-  }
-  
-  .checkbox-group label {
-    margin-right: 20px;
-    display: flex;
-    align-items: center;
-  }
-  
-  .radio-group {
+}
+
+.checkbox-group label {
+    margin-left: 5px; /* Lägg till ett mellanrum mellan kryssrutan och texten */
+}
+
+.radio-group {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-bottom: 15px;
-  }
-  
-  .radio-buttons {
+}
+
+.radio-buttons {
     display: flex;
     flex-direction: row;
     justify-content: center;
     width: 100%;
-  }
-  
-  .radio-buttons label {
+}
+
+.radio-buttons label {
     margin-right: 20px;
-  }
-  
-  select {
+}
+
+select {
     text-align: center;
-  }
-  
-  .checkbox-container {
+}
+
+.checkbox-container {
     display: flex;
     flex-direction: column;
     margin-top: 10px;
     margin-bottom: 10px;
-  }
-  
-  .checkbox-container input {
+}
+
+.checkbox-container input {
     margin-right: 5px;
-  }
-  
-  .success {
+}
+
+.success {
     color: green;
     font-size: 16px;
     margin-top: 10px;
-  }
-  
-  .password-requirements {
+    text-align: center; /* Centrera texten */
+}
+
+.password-requirements {
     color: #555;
     font-size: 12px;
     margin-top: 5px;
-  }
-  
-  .validation-message {
+}
+
+.validation-message {
     margin-top: 10px;
     margin-bottom: 10px;
-  }
-  
-  .password-container {
+    text-align: center; /* Centrera texten */
+}
+
+.password-container {
     display: flex;
     align-items: center;
     position: relative;
-  }
-  
-  .password-tooltip {
+}
+
+.password-tooltip {
     margin-left: 10px;
     cursor: pointer;
     font-size: 18px;
     color: #007bff;
-  }
-  
-  .password-tooltip:hover {
+}
+
+.password-tooltip:hover {
     color: #0056b3;
-  }
-  
-  .password-requirements-tooltip {
+}
+
+.password-requirements-tooltip {
     position: absolute;
     top: 30px;
     left: 50%;
@@ -249,13 +232,13 @@ body {
     font-size: 12px;
     color: #333;
     text-align: center;
-  }
-  
-  .message-container {
+}
+
+.message-container {
     margin-top: 10px;
-  }
-  
-  .popup-btn {
+}
+
+.popup-btn {
     background-color: #007bff;
     color: #fff;
     border: none;
@@ -265,11 +248,191 @@ body {
     cursor: pointer;
     transition: background-color 0.3s;
     margin-top: 20px;
-  }
-  
-  .popup-btn:hover {
+}
+
+.popup-btn:hover {
     background-color: #0056b3;
-  }
+}
+
+@media (max-width: 768px) {
+    .register-form-container {
+        max-height: calc(100vh - 40px); /* Justera höjden för att möjliggöra mer skrollning på mindre skärmar */
+    }
+
+    body {
+        overflow-y: auto; /* Tillåt vertikal skrollning för mindre skärmar */
+    }
+}
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+  
+
+
+  
+
+
+  
+  
+  
+  
+  
+  
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+  
+
+
+  
+
+
+  
+  
+  
+  
+  
+  
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+  
+
+
+  
+
+
+  
+  
+  
+  
+  
+  
 
 
 

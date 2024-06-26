@@ -3,7 +3,6 @@ import { useForm } from 'react-hook-form';
 
 import '../CSS/Register.css';
 import '../CSS/FormControls.css';
-
 import '../CSS/Popup.css';
 import AgreementPopup from './AgreementPopup';
 import generateRandomCode from '../Utils/RandomCodeGenerator';
@@ -22,6 +21,7 @@ const Register = () => {
     register,
     handleSubmit,
     formState: { errors },
+    setValue, // Nytt tillägg
   } = useForm({
     defaultValues: {
       firstname: "",
@@ -151,7 +151,7 @@ const Register = () => {
               className="form-control"
               {...register("company", { required: 'Company is required' })}
             >
-              <option value="">Select Company</option>
+              <option value="">Select Organisation</option>
               {employers.map((employer, index) => (
                 <option key={index} value={employer}>{employer}</option>
               ))}
@@ -286,6 +286,17 @@ const Register = () => {
 }
 
 export default Register;
+
+
+
+
+
+
+
+
+
+
+
 
 
 
