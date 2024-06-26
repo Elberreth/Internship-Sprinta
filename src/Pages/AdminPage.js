@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import '../CSS/AdminPage.css';
-import NewlyRegisteredUsers from './NewlyRegisteredUsers';
-import AllUsers from './AllUsers';
-import Companies from './Companies'; 
-import Roles from './Roles';
+import React, { useState } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "../CSS/AdminPage.css";
+import NewlyRegisteredUsers from "./NewlyRegisteredUsers";
+import AllUsers from "./AllUsers";
+import Organisations from "./Organisations";
+import Roles from "./Roles";
 
 const AdminPage = () => {
-  const [selectedMenu, setSelectedMenu] = useState('New Users');
+  const [selectedMenu, setSelectedMenu] = useState("New Users");
   const [showDropdown, setShowDropdown] = useState(false);
 
   const handleMenuChange = (menu) => {
@@ -15,7 +15,12 @@ const AdminPage = () => {
     setShowDropdown(false);
   };
 
-  const menuOptions = ['New Users', 'All Users', 'Companies', 'Access Management']; 
+  const menuOptions = [
+    "New Users",
+    "All Users",
+    "Organisations",
+    "Access Management",
+  ];
 
   return (
     <div className="admin-page">
@@ -47,25 +52,25 @@ const AdminPage = () => {
         </div>
       </div>
       <div className="content-area">
-        {selectedMenu === 'New Users' && (
+        {selectedMenu === "New Users" && (
           <>
             <h3 className="content-title">Newly Registered Users</h3>
             <NewlyRegisteredUsers />
           </>
         )}
-        {selectedMenu === 'All Users' && (
+        {selectedMenu === "All Users" && (
           <>
             <h3 className="content-title">All Users</h3>
             <AllUsers />
           </>
         )}
-        {selectedMenu === 'Companies' && ( 
+        {selectedMenu === "Organisations" && (
           <>
-            <h3 className="content-title">Companies</h3> 
-            <Companies />
+            <h3 className="content-title">Organisations</h3>
+            <Organisations />
           </>
         )}
-        {selectedMenu === 'Access Management' && (
+        {selectedMenu === "Access Management" && (
           <>
             <h3 className="content-title">Access Management</h3>
             <Roles />
@@ -77,55 +82,3 @@ const AdminPage = () => {
 };
 
 export default AdminPage;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
