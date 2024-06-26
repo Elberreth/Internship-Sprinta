@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 
 import '../CSS/Register.css';
 import '../CSS/FormControls.css';
+
 import '../CSS/Popup.css';
 import AgreementPopup from './AgreementPopup';
 import generateRandomCode from '../Utils/RandomCodeGenerator';
@@ -21,7 +22,6 @@ const Register = () => {
     register,
     handleSubmit,
     formState: { errors },
-    setValue, // Nytt tillägg
   } = useForm({
     defaultValues: {
       firstname: "",
@@ -286,6 +286,7 @@ const Register = () => {
 }
 
 export default Register;
+
 
 
 
