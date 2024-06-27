@@ -3,7 +3,6 @@ import { useForm } from 'react-hook-form';
 
 import '../CSS/Register.css';
 import '../CSS/FormControls.css';
-
 import '../CSS/Popup.css';
 import AgreementPopup from './AgreementPopup';
 import generateRandomCode from '../Utils/RandomCodeGenerator';
@@ -14,6 +13,7 @@ const Register = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
   const [accountCreated, setAccountCreated] = useState(false);
+  const [validationCode, setValidationCode] = useState("");
   const popupRef = useRef(null);
   const [validationErrors, setValidationErrors] = useState({});
   const [showPasswordRequirements, setShowPasswordRequirements] = useState(false);
@@ -57,10 +57,11 @@ const Register = () => {
     setValidationCodeError(errorMessage);
 
     if (!errorMessage) {
-      const validationCode = generateRandomCode();
+      const generatedCode = generateRandomCode();
+      setValidationCode(generatedCode);
 
       try {
-        await sendEmail(data.email, validationCode);
+        await sendEmail(data.email, generatedCode);
         setEmailSent(true);
       } catch (error) {
         console.error("Error sending email:", error);
@@ -80,7 +81,7 @@ const Register = () => {
   };
 
   const openPopup = (event) => {
-    event.preventDefault(); // Förhindrar att kryssrutan påverkas
+    event.preventDefault();
     setShowPopup(true);
   };
 
@@ -97,10 +98,9 @@ const Register = () => {
     const { validateEmail, password, confirmPassword, acceptAgreement } = data;
     let errors = {};
 
-    // Validate email format
     const validationCodePattern = /^\d{4}-\d{4}$/;
-    if (!validateEmail || !validationCodePattern.test(validateEmail)) {
-      errors.validateEmail = "Please fill in the Validate Email field in the format xxxx-xxxx.";
+    if (!validateEmail || !validationCodePattern.test(validateEmail) || validateEmail !== validationCode) {
+      errors.validateEmail = "Please fill in the Validate Email field with the correct code in the format xxxx-xxxx.";
     }
 
     if (password) {
@@ -152,7 +152,6 @@ const Register = () => {
               className="form-control"
               {...register("company", { required: 'Company is required' })}
             >
-
               <option value="">Select Organisation</option>
               {employers.map((employer, index) => (
                 <option key={index} value={employer}>{employer}</option>
@@ -288,3 +287,4 @@ const Register = () => {
 }
 
 export default Register;
+
