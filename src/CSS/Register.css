@@ -8,8 +8,8 @@
     padding: 20px;
     width: 100%;
   }
-  
-  .register-form-container {
+
+.register-form-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -22,7 +22,7 @@
     border: 1px solid #000;
   }
   
-  .register-form {
+.register-form {
     width: 100%;
   }
   
@@ -92,9 +92,8 @@
   
   .btn-wide-purple:hover {
     background-color: #660066;
-  }
-  
-  .agreement-popup {
+
+.agreement-popup {
     position: fixed;
     top: 0;
     left: 0;
@@ -116,8 +115,8 @@
     overflow-y: auto;
     max-height: 90vh;
   }
-  
-  .agreement-link {
+
+.agreement-link {
     color: #007bff;
     text-decoration: underline;
     cursor: pointer;
@@ -424,6 +423,10 @@
   
   
   
+  
+
+
+
   
 
 
