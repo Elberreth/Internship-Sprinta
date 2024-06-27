@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 
 import '../CSS/Register.css';
 import '../CSS/FormControls.css';
+
 import '../CSS/Popup.css';
 import AgreementPopup from './AgreementPopup';
 import generateRandomCode from '../Utils/RandomCodeGenerator';
@@ -78,7 +79,8 @@ const Register = () => {
     }, 1000));
   };
 
-  const openPopup = () => {
+  const openPopup = (event) => {
+    event.preventDefault(); // Förhindrar att kryssrutan påverkas
     setShowPopup(true);
   };
 
@@ -148,7 +150,7 @@ const Register = () => {
             <select
               id="company"
               className="form-control"
-              {...register("company", { required: 'Organisation is required' })}
+              {...register("company", { required: 'Company is required' })}
             >
               <option value="">Select Organisation</option>
               {employers.map((employer, index) => (
@@ -273,7 +275,7 @@ const Register = () => {
           {showPopup && (
             <div className="agreement-popup" ref={popupRef}>
               <div className="agreement-popup-content">
-                <h3>Agreement</h3>
+                <h3 className="main-title">User Agreement for Jambiz Alumni Portal</h3>
                 <AgreementPopup onClose={closePopup} />
               </div>
             </div>
@@ -285,6 +287,8 @@ const Register = () => {
 }
 
 export default Register;
+
+
 
 
 
