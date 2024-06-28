@@ -1,27 +1,27 @@
+import React, { useState, useRef, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 
-import React, { useState, useRef, useEffect } from "react";
-import { useForm } from "react-hook-form";
-import "../CSS/Register.css";
-import "../CSS/FormControls.css";
-import "../CSS/Popup.css";
-import AgreementPopup from "./AgreementPopup";
-import generateRandomCode from "../Utils/RandomCodeGenerator";
-import organisationList from "../Utils/OrganisationList";
+import '../CSS/Register.css';
+import '../CSS/FormControls.css';
+import '../CSS/Popup.css';
+import AgreementPopup from './AgreementPopup';
+import generateRandomCode from '../Utils/RandomCodeGenerator';
+import employers from '../Utils/OrganisationList';
 
-const Register = () => {
+const Register = ({ resetFormTrigger }) => {
+  const [validationCode, setValidationCode] = useState(""); 
   const [validationCodeError, setValidationCodeError] = useState("");
   const [showPopup, setShowPopup] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
   const [accountCreated, setAccountCreated] = useState(false);
-  const [validationCode, setValidationCode] = useState("");
   const popupRef = useRef(null);
   const [validationErrors, setValidationErrors] = useState({});
-  const [showPasswordRequirements, setShowPasswordRequirements] =
-    useState(false);
+  const [showPasswordRequirements, setShowPasswordRequirements] = useState(false);
 
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -31,18 +31,36 @@ const Register = () => {
       validateEmail: "",
       password: "",
       confirmPassword: "",
-      organisation: "",
+      company: "",
       employmentStatus: "",
       acceptAgreement: false,
     },
   });
+
+  useEffect(() => {
+    reset({
+      firstname: "",
+      lastname: "",
+      email: "",
+      validateEmail: "",
+      password: "",
+      confirmPassword: "",
+      company: "",
+      employmentStatus: "",
+      acceptAgreement: false,
+    });
+    setValidationCode("");
+    setValidationCodeError("");
+    setEmailSent(false);
+    setAccountCreated(false);
+    setValidationErrors({});
+  }, [resetFormTrigger, reset]);
 
   const sendData = async (data) => {
     console.log(data);
   };
 
   const handleSubmitGetValidationCode = async (data) => {
-    console.log(data);
     let errorMessage = "";
 
     if (!data.firstname || !data.lastname || !data.email) {
@@ -51,18 +69,17 @@ const Register = () => {
     if (!data.employmentStatus) {
       errorMessage += "Employment status is required. ";
     }
-    if (!data.organisation) {
-      errorMessage += "Organisation is required. ";
+    if (!data.company) {
+      errorMessage += "Company is required. ";
     }
 
     setValidationCodeError(errorMessage);
 
     if (!errorMessage) {
-      const generatedCode = generateRandomCode();
-      setValidationCode(generatedCode);
-
+      const validationCode = generateRandomCode();
+      setValidationCode(validationCode); 
       try {
-        await sendEmail(data.email, generatedCode);
+        await sendEmail(data.email, validationCode);
         setEmailSent(true);
       } catch (error) {
         console.error("Error sending email:", error);
@@ -74,7 +91,6 @@ const Register = () => {
   };
 
   const sendEmail = async (email, code) => {
-    console.log(`Sending code ${code} to ${email}`);
     return new Promise((resolve, reject) =>
       setTimeout(() => {
         const success = Math.random() > 0.1;
@@ -84,7 +100,7 @@ const Register = () => {
   };
 
   const openPopup = (event) => {
-    event.preventDefault();
+    event.preventDefault(); 
     setShowPopup(true);
   };
 
@@ -93,8 +109,7 @@ const Register = () => {
   };
 
   const validatePassword = (password) => {
-    const passwordRegex =
-      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{6,10}$/;
+    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{6,10}$/;
     return passwordRegex.test(password);
   };
 
@@ -102,21 +117,15 @@ const Register = () => {
     const { validateEmail, password, confirmPassword, acceptAgreement } = data;
     let errors = {};
 
+    // Validate email format and code
     const validationCodePattern = /^\d{4}-\d{4}$/;
-
     if (!validateEmail || !validationCodePattern.test(validateEmail) || validateEmail !== validationCode) {
-      errors.validateEmail = 
-        "Please enter your recieved validation code in the format xxxx-xxxx.";
+      errors.validateEmail = "Please fill in the Validate Email field with the correct code in the format xxxx-xxxx.";
     }
 
     if (password) {
-      if (
-        password.length < 6 ||
-        password.length > 10 ||
-        !validatePassword(password)
-      ) {
-        errors.password =
-          "Password must have at least 1 small-case letter,1 Capital letter, 1 digit, 1 special character and the length should be between 6-10 characters.";
+      if (password.length < 6 || password.length > 10 || !validatePassword(password)) {
+        errors.password = "Password must have at least 1 small-case letter, 1 Capital letter, 1 digit, 1 special character and the length should be between 6-10 characters.";
       }
     } else {
       errors.password = "Please fill in the Password field.";
@@ -134,7 +143,7 @@ const Register = () => {
 
     if (Object.keys(errors).length === 0) {
       setAccountCreated(true);
-      alert("Your application have been sent to an admin for approval");
+      alert('Your application have been sent to an admin for approval');
     }
   });
 
@@ -145,10 +154,10 @@ const Register = () => {
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
 
@@ -159,21 +168,19 @@ const Register = () => {
           <h2>Register</h2>
           <div className="form-group">
             <select
-              id="organisation"
+              id="company"
               className="form-control"
-              {...register("organisation", {
-                required: "Organisation is required",
-              })}
+              {...register("company", { required: "Company is required" })}
             >
               <option value="">Select Organisation</option>
-              {organisationList.map((organisation, index) => (
-                <option key={index} value={organisation}>
-                  {organisation}
+              {employers.map((employer, index) => (
+                <option key={index} value={employer}>
+                  {employer}
                 </option>
               ))}
             </select>
-            {errors.organisation && (
-              <div className="error">{errors.organisation.message}</div>
+            {errors.company && (
+              <div className="error">{errors.company.message}</div>
             )}
           </div>
           <div className="form-group radio-group">
@@ -237,9 +244,7 @@ const Register = () => {
               placeholder="Email"
               {...register("email", { required: "Email is required" })}
             />
-            {errors.email && (
-              <div className="error">{errors.email.message}</div>
-            )}
+            {errors.email && <div className="error">{errors.email.message}</div>}
           </div>
           <button
             type="button"
@@ -358,4 +363,9 @@ const Register = () => {
 };
 
 export default Register;
+
+
+
+
+
 
