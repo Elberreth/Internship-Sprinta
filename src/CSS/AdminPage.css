@@ -1,3 +1,4 @@
+/* src/CSS/AdminPage.css */
 .admin-page {
   display: flex;
 }
@@ -69,11 +70,12 @@
   color: black;
 }
 
-.btn-wide-purple {
-  padding: 10px 20px;
-  font-size: 14px;
-  background-color: #800080;
-  color: #fff;
+/* Common style for buttons to match Accept/Reject buttons */
+.common-btn {
+  font-size: 12px;
+  padding: 5px 20px;
+  background-color: #007bff;
+  color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -82,21 +84,40 @@
   margin: 20px auto;
 }
 
-.btn-sm-custom {
-  font-size: 10px;
-  padding: 3px 10px;
+.common-btn:hover {
+  background-color: #0056b3;
 }
 
-.btn-sm-popup {
-  font-size: 12px;
-  padding: 3px 10px;
-  width: 80px;
+.btn-wide-purple {
+  background-color: #800080;
 }
 
-.pagination-btn {
+.btn-wide-purple:hover {
+  background-color: #660066;
+}
+
+.btn-sm-custom,
+.btn-sm-popup,
+.pagination-btn,
+.remove-btn,
+.wide-button {
   font-size: 12px;
-  padding: 3px 10px;
-  width: auto;
+  padding: 5px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  width: fit-content;
+}
+
+.btn-sm-custom:hover,
+.btn-sm-popup:hover,
+.pagination-btn:hover,
+.remove-btn:hover,
+.wide-button:hover {
+  background-color: #0056b3;
 }
 
 /* Specific styles for form fields */
@@ -110,22 +131,6 @@
 /* Style for labels to be bold */
 .bold-label {
   font-weight: bold;
-}
-
-/* Common style for buttons to match Accept/Reject buttons */
-.common-btn {
-  font-size: 11px;
-  padding: 3px 10px;
-  width: 80px;
-}
-
-/* Style for Add New Organisation and Save Changes buttons */
-.wide-button {
-  font-size: 12px;
-  padding: 3px 10px;
-  width: auto;
-  min-width: 150px; /* Ensure the text fits properly */
-  text-align: center;
 }
 
 /* Centered text for modal titles */
@@ -224,3 +229,7 @@
     padding-bottom: 20px;
   }
 }
+
+
+
+
