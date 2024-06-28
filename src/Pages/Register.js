@@ -61,7 +61,6 @@ const Register = ({ resetFormTrigger }) => {
   };
 
   const handleSubmitGetValidationCode = async (data) => {
-    console.log(data);
     let errorMessage = "";
 
     if (!data.firstname || !data.lastname || !data.email) {
@@ -79,7 +78,6 @@ const Register = ({ resetFormTrigger }) => {
     if (!errorMessage) {
       const validationCode = generateRandomCode();
       setValidationCode(validationCode); 
-
       try {
         await sendEmail(data.email, validationCode);
         setEmailSent(true);
@@ -93,7 +91,6 @@ const Register = ({ resetFormTrigger }) => {
   };
 
   const sendEmail = async (email, code) => {
-    console.log(`Sending code ${code} to ${email}`);
     return new Promise((resolve, reject) =>
       setTimeout(() => {
         const success = Math.random() > 0.1;
@@ -366,6 +363,7 @@ const Register = ({ resetFormTrigger }) => {
 };
 
 export default Register;
+
 
 
 
