@@ -114,5 +114,10 @@ portal is ready to go online.
 
 &rarr; And finally:
 
-> &emsp; - Move the card from **"Ready For Review"** to **"Done"**  
-> &emsp; - Pick a new card and repeat 🙃
+> &emsp; - During the mornings daily stand-up the card from **"Code Review"** to **"Done"** by the acting Scrum Master
+> 
+> &emsp; - If your work day isn't over and there is more to be done,
+> 
+> &emsp; &nbsp;&nbsp; while you leave your finished card in the **"Code Review"** lane until next days daily stand-up:
+> 
+> &emsp; &emsp; - Pick a new card and repeat 🙃
