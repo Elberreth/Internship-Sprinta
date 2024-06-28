@@ -114,7 +114,7 @@ portal is ready to go online.
 
 &rarr; And finally:
 
-> &emsp; - During the mornings daily stand-up the card from **"Code Review"** to **"Done"** by the acting Scrum Master
+> &emsp; - During the mornings daily stand-up the finished card is moved from **"Code Review"** to **"Done"** by the acting Scrum Master
 > 
 > &emsp; - If your work day isn't over and there is more to be done,
 > 
