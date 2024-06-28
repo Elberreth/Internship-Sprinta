@@ -60,13 +60,13 @@
 }
 
 .dropdown-item {
-  color: black; 
+  color: black;
   font-weight: bold;
   cursor: pointer;
 }
 
 .dropdown-item:hover {
-  color: black; 
+  color: black;
 }
 
 .btn-wide-purple {
@@ -119,7 +119,7 @@
   width: 80px;
 }
 
-/* Style for Add New Company and Save Changes buttons */
+/* Style for Add New Organisation and Save Changes buttons */
 .wide-button {
   font-size: 12px;
   padding: 3px 10px;
@@ -141,16 +141,16 @@
 
 /* Hover effect for tabs */
 .nav-tabs .nav-link {
-  color: black; 
+  color: black;
 }
 
 .nav-tabs .nav-link.active {
-  color: black !important; 
+  color: black !important;
 }
 
 .nav-tabs .nav-link:hover {
   background-color: gray;
-  color: white; 
+  color: white;
 }
 
 /* Responsive adjustments */
@@ -192,7 +192,7 @@
   .menu-button button {
     width: 100%;
   }
-  
+
   .black-border {
     border: 2px solid black;
     padding: 10px;
@@ -205,17 +205,17 @@
   .user-row:hover {
     background-color: #f0f0f0;
   }
-  
+
   .select-column {
     border-right: 2px solid black;
     padding-right: 5px;
     pointer-events: none; /* Disable click events for the entire column */
   }
-  
+
   .select-column input {
     pointer-events: all; /* Enable click events for the input elements */
   }
-  
+
   /* Add padding to the right of the select column to prevent edit triggering */
   .select-column-padding {
     padding-right: 20px;
@@ -224,55 +224,3 @@
     padding-bottom: 20px;
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
