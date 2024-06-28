@@ -1,9 +1,9 @@
-// RandomCodeGenerator.js
-
+// Utils/RandomCodeGenerator.js
 const generateRandomCode = () => {
-    // Generate a random code in the format "xxxx-xxxx"
-    const code = Math.random().toString(36).substring(2, 6) + '-' + Math.random().toString(36).substring(2, 6);
-    return code.toUpperCase();
+    const part1 = Math.floor(1000 + Math.random() * 9000);
+    const part2 = Math.floor(1000 + Math.random() * 9000);
+    return `${part1}-${part2}`;
 };
 
 export default generateRandomCode;
+

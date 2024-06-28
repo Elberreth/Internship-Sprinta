@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import "../CSS/Register.css";
@@ -12,6 +13,7 @@ const Register = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
   const [accountCreated, setAccountCreated] = useState(false);
+  const [validationCode, setValidationCode] = useState("");
   const popupRef = useRef(null);
   const [validationErrors, setValidationErrors] = useState({});
   const [showPasswordRequirements, setShowPasswordRequirements] =
@@ -56,10 +58,11 @@ const Register = () => {
     setValidationCodeError(errorMessage);
 
     if (!errorMessage) {
-      const validationCode = generateRandomCode();
+      const generatedCode = generateRandomCode();
+      setValidationCode(generatedCode);
 
       try {
-        await sendEmail(data.email, validationCode);
+        await sendEmail(data.email, generatedCode);
         setEmailSent(true);
       } catch (error) {
         console.error("Error sending email:", error);
@@ -81,7 +84,7 @@ const Register = () => {
   };
 
   const openPopup = (event) => {
-    event.preventDefault(); // Förhindrar att kryssrutan påverkas
+    event.preventDefault();
     setShowPopup(true);
   };
 
@@ -99,11 +102,11 @@ const Register = () => {
     const { validateEmail, password, confirmPassword, acceptAgreement } = data;
     let errors = {};
 
-    // Validate email format
     const validationCodePattern = /^\d{4}-\d{4}$/;
-    if (!validateEmail || !validationCodePattern.test(validateEmail)) {
-      errors.validateEmail =
-        "Please fill in the Validate Email field in the format xxxx-xxxx.";
+
+    if (!validateEmail || !validationCodePattern.test(validateEmail) || validateEmail !== validationCode) {
+      errors.validateEmail = 
+        "Please enter your recieved validation code in the format xxxx-xxxx.";
     }
 
     if (password) {
@@ -355,3 +358,4 @@ const Register = () => {
 };
 
 export default Register;
+
