@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import "../CSS/Register.css";
@@ -104,8 +103,12 @@ const Register = () => {
 
     const validationCodePattern = /^\d{4}-\d{4}$/;
 
-    if (!validateEmail || !validationCodePattern.test(validateEmail) || validateEmail !== validationCode) {
-      errors.validateEmail = 
+    if (
+      !validateEmail ||
+      !validationCodePattern.test(validateEmail) ||
+      validateEmail !== validationCode
+    ) {
+      errors.validateEmail =
         "Please enter your recieved validation code in the format xxxx-xxxx.";
     }
 
@@ -358,4 +361,3 @@ const Register = () => {
 };
 
 export default Register;
-
