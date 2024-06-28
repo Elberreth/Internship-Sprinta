@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../CSS/AdminPage.css";
 import NewlyRegisteredUsers from "./NewlyRegisteredUsers";
 import AllUsers from "./AllUsers";
-import Companies from "./Companies";
+import Organisations from "./Organisations";
 import Roles from "./Roles";
 
 const AdminPage = () => {
@@ -18,7 +18,7 @@ const AdminPage = () => {
   const menuOptions = [
     "New Users",
     "All Users",
-    "Companies",
+    "Organisations",
     "Access Management",
   ];
 
@@ -62,10 +62,10 @@ const AdminPage = () => {
             <AllUsers />
           </>
         )}
-        {selectedMenu === "Companies" && (
+        {selectedMenu === "Organisations" && (
           <>
-            <h3 className="content-title">Companies</h3>
-            <Companies />
+            <h3 className="content-title">Organisations</h3>
+            <Organisations />
           </>
         )}
         {selectedMenu === "Access Management" && (
