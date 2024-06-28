@@ -1,41 +1,40 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const mysql = require('mysql');
+const express = require("express");
+const bodyParser = require("body-parser");
+const mysql = require("mysql");
 
 const app = express();
 app.use(bodyParser.json());
 
 const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'your_mysql_username',
-  password: 'your_mysql_password',
-  database: 'your_database_name'
+  host: "localhost",
+  user: "your_mysql_username",
+  password: "your_mysql_password",
+  database: "your_database_name",
 });
 
-connection.connect(err => {
+connection.connect((err) => {
   if (err) {
-    console.error('Error connecting to MySQL:', err);
+    console.error("Error connecting to MySQL:", err);
     return;
   }
-  console.log('Connected to MySQL database');
+  console.log("Connected to MySQL database");
 });
 
-
-app.post('/saveAcceptedUsers', async (req, res) => {
+app.post("/saveAcceptedUsers", async (req, res) => {
   const { acceptedUsers } = req.body;
 
   try {
-   
     for (const user of acceptedUsers) {
-      const { name, email, company, employed } = user;
-      const query = 'INSERT INTO users (name, email, company, employed) VALUES (?, ?, ?, ?)';
-      await promisifyQuery(query, [name, email, company, employed]);
+      const { name, email, organisation, employed } = user;
+      const query =
+        "INSERT INTO users (name, email, organisation, employed) VALUES (?, ?, ?, ?)";
+      await promisifyQuery(query, [name, email, organisation, employed]);
     }
 
-    res.json({ message: 'Accepted users saved successfully' });
+    res.json({ message: "Accepted users saved successfully" });
   } catch (error) {
-    console.error('Error saving accepted users:', error);
-    res.status(500).json({ message: 'Internal server error' });
+    console.error("Error saving accepted users:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 });
 
@@ -57,5 +56,3 @@ function promisifyQuery(query, values) {
     });
   });
 }
-
-

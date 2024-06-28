@@ -16,7 +16,7 @@
 ## 1. Description
 
 This projects task is to develop the **_Jambiz Alumni Portal_** - a web platform that aims to connect current and  
-former members of the organizations within the Jambiz Group.  
+former members of the organisations within the Jambiz Group.  
 It will enable networking, professional development and information exchange between members of the platform.
 
 ## 2. Our Workflow
