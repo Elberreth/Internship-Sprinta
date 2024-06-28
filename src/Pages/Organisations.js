@@ -448,7 +448,7 @@ const Organisations = () => {
           <div className="d-flex justify-content-center mt-3">
             <Button
               variant="danger"
-              className="common-btn"
+              className="btn-sm-custom common-btn"
               onClick={handleShowRemoveModal}
               disabled={selectedOrganisations.length === 0}
             >
@@ -584,5 +584,3 @@ const Organisations = () => {
 };
 
 export default Organisations;
-
-
