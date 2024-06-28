@@ -9,7 +9,7 @@ import generateRandomCode from '../Utils/RandomCodeGenerator';
 import employers from '../Utils/OrganisationList';
 
 const Register = ({ resetFormTrigger }) => {
-  const [validationCode, setValidationCode] = useState(""); // Lägg till detta tillstånd för att lagra valideringskoden
+  const [validationCode, setValidationCode] = useState(""); 
   const [validationCodeError, setValidationCodeError] = useState("");
   const [showPopup, setShowPopup] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
@@ -78,7 +78,7 @@ const Register = ({ resetFormTrigger }) => {
 
     if (!errorMessage) {
       const validationCode = generateRandomCode();
-      setValidationCode(validationCode); // Sätt valideringskoden i tillståndet
+      setValidationCode(validationCode); 
 
       try {
         await sendEmail(data.email, validationCode);
@@ -103,7 +103,7 @@ const Register = ({ resetFormTrigger }) => {
   };
 
   const openPopup = (event) => {
-    event.preventDefault(); // Förhindrar att kryssrutan påverkas
+    event.preventDefault(); 
     setShowPopup(true);
   };
 
