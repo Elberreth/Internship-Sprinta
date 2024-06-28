@@ -4,7 +4,7 @@ import { Modal, Button } from 'react-bootstrap';
 import '../CSS/Header.css'; 
 import logo from '../Images/Jambiz4.png'; 
 
-const Header = () => {
+const Header = ({ onResetRegisterForm }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(() => {
     const loggedIn = localStorage.getItem('isLoggedIn') === 'true';
     console.log('Initial isLoggedIn status:', loggedIn);
@@ -46,6 +46,10 @@ const Header = () => {
     console.log('Current isLoggedIn state:', isLoggedIn);
   }, [isLoggedIn]);
 
+  const handleRegisterLinkClick = () => {
+    onResetRegisterForm();
+  };
+
   return (
     <>
       <header className="header">
@@ -76,7 +80,7 @@ const Header = () => {
           ) : (
             <Link to="/login" className="link">Login</Link>
           )}
-          <Link to="/register" className="link">Register</Link>
+          <Link to="/register" className="link" onClick={handleRegisterLinkClick}>Register</Link>
           <Link to="/about" className="link">About</Link>
           <a href="https://jambiz.se/" className="link" target="_blank" rel="noopener noreferrer">Home</a>
         </div>
@@ -86,6 +90,8 @@ const Header = () => {
 };
 
 export default Header;
+
+
 
 
 
