@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import "../CSS/Register.css";
@@ -8,12 +7,12 @@ import AgreementPopup from "./AgreementPopup";
 import generateRandomCode from "../Utils/RandomCodeGenerator";
 import organisationList from "../Utils/OrganisationList";
 
-const Register = () => {
+const Register = ({ resetFormTrigger }) => {
+  const [validationCode, setValidationCode] = useState("");
   const [validationCodeError, setValidationCodeError] = useState("");
   const [showPopup, setShowPopup] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
   const [accountCreated, setAccountCreated] = useState(false);
-  const [validationCode, setValidationCode] = useState("");
   const popupRef = useRef(null);
   const [validationErrors, setValidationErrors] = useState({});
   const [showPasswordRequirements, setShowPasswordRequirements] =
@@ -22,6 +21,7 @@ const Register = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -37,12 +37,33 @@ const Register = () => {
     },
   });
 
+  useEffect(() => {
+    reset({
+      firstname: "",
+      lastname: "",
+      email: "",
+      validateEmail: "",
+      password: "",
+      confirmPassword: "",
+      organisation: "",
+      employmentStatus: "",
+      acceptAgreement: false,
+    });
+    setValidationCode("");
+    setValidationCodeError("");
+    setEmailSent(false);
+    setAccountCreated(false);
+    setValidationErrors({});
+  }, [resetFormTrigger, accountCreated, reset]);
+
   const sendData = async (data) => {
     console.log(data);
   };
 
   const handleSubmitGetValidationCode = async (data) => {
-    console.log(data);
+    console.log(
+      data
+    ); /*TODO: Remove before going live, BUT KEEP NOW for testing purposes during development*/
     let errorMessage = "";
 
     if (!data.firstname || !data.lastname || !data.email) {
@@ -74,7 +95,9 @@ const Register = () => {
   };
 
   const sendEmail = async (email, code) => {
-    console.log(`Sending code ${code} to ${email}`);
+    console.log(
+      `Sending code ${code} to ${email}`
+    ); /*TODO: remove before going live, BUT KEEP NOW for testing purposes during development*/
     return new Promise((resolve, reject) =>
       setTimeout(() => {
         const success = Math.random() > 0.1;
@@ -102,10 +125,15 @@ const Register = () => {
     const { validateEmail, password, confirmPassword, acceptAgreement } = data;
     let errors = {};
 
+    // Validate email format and code
     const validationCodePattern = /^\d{4}-\d{4}$/;
 
-    if (!validateEmail || !validationCodePattern.test(validateEmail) || validateEmail !== validationCode) {
-      errors.validateEmail = 
+    if (
+      !validateEmail ||
+      !validationCodePattern.test(validateEmail) ||
+      validateEmail !== validationCode
+    ) {
+      errors.validateEmail =
         "Please enter your recieved validation code in the format xxxx-xxxx.";
     }
 
@@ -119,7 +147,7 @@ const Register = () => {
           "Password must have at least 1 small-case letter,1 Capital letter, 1 digit, 1 special character and the length should be between 6-10 characters.";
       }
     } else {
-      errors.password = "Please fill in the Password field.";
+      errors.password = "Please enter a valid password.";
     }
 
     if (password !== confirmPassword) {
@@ -358,4 +386,3 @@ const Register = () => {
 };
 
 export default Register;
-
