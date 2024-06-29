@@ -39,13 +39,11 @@ const AdminPage = () => {
             </button>
             {showDropdown && (
               <ul className="dropdown-menu show">
-                {menuOptions
-                  .filter((option) => option !== selectedMenu)
-                  .map((option) => (
-                    <li key={option} onClick={() => handleMenuChange(option)}>
-                      <span className="dropdown-item">{option}</span>
-                    </li>
-                  ))}
+                {menuOptions.map((option) => (
+                  <li key={option} onClick={() => handleMenuChange(option)}>
+                    <span className="dropdown-item">{option}</span>
+                  </li>
+                ))}
               </ul>
             )}
           </div>
