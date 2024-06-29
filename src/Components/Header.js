@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Modal, Button } from 'react-bootstrap';
-import '../CSS/Header.css'; 
-import logo from '../Images/Jambiz4.png'; 
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Modal, Button } from "react-bootstrap";
+import "../CSS/Header.css";
+import logo from "../Images/Jambiz4.png";
 
-const Header = () => {
+const Header = ({ onResetRegisterForm }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(() => {
-    const loggedIn = localStorage.getItem('isLoggedIn') === 'true';
-    console.log('Initial isLoggedIn status:', loggedIn);
+    const loggedIn = localStorage.getItem("isLoggedIn") === "true";
+    console.log("Initial isLoggedIn status:", loggedIn);
     return loggedIn;
   });
   const [showLogoutModal, setShowLogoutModal] = useState(false);
@@ -15,23 +15,23 @@ const Header = () => {
 
   useEffect(() => {
     const handleStorageChange = () => {
-      const loggedIn = localStorage.getItem('isLoggedIn') === 'true';
-      console.log('Storage change detected, isLoggedIn status:', loggedIn);
+      const loggedIn = localStorage.getItem("isLoggedIn") === "true";
+      console.log("Storage change detected, isLoggedIn status:", loggedIn);
       setIsLoggedIn(loggedIn);
     };
 
-    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener("storage", handleStorageChange);
     return () => {
-      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener("storage", handleStorageChange);
     };
   }, []);
 
   const handleLogout = () => {
-    console.log('User logging out');
-    localStorage.setItem('isLoggedIn', 'false');
+    console.log("User logging out");
+    localStorage.setItem("isLoggedIn", "false");
     setIsLoggedIn(false);
     setShowLogoutModal(false);
-    navigate('/login');
+    navigate("/login");
   };
 
   const handleShowLogoutModal = () => {
@@ -43,8 +43,12 @@ const Header = () => {
   };
 
   useEffect(() => {
-    console.log('Current isLoggedIn state:', isLoggedIn);
+    console.log("Current isLoggedIn state:", isLoggedIn);
   }, [isLoggedIn]);
+
+  const handleRegisterLinkClick = () => {
+    onResetRegisterForm();
+  };
 
   return (
     <>
@@ -57,28 +61,59 @@ const Header = () => {
         <div className="links-container">
           {isLoggedIn ? (
             <>
-              <span onClick={handleShowLogoutModal} className="link" style={{ cursor: 'pointer' }}>Logout</span>
+              <span
+                onClick={handleShowLogoutModal}
+                className="link"
+                style={{ cursor: "pointer" }}
+              >
+                Logout
+              </span>
               <Modal show={showLogoutModal} onHide={handleCloseLogoutModal}>
                 <Modal.Header closeButton>
                   <Modal.Title>Confirm Logout</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>Are you sure you want to Logout?</Modal.Body>
                 <Modal.Footer>
-                  <Button variant="secondary" onClick={handleCloseLogoutModal} className="btn-sm-popup">
+                  <Button
+                    variant="secondary"
+                    onClick={handleCloseLogoutModal}
+                    className="btn-sm-popup"
+                  >
                     No
                   </Button>
-                  <Button variant="primary" onClick={handleLogout} className="btn-sm-popup">
+                  <Button
+                    variant="primary"
+                    onClick={handleLogout}
+                    className="btn-sm-popup"
+                  >
                     Yes
                   </Button>
                 </Modal.Footer>
               </Modal>
             </>
           ) : (
-            <Link to="/login" className="link">Login</Link>
+            <Link to="/login" className="link">
+              Login
+            </Link>
           )}
-          <Link to="/register" className="link">Register</Link>
-          <Link to="/about" className="link">About</Link>
-          <a href="https://jambiz.se/" className="link" target="_blank" rel="noopener noreferrer">Home</a>
+          <Link
+            to="/register"
+            className="link"
+            onClick={handleRegisterLinkClick}
+          >
+            Register
+          </Link>
+          <Link to="/about" className="link">
+            About
+          </Link>
+          <a
+            href="https://jambiz.se/"
+            className="link"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Home
+          </a>
         </div>
       </header>
     </>
@@ -86,51 +121,3 @@ const Header = () => {
 };
 
 export default Header;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-
