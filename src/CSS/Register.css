@@ -248,6 +248,6 @@ select {
 
 @media (max-width: 768px) {
   .register-page {
-    overflow-y: auto; /* Tillåt vertikal skrollning för mindre skärmar */
+    overflow-y: auto; 
   }
 }
