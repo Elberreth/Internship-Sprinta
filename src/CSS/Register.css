@@ -63,7 +63,7 @@
 }
 
 .btn-small {
-  padding: 10px 20px;
+  padding: 8px 20px;
   font-size: 14px;
   background-color: #007bff;
   color: #fff;
@@ -248,6 +248,6 @@ select {
 
 @media (max-width: 768px) {
   .register-page {
-    overflow-y: auto; /* Tillåt vertikal skrollning för mindre skärmar */
+    overflow-y: auto; 
   }
 }
