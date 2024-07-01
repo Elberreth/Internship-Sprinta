@@ -4,6 +4,12 @@ import '../CSS/UserProfile.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import NewForm from '../Utils/NewForm'; 
 
+const mockFriends = [
+  { id: 1, name: 'Friend 1', online: true },
+  { id: 2, name: 'Friend 2', online: false },
+  { id: 3, name: 'Friend 3', online: true },
+];
+
 const UserProfile = () => {
   const [userData, setUserData] = useState({
     firstName: '',
@@ -16,6 +22,8 @@ const UserProfile = () => {
     profilePicture: ''
   });
 
+  const [friends, setFriends] = useState(mockFriends);
+  const [newFriend, setNewFriend] = useState('');
   const [image, setImage] = useState(null);
   const [showAddImageButton, setShowAddImageButton] = useState(true);
   const fileInputRef = useRef(null);
@@ -97,18 +105,25 @@ const UserProfile = () => {
     }
   };
 
+  const handleAddFriend = (e) => {
+    e.preventDefault();
+    if (newFriend.trim()) {
+      setFriends([...friends, { id: friends.length + 1, name: newFriend, online: false }]);
+      setNewFriend('');
+    }
+  };
+
   return (
     <div className="container-fluid user-profile">
       <header className="header"></header>
       <div className="row mt-3">
         <div className="col-md-3">
           <form className="profile-form card p-3 mb-4">
-            <h2 className="card-title text-center">Profile Picture</h2>
             <div className="image-preview card-img-top">
               {image ? (
                 <img src={image} alt="Profile" />
               ) : (
-                <p>No image selected</p>
+                <p>Profile Picture</p>
               )}
             </div>
             <input
@@ -229,8 +244,38 @@ const UserProfile = () => {
             <button type="submit" className="btn btn-primary submit-button mt-3">Submit</button>
           </form>
         </div>
-        <div className="col-12 col-md-6 offset-md-1">
-          <NewForm />
+        <div className="col-md-6">
+          <div className="new-form-container">
+            <NewForm />
+          </div>
+        </div>
+        <div className="col-md-3">
+          <div className="friends-container card p-3">
+            <h5 className="card-title text-center">Add Friend</h5>
+            <form onSubmit={handleAddFriend}>
+              <div className="mb-3">
+                <input
+                  type="text"
+                  className="form-control"
+                  value={newFriend}
+                  onChange={(e) => setNewFriend(e.target.value)}
+                  placeholder="Enter friend's name"
+                />
+              </div>
+              <button type="submit" className="btn btn-primary btn-sm w-100">Add Friend</button>
+            </form>
+            <h5 className="card-title text-center mt-4">Friends</h5>
+            <ul className="list-group">
+              {friends.map(friend => (
+                <li key={friend.id} className="list-group-item d-flex justify-content-between align-items-center">
+                  {friend.name}
+                  <span className={`badge ${friend.online ? 'bg-success' : 'bg-secondary'}`}>
+                    {friend.online ? 'Online' : 'Offline'}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
     </div>
@@ -238,6 +283,7 @@ const UserProfile = () => {
 };
 
 export default UserProfile;
+
 
 
 

@@ -1,0 +1,68 @@
+/* src/CSS/NewForm.css */
+.new-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    padding: 20px;
+    width: 100%;
+    max-width: 800px; /* Maximal bredd på formuläret */
+}
+
+.new-form h2 {
+    margin-bottom: 20px;
+    font-size: 1.25rem;
+    width: 100%;
+    text-align: center;
+}
+
+textarea {
+    resize: none;
+    width: 100%; /* Låt textarea ta upp hela bredden av sitt föräldraselement */
+    height: 200px; /* Justera höjden till en större storlek */
+    box-sizing: border-box; /* Inkludera padding och border i elementets totala bredd och höjd */
+}
+
+.submit-button {
+    width: 100%;
+    max-width: 200px;
+}
+
+.entries {
+    margin-top: 20px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.entry {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 100%;
+    max-width: 600px; /* Mindre bredd för meddelandefälten */
+    margin-bottom: 10px;
+}
+
+.entry .button-group {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+}
+
+@media (min-width: 768px) {
+    .new-form {
+        margin: 0 auto; /* Centrera formuläret */
+    }
+    .entry {
+        margin: 0 auto; /* Centrera meddelandefälten */
+    }
+}
