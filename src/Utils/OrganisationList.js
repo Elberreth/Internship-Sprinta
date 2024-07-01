@@ -1,21 +1,21 @@
 import axios from 'axios';
 
-const organisationList = await getOrganizationNames();
+const organisationList = await getOrganisationNames();
 
-async function getOrganizationNames() {
+async function getOrganisationNames() {
   try {
 
     const response = await axios.get('http://localhost:8080/organisation');
-    const organizationData = response.data.data;
-    if (organizationData && Array.isArray(organizationData.organisationDTOViewList)) {
-      const organizationNames = organizationData.organisationDTOViewList.map(org => org.name);
-      return organizationNames;
+    const organisationData = response.data.data;
+    if (organisationData && Array.isArray(organisationData.organisationDTOViewList)) {
+      const organisationNames = organisationData.organisationDTOViewList.map(org => org.name);
+      return organisationNames;
     } else {
-      console.error('Unexpected data format:', organizationData);
+      console.error('Unexpected data format:', organisationData);
       return ['No Data'];
     }
   } catch (error) {
-    console.error('Error fetching organization data:', error);
+    console.error('Error fetching organisation data:', error);
     return ['No Data'];
   }
 }
