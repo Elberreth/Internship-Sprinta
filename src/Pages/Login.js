@@ -11,10 +11,20 @@ const Login = () => {
   const sendData = async (data) => {
     setLoading(true);
     try {
-      if ((data.uname === 'admin@example.com' && data.password === '1111') || process.env.NODE_ENV === 'development') {
+      if (data.uname === 'admin@example.com' && data.password === '1111') {
         localStorage.setItem('isLoggedIn', 'true');
-        console.log('User logged in');
+        console.log('Admin logged in');
         navigate('/admin');
+        window.dispatchEvent(new Event('storage')); // Trigger storage event to sync state
+      } else if (data.uname === 'user1@example.com' && data.password === '2222') {
+        localStorage.setItem('isLoggedIn', 'true');
+        console.log('User1 logged in');
+        navigate(`/user/${data.uname.split('@')[0]}`);
+        window.dispatchEvent(new Event('storage')); // Trigger storage event to sync state
+      } else if (data.uname === 'user2@example.com' && data.password === '2222') {
+        localStorage.setItem('isLoggedIn', 'true');
+        console.log('User2 logged in');
+        navigate(`/user/${data.uname.split('@')[0]}`);
         window.dispatchEvent(new Event('storage')); // Trigger storage event to sync state
       } else {
         setError('Authentication failed');
@@ -25,7 +35,6 @@ const Login = () => {
       setLoading(false);
     }
   };
-   
 
   const { register, formState: { errors }, handleSubmit } = useForm({
     defaultValues: {
@@ -77,6 +86,8 @@ const Login = () => {
 }
 
 export default Login;
+
+
 
 
 

@@ -10,7 +10,6 @@ import UserProfile from "./Pages/UserProfile";
 import "./CSS/App.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-
 const App = () => {
   const [resetFormTrigger, setResetFormTrigger] = useState(false);
 
@@ -31,7 +30,7 @@ const App = () => {
             element={<Register resetFormTrigger={resetFormTrigger} />}
           />
           <Route path="/admin" element={<AdminPages />} />
-          <Route path="/userprofile" element={<UserProfile />} /> {/* Lägg till routen för UserProfile */}
+          <Route path="/user/:username" element={<UserProfile />} /> {/* Uppdaterad rutt för UserProfile */}
         </Routes>
       </div>
     </Router>
@@ -39,4 +38,5 @@ const App = () => {
 };
 
 export default App;
+
 

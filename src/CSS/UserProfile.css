@@ -89,18 +89,23 @@
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
- 
   
-textarea {
+  textarea {
     resize: none;
   }
   
+  .new-form, .entry {
+    width: 100%; 
+    max-width: 600px; 
+    margin: 0 auto; 
+  }
+  
   @media (min-width: 768px) {
-    .new-form {
+    .new-form, .entry {
       width: 50%; 
-      margin: 0 auto; 
     }
   }
+  
   
 
   

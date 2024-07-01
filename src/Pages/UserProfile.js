@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import '../CSS/UserProfile.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import NewForm from '../Utils/NewForm'; 
+import NewForm from '../Utils/NewForm';
 
 const UserProfile = () => {
+  const { username } = useParams();
   const [userData, setUserData] = useState({
     firstName: '',
     lastName: '',
@@ -22,7 +24,7 @@ const UserProfile = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get('/api/user/{userId}');
+        const response = await axios.get(`/api/user/${username}`);
         setUserData(response.data);
       } catch (error) {
         console.error('Error fetching user data:', error);
@@ -30,7 +32,7 @@ const UserProfile = () => {
     };
 
     fetchUserData();
-  }, []);
+  }, [username]);
 
   const handleInputChange = (e) => {
     const { id, value } = e.target;
@@ -58,7 +60,7 @@ const UserProfile = () => {
         profilePicture: ''
       }));
       if (fileInputRef.current) {
-        fileInputRef.current.value = ''; 
+        fileInputRef.current.value = '';
       }
     }
   };
@@ -108,7 +110,7 @@ const UserProfile = () => {
               type="file"
               onChange={handleImageChange}
               className="image-input"
-              ref={fileInputRef} 
+              ref={fileInputRef}
             />
             <div className="button-group mt-3">
               <button type="button" className="btn btn-primary btn-add" onClick={() => fileInputRef.current.click()}>
@@ -218,6 +220,7 @@ const UserProfile = () => {
 };
 
 export default UserProfile;
+
 
 
 
