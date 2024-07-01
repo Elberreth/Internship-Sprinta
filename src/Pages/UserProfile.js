@@ -4,13 +4,6 @@ import '../CSS/UserProfile.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import NewForm from '../Utils/NewForm'; 
 
-
-const mockFriends = [
-  { id: 1, name: 'Friend 1', online: true },
-  { id: 2, name: 'Friend 2', online: false },
-  { id: 3, name: 'Friend 3', online: true },
-];
-
 const UserProfile = () => {
   const [userData, setUserData] = useState({
     firstName: '',
@@ -23,8 +16,6 @@ const UserProfile = () => {
     profilePicture: ''
   });
 
-  const [friends, setFriends] = useState(mockFriends); 
-  const [newFriend, setNewFriend] = useState(''); 
   const [image, setImage] = useState(null);
   const [showAddImageButton, setShowAddImageButton] = useState(true);
   const fileInputRef = useRef(null);
@@ -103,14 +94,6 @@ const UserProfile = () => {
       alert('User data saved successfully');
     } catch (error) {
       console.error('Error saving user data:', error);
-    }
-  };
-
-  const handleAddFriend = (e) => {
-    e.preventDefault();
-    if (newFriend.trim()) {
-      setFriends([...friends, { id: friends.length + 1, name: newFriend, online: false }]);
-      setNewFriend('');
     }
   };
 
@@ -246,38 +229,8 @@ const UserProfile = () => {
             <button type="submit" className="btn btn-primary submit-button mt-3">Submit</button>
           </form>
         </div>
-        <div className="col-md-6 d-flex justify-content-center">
+        <div className="col-12 col-md-6 offset-md-1">
           <NewForm />
-        </div>
-        <div className="col-md-3 d-flex flex-column align-items-end">
-          <div style={{ width: '50%' }}>
-            <form className="friend-form card p-3 mb-4" onSubmit={handleAddFriend} style={{ width: '100%' }}>
-              <h5 className="card-title text-center">Friends</h5>
-              <div className="mb-3">
-                <input
-                  type="text"
-                  className="form-control"
-                  value={newFriend}
-                  onChange={(e) => setNewFriend(e.target.value)}
-                  placeholder="Enter friend's name"
-                />
-              </div>
-              <button type="submit" className="btn btn-primary btn-sm">Add Friend</button>
-            </form>
-            <div className="friends-list card p-3" style={{ width: '100%' }}>
-              <h5 className="card-title text-center">Friends List</h5>
-              <ul className="list-group">
-                {friends.map(friend => (
-                  <li key={friend.id} className="list-group-item d-flex justify-content-between align-items-center">
-                    {friend.name}
-                    <span className={`badge ${friend.online ? 'bg-success' : 'bg-secondary'}`}>
-                      {friend.online ? 'Online' : 'Offline'}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -285,11 +238,6 @@ const UserProfile = () => {
 };
 
 export default UserProfile;
-
-
-
-
-
 
 
 
