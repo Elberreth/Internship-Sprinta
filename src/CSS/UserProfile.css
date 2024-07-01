@@ -1,12 +1,12 @@
 /* src/CSS/UserProfile.css */
 .user-profile {
-    background-color: #ffffff; /* Vit bakgrund */
+    background-color: #ffffff; 
     min-height: 100vh;
   }
   
   .header {
     width: 100%;
-    background-color: #ffffff; /* Vit bakgrund */
+    background-color: #ffffff; 
     padding: 20px;
   }
   
@@ -15,16 +15,16 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #ffffff; /* Vit bakgrund */
+    background-color: #ffffff; 
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: 300px; /* Fast bredd */
+    width: 300px; 
   }
   
   .profile-form h2,
   .additional-form h2 {
     margin-bottom: 20px;
-    font-size: 1.25rem; /* Minska textstorleken med två steg */
+    font-size: 1.25rem; 
   }
   
   .image-preview {
@@ -51,9 +51,9 @@
   
   .button-group {
     display: flex;
-    justify-content: center; /* Centrera knapparna */
+    justify-content: center; 
     width: 100%;
-    gap: 10px; /* Avstånd mellan knapparna */
+    gap: 10px; 
   }
   
   .btn-add,
@@ -85,7 +85,7 @@
   }
   
   .additional-form {
-    background-color: #ffffff; /* Vit bakgrund */
+    background-color: #ffffff; 
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
