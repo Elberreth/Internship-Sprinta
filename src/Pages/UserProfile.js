@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import '../CSS/UserProfile.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import NewForm from '../Utils/NewForm'; // Importera NewForm
+import NewForm from '../Utils/NewForm'; 
 
 const UserProfile = () => {
   const [userData, setUserData] = useState({
