@@ -3,15 +3,22 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Dropdown } from 'react-bootstrap';
 import ReactPlayer from 'react-player';
 
+// Mockup för användarens vänner
+const userFriends = [
+  { id: 1, name: 'Friend 1', contact: 'user2@example.com' },
+  { id: 2, name: 'Friend 2', contact: 'friend2@example.com' },
+  { id: 3, name: 'Friend 3', contact: 'friend3@example.com' }
+];
+
 const NewForm = () => {
   const [newInfo, setNewInfo] = useState('');
   const [newMedia, setNewMedia] = useState('');
-  const [newMediaType, setNewMediaType] = useState(''); // Lägg till en state-variabel för att lagra typen av media
+  const [newMediaType, setNewMediaType] = useState('');
   const [entries, setEntries] = useState([]);
   const [editIndex, setEditIndex] = useState(-1);
   const [editText, setEditText] = useState('');
   const [editMedia, setEditMedia] = useState('');
-  const [editMediaType, setEditMediaType] = useState(''); // Lägg till en state-variabel för att lagra typen av media vid redigering
+  const [editMediaType, setEditMediaType] = useState('');
   const fileInputRef = useRef(null);
 
   const handleSubmit = (e) => {
@@ -83,11 +90,22 @@ const NewForm = () => {
     setEditMediaType(ReactPlayer.canPlay(url) ? 'video' : 'image');
   };
 
+  const handleShare = (index) => {
+    const entry = entries[index];
+    const shareText = `${entry.info}\n${entry.media}`;
+    userFriends.forEach(friend => {
+     
+      console.log(`Sharing with ${friend.name}: ${shareText}`);
+      
+    });
+    alert('Shared with all friends!');
+  };
+
   return (
     <>
       <form className="new-form card p-3 mb-4" onSubmit={handleSubmit}>
         <div className="d-flex justify-content-between align-items-center">
-          <h2 className="card-title text-center">What is New</h2>
+          <h5 className="card-title text-center">What is New</h5>
         </div>
         <div className="mb-3">
           <textarea
@@ -187,16 +205,25 @@ const NewForm = () => {
                       <ReactPlayer url={entry.media} controls className="img-fluid mb-2" />
                     ) : null
                   )}
-                  <div className="button-group mt-2">
-                    <Dropdown className="position-absolute top-0 end-0">
-                      <Dropdown.Toggle variant="link" id={`dropdown-custom-${index}`} className="text-decoration-none">
-                        &#8942;
-                      </Dropdown.Toggle>
-                      <Dropdown.Menu>
-                        <Dropdown.Item onClick={() => handleEdit(index)}>Edit</Dropdown.Item>
-                        <Dropdown.Item onClick={() => handleDelete(index)}>Delete</Dropdown.Item>
-                      </Dropdown.Menu>
-                    </Dropdown>
+                  <div className="d-flex justify-content-between align-items-center mt-2">
+                    <div>
+                      <Dropdown className="position-absolute top-0 end-0">
+                        <Dropdown.Toggle variant="link" id={`dropdown-custom-${index}`} className="text-decoration-none">
+                          &#8942;
+                        </Dropdown.Toggle>
+                        <Dropdown.Menu>
+                          <Dropdown.Item onClick={() => handleEdit(index)}>Edit</Dropdown.Item>
+                          <Dropdown.Item onClick={() => handleDelete(index)}>Delete</Dropdown.Item>
+                        </Dropdown.Menu>
+                      </Dropdown>
+                    </div>
+                    <button
+                      type="button"
+                      className="btn btn-outline-primary btn-sm"
+                      onClick={() => handleShare(index)}
+                    >
+                      Share
+                    </button>
                   </div>
                 </>
               )}
@@ -209,6 +236,9 @@ const NewForm = () => {
 };
 
 export default NewForm;
+
+
+
 
 
 
