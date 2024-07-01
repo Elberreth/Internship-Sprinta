@@ -8,6 +8,8 @@ import Register from "./Pages/Register";
 import AdminPages from "./Pages/AdminPage";
 import UserProfile from "./Pages/UserProfile"; 
 import "./CSS/App.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 const App = () => {
   const [resetFormTrigger, setResetFormTrigger] = useState(false);

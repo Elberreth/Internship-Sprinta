@@ -1,10 +1,13 @@
 /* src/CSS/UserProfile.css */
 .user-profile {
-    display: flex;
-    justify-content: flex-start;
-    padding: 20px;
     background-color: #ffffff; /* Vit bakgrund */
     min-height: 100vh;
+  }
+  
+  .header {
+    width: 100%;
+    background-color: #ffffff; /* Vit bakgrund */
+    padding: 20px;
   }
   
   .profile-form {
@@ -12,10 +15,9 @@
     flex-direction: column;
     align-items: center;
     background-color: #ffffff; /* Vit bakgrund */
-    padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    border: 1px solid #000;
+    width: 300px; /* Fast bredd */
   }
   
   .profile-form h2 {
@@ -46,8 +48,9 @@
   
   .button-group {
     display: flex;
-    justify-content: space-between;
+    justify-content: center; /* Centrera knapparna */
     width: 100%;
+    gap: 10px; /* Avstånd mellan knapparna */
   }
   
   .btn-add,
@@ -77,6 +80,14 @@
   .btn-remove:hover {
     background-color: #c82333;
   }
+  
+  
+  
+  
+  
+  
+  
+  
   
   
   
