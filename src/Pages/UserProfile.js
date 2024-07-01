@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import '../CSS/UserProfile.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import NewForm from '../Utils/NewForm'; // Importera NewForm
 
 const UserProfile = () => {
   const [userData, setUserData] = useState({
@@ -92,7 +93,7 @@ const UserProfile = () => {
   return (
     <div className="container-fluid user-profile">
       <header className="header"></header>
-      <div className="row justify-content-start">
+      <div className="row mt-3">
         <div className="col-md-3">
           <form className="profile-form card p-3 mb-4">
             <h2 className="card-title text-center">Profile Picture</h2>
@@ -118,10 +119,6 @@ const UserProfile = () => {
               </button>
             </div>
           </form>
-        </div>
-      </div>
-      <div className="row justify-content-start">
-        <div className="col-md-3">
           <form className="additional-form card p-3" onSubmit={handleSubmit}>
             <h2 className="card-title text-center">About Me</h2>
             <div className="mb-3">
@@ -209,8 +206,11 @@ const UserProfile = () => {
                 data-browse="Browse"
               />
             </div>
-            <button type="submit" className="btn btn-primary btn-lg btn-add mt-3">Submit</button>
+            <button type="submit" className="btn btn-primary btn-lg submit-button mt-3">Submit</button>
           </form>
+        </div>
+        <div className="col-12 col-md-6 offset-md-1">
+          <NewForm />
         </div>
       </div>
     </div>
@@ -218,6 +218,13 @@ const UserProfile = () => {
 };
 
 export default UserProfile;
+
+
+
+
+
+
+
 
 
 
