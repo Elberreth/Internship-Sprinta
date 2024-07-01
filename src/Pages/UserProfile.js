@@ -206,7 +206,7 @@ const UserProfile = () => {
                 data-browse="Browse"
               />
             </div>
-            <button type="submit" className="btn btn-primary btn-lg submit-button mt-3">Submit</button>
+            <button type="submit" className="btn btn-primary submit-button mt-3">Submit</button>
           </form>
         </div>
         <div className="col-12 col-md-6 offset-md-1">
@@ -218,6 +218,7 @@ const UserProfile = () => {
 };
 
 export default UserProfile;
+
 
 
 

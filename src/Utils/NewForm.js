@@ -38,7 +38,7 @@ const NewForm = () => {
             required
           />
         </div>
-        <button type="submit" className="btn btn-primary btn-lg submit-button mt-3">Submit</button>
+        <button type="submit" className="btn btn-primary submit-button mt-3">Submit</button>
       </form>
       <div className="entries mt-3">
         {entries.map((entry, index) => (
@@ -68,6 +68,8 @@ const NewForm = () => {
 };
 
 export default NewForm;
+
+
 
 
 
