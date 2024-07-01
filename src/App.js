@@ -6,6 +6,7 @@ import About from "./Pages/About";
 import Login from "./Pages/Login";
 import Register from "./Pages/Register";
 import AdminPages from "./Pages/AdminPage";
+import UserProfile from "./Pages/UserProfile"; 
 import "./CSS/App.css";
 
 const App = () => {
@@ -28,6 +29,7 @@ const App = () => {
             element={<Register resetFormTrigger={resetFormTrigger} />}
           />
           <Route path="/admin" element={<AdminPages />} />
+          <Route path="/userprofile" element={<UserProfile />} /> {/* Lägg till routen för UserProfile */}
         </Routes>
       </div>
     </Router>
@@ -35,3 +37,4 @@ const App = () => {
 };
 
 export default App;
+
