@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import '../CSS/UserProfile.css'; // Korrekt importväg för CSS-filen
-import 'bootstrap/dist/css/bootstrap.min.css'; // Importera Bootstrap CSS
+import '../CSS/UserProfile.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const UserProfile = () => {
   const [userData, setUserData] = useState({
@@ -21,7 +21,7 @@ const UserProfile = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get('/api/user/{userId}'); // Byt ut {userId} med det faktiska användar-ID:t
+        const response = await axios.get('/api/user/{userId}');
         setUserData(response.data);
       } catch (error) {
         console.error('Error fetching user data:', error);
@@ -57,7 +57,7 @@ const UserProfile = () => {
         profilePicture: ''
       }));
       if (fileInputRef.current) {
-        fileInputRef.current.value = ''; // Återställ filinmatningen
+        fileInputRef.current.value = ''; 
       }
     }
   };
@@ -107,7 +107,7 @@ const UserProfile = () => {
               type="file"
               onChange={handleImageChange}
               className="image-input"
-              ref={fileInputRef} // Referens till filinmatningen
+              ref={fileInputRef} 
             />
             <div className="button-group mt-3">
               <button type="button" className="btn btn-primary btn-add" onClick={() => fileInputRef.current.click()}>
