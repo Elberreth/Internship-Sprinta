@@ -7,6 +7,8 @@ const UserProfile = () => {
   const [image, setImage] = useState(null);
   const [showAddImageButton, setShowAddImageButton] = useState(true);
   const fileInputRef = useRef(null);
+  const [cv, setCv] = useState(null);
+  const [personalLetter, setPersonalLetter] = useState(null);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -22,6 +24,16 @@ const UserProfile = () => {
       if (fileInputRef.current) {
         fileInputRef.current.value = ''; 
       }
+    }
+  };
+
+  const handleFileChange = (e) => {
+    const { id } = e.target;
+    const file = e.target.files[0];
+    if (id === 'cv') {
+      setCv(file);
+    } else if (id === 'personalLetter') {
+      setPersonalLetter(file);
     }
   };
 
@@ -133,8 +145,25 @@ const UserProfile = () => {
                         Submit
                       </Button>
                     </div>
-                    <div className="d-flex flex-column align-items-center mt-3">
-                      <Button variant="success" type="submit" className="continue-button">
+                  </Form>
+                </Tab>
+                <Tab eventKey="upload" title="Upload">
+                  <Form className="mt-3" onSubmit={handleSubmit}>
+                    <Form.Group controlId="formCv">
+                      <Form.Label>Upload CV</Form.Label>
+                      <Form.Control type="file" id="cv" onChange={handleFileChange} />
+                    </Form.Group>
+                    <Form.Group controlId="formPersonalLetter" className="mt-3">
+                      <Form.Label>Upload Personal Letter</Form.Label>
+                      <Form.Control type="file" id="personalLetter" onChange={handleFileChange} />
+                    </Form.Group>
+                    <div className="d-flex justify-content-center">
+                      <Button variant="primary" type="submit" className="mt-3">
+                        Submit
+                      </Button>
+                    </div>
+                    <div className="d-flex justify-content-center mt-3">
+                      <Button variant="success" type="button" onClick={handleContinue} className="continue-button">
                         Continue
                       </Button>
                     </div>
@@ -150,6 +179,8 @@ const UserProfile = () => {
 };
 
 export default UserProfile;
+
+
 
 
 
