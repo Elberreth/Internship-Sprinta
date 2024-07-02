@@ -6,6 +6,7 @@ import "../CSS/Popup.css";
 import AgreementPopup from "./AgreementPopup";
 import generateRandomCode from "../Utils/RandomCodeGenerator";
 import organisationList from "../Utils/OrganisationList";
+import axios from 'axios';
 
 const Register = ({ resetFormTrigger }) => {
   const [validationCode, setValidationCode] = useState("");
@@ -95,15 +96,24 @@ const Register = ({ resetFormTrigger }) => {
   };
 
   const sendEmail = async (email, code) => {
-    console.log(
-      `Sending code ${code} to ${email}`
-    ); /*TODO: remove before going live, BUT KEEP NOW for testing purposes during development*/
-    return new Promise((resolve, reject) =>
-      setTimeout(() => {
-        const success = Math.random() > 0.1;
-        success ? resolve() : reject(new Error("Failed to send email"));
-      }, 1000)
-    );
+    console.log(`Sending code ${code} to ${email}`);
+    /* Calls backend to send validation code to email */
+    axios.post('http://localhost:8080/email',{
+      "to": [
+        email
+      ],
+        "subject":"Jambiz Alumni - Email Verification Code",
+        "templateId":"RegistrationCode",
+        "vals":{
+            "code": code
+        }
+    })
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.error('There was an error in sending valiation code!', error);
+      });
   };
 
   const openPopup = (event) => {
@@ -162,6 +172,21 @@ const Register = ({ resetFormTrigger }) => {
 
     if (Object.keys(errors).length === 0) {
       setAccountCreated(true);
+      axios.post('http://localhost:8080/register',{
+      
+        "firstName" : "Anita",
+        "lastName" : "Rajappa",
+        "email" : "anita.rajappa@gmail.com",
+        "password": "Anita@123",
+        "isEmployed" : true,
+        "organisation_name" : "Sprinta"
+       
+    }).then(response => {
+      console.log(response.data);
+    })
+    .catch(error => {
+      console.error('There was an error in registering user!', error);
+    });
       alert("Your application have been sent to an admin for approval");
     }
   });
