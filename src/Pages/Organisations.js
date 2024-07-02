@@ -220,20 +220,14 @@ const Organisations = () => {
             <label htmlFor="name" className="bold-label">
               Organisation Name
             </label>
-            <select
+            <input
+              type="text"
               className="form-control"
               id="name"
               name="name"
               value={newOrganisation.name}
               onChange={handleInputChange}
-            >
-              <option value="">Select Organisation</option>
-              {organisationList.map((organisation) => (
-                <option key={organisation} value={organisation}>
-                  {organisation}
-                </option>
-              ))}
-            </select>
+            />
             {errors.name && <div className="error">{errors.name}</div>}
           </div>
           <div className="form-group half-width">
@@ -493,20 +487,14 @@ const Organisations = () => {
                 <label htmlFor="edit-name" className="bold-label">
                   Organisation Name
                 </label>
-                <select
+                <input
+                  type="text"
                   className="form-control"
-                  id="edit-name"
+                  id="name"
                   name="name"
                   value={newOrganisation.name}
                   onChange={handleInputChange}
-                >
-                  <option value="">Select Organisation</option>
-                  {organisationList.map((organisation) => (
-                    <option key={organisation} value={organisation}>
-                      {organisation}
-                    </option>
-                  ))}
-                </select>
+                />
                 {errors.name && <div className="error">{errors.name}</div>}
               </div>
               <div className="form-group half-width">
