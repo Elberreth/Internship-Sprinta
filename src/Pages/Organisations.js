@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Tabs, Tab, Button, Modal } from "react-bootstrap";
 import cities from "../Utils/Cities";
-import organisationList from "../Utils/OrganisationList";
 import "../CSS/AdminPage.css";
 
 const Organisations = () => {
@@ -29,6 +28,12 @@ const Organisations = () => {
       JSON.parse(localStorage.getItem("organisations")) || [];
     setOrganisations(storedOrganisations);
   }, []);
+
+  useEffect(() => {
+    if (showEditModal === false) {
+      setNewOrganisation({ name: "", number: "", adminEmail: "", city: "" });
+    }
+  }, [showEditModal]);
 
   const indexOfLastOrganisation = currentPage * organisationsPerPage;
   const indexOfFirstOrganisation =
