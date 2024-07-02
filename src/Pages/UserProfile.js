@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { Form, Button, Card, Container, Row, Col, Tabs, Tab } from 'react-bootstrap';
+import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../CSS/UserProfile.css';
 
@@ -9,6 +10,17 @@ const UserProfile = () => {
   const fileInputRef = useRef(null);
   const [cv, setCv] = useState(null);
   const [personalLetter, setPersonalLetter] = useState(null);
+  const [personalInfo, setPersonalInfo] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+  });
+  const [professionalInfo, setProfessionalInfo] = useState({
+    employer: '',
+    education: '',
+  });
+  const [bio, setBio] = useState('');
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -22,7 +34,7 @@ const UserProfile = () => {
       setImage(null);
       setShowAddImageButton(true);
       if (fileInputRef.current) {
-        fileInputRef.current.value = ''; 
+        fileInputRef.current.value = '';
       }
     }
   };
@@ -37,9 +49,43 @@ const UserProfile = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleInputChange = (e, setState) => {
+    const { id, value } = e.target;
+    setState((prevState) => ({
+      ...prevState,
+      [id]: value,
+    }));
+  };
+
+  const handleSubmit = async (e, data, endpoint) => {
     e.preventDefault();
-    alert('Data saved successfully');
+    try {
+      await axios.post(endpoint, data, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      alert('Data saved successfully');
+    } catch (error) {
+      console.error('Error saving data:', error);
+    }
+  };
+
+  const handleUploadSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    if (cv) formData.append('cv', cv);
+    if (personalLetter) formData.append('personalLetter', personalLetter);
+    try {
+      await axios.post('/api/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      alert('Files uploaded successfully');
+    } catch (error) {
+      console.error('Error uploading files:', error);
+    }
   };
 
   const handleContinue = (e) => {
@@ -54,7 +100,7 @@ const UserProfile = () => {
         <Col xs={12} md={3}>
           <Card className="p-3 mb-4 small-card">
             <Card.Body>
-              <Form onSubmit={handleSubmit}>
+              <Form onSubmit={(e) => handleSubmit(e, { profilePicture: image }, '/api/profile-picture')}>
                 <div className="image-preview card-img-top mb-3">
                   {image ? (
                     <img src={image} alt="Profile" className="img-fluid" />
@@ -93,22 +139,42 @@ const UserProfile = () => {
               </Card.Text>
               <Tabs defaultActiveKey="personal" id="about-me-tabs">
                 <Tab eventKey="personal" title="Personal Information">
-                  <Form className="mt-3" onSubmit={handleSubmit}>
-                    <Form.Group controlId="formFirstName">
+                  <Form className="mt-3" onSubmit={(e) => handleSubmit(e, personalInfo, '/api/personal-info')}>
+                    <Form.Group controlId="firstName">
                       <Form.Label>First Name</Form.Label>
-                      <Form.Control type="text" placeholder="Enter your first name" />
+                      <Form.Control
+                        type="text"
+                        placeholder="Enter your first name"
+                        value={personalInfo.firstName}
+                        onChange={(e) => handleInputChange(e, setPersonalInfo)}
+                      />
                     </Form.Group>
-                    <Form.Group controlId="formLastName" className="mt-3">
+                    <Form.Group controlId="lastName" className="mt-3">
                       <Form.Label>Last Name</Form.Label>
-                      <Form.Control type="text" placeholder="Enter your last name" />
+                      <Form.Control
+                        type="text"
+                        placeholder="Enter your last name"
+                        value={personalInfo.lastName}
+                        onChange={(e) => handleInputChange(e, setPersonalInfo)}
+                      />
                     </Form.Group>
-                    <Form.Group controlId="formEmail" className="mt-3">
+                    <Form.Group controlId="email" className="mt-3">
                       <Form.Label>Email</Form.Label>
-                      <Form.Control type="email" placeholder="Enter your email" />
+                      <Form.Control
+                        type="email"
+                        placeholder="Enter your email"
+                        value={personalInfo.email}
+                        onChange={(e) => handleInputChange(e, setPersonalInfo)}
+                      />
                     </Form.Group>
-                    <Form.Group controlId="formPhone" className="mt-3">
+                    <Form.Group controlId="phone" className="mt-3">
                       <Form.Label>Phone Number</Form.Label>
-                      <Form.Control type="text" placeholder="Enter your phone number" />
+                      <Form.Control
+                        type="text"
+                        placeholder="Enter your phone number"
+                        value={personalInfo.phone}
+                        onChange={(e) => handleInputChange(e, setPersonalInfo)}
+                      />
                     </Form.Group>
                     <div className="d-flex justify-content-center">
                       <Button variant="primary" type="submit" className="mt-3">
@@ -118,14 +184,24 @@ const UserProfile = () => {
                   </Form>
                 </Tab>
                 <Tab eventKey="professional" title="Professional Information">
-                  <Form className="mt-3" onSubmit={handleSubmit}>
-                    <Form.Group controlId="formEmployer">
+                  <Form className="mt-3" onSubmit={(e) => handleSubmit(e, professionalInfo, '/api/professional-info')}>
+                    <Form.Group controlId="employer">
                       <Form.Label>Current Employer</Form.Label>
-                      <Form.Control type="text" placeholder="Enter your current employer" />
+                      <Form.Control
+                        type="text"
+                        placeholder="Enter your current employer"
+                        value={professionalInfo.employer}
+                        onChange={(e) => handleInputChange(e, setProfessionalInfo)}
+                      />
                     </Form.Group>
-                    <Form.Group controlId="formEducation" className="mt-3">
+                    <Form.Group controlId="education" className="mt-3">
                       <Form.Label>Education</Form.Label>
-                      <Form.Control type="text" placeholder="Enter your education" />
+                      <Form.Control
+                        type="text"
+                        placeholder="Enter your education"
+                        value={professionalInfo.education}
+                        onChange={(e) => handleInputChange(e, setProfessionalInfo)}
+                      />
                     </Form.Group>
                     <div className="d-flex justify-content-center">
                       <Button variant="primary" type="submit" className="mt-3">
@@ -135,10 +211,16 @@ const UserProfile = () => {
                   </Form>
                 </Tab>
                 <Tab eventKey="social" title="Social Information">
-                  <Form className="mt-3" onSubmit={handleSubmit}>
-                    <Form.Group controlId="formBio">
+                  <Form className="mt-3" onSubmit={(e) => handleSubmit(e, { bio }, '/api/bio')}>
+                    <Form.Group controlId="bio">
                       <Form.Label>About Me</Form.Label>
-                      <Form.Control as="textarea" rows={5} placeholder="Tell us about yourself" />
+                      <Form.Control
+                        as="textarea"
+                        rows={5}
+                        placeholder="Tell us about yourself"
+                        value={bio}
+                        onChange={(e) => setBio(e.target.value)}
+                      />
                     </Form.Group>
                     <div className="d-flex justify-content-center">
                       <Button variant="primary" type="submit" className="mt-3">
@@ -148,12 +230,12 @@ const UserProfile = () => {
                   </Form>
                 </Tab>
                 <Tab eventKey="upload" title="Upload">
-                  <Form className="mt-3" onSubmit={handleSubmit}>
-                    <Form.Group controlId="formCv">
+                  <Form className="mt-3" onSubmit={handleUploadSubmit}>
+                    <Form.Group controlId="cv">
                       <Form.Label>Upload CV</Form.Label>
                       <Form.Control type="file" id="cv" onChange={handleFileChange} />
                     </Form.Group>
-                    <Form.Group controlId="formPersonalLetter" className="mt-3">
+                    <Form.Group controlId="personalLetter" className="mt-3">
                       <Form.Label>Upload Personal Letter</Form.Label>
                       <Form.Control type="file" id="personalLetter" onChange={handleFileChange} />
                     </Form.Group>
@@ -179,6 +261,7 @@ const UserProfile = () => {
 };
 
 export default UserProfile;
+
 
 
 
