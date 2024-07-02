@@ -102,8 +102,8 @@ const NewForm = () => {
   return (
     <>
       <form className="new-form card p-3 mb-4" onSubmit={handleSubmit}>
-        <div className="d-flex justify-content-center align-items-center">
-          <h5 className="card-title">What is New</h5>
+        <div className="d-flex justify-content-between align-items-center">
+          <h5 className="card-title text-center">What is New</h5>
         </div>
         <div className="mb-3">
           <textarea
@@ -234,6 +234,7 @@ const NewForm = () => {
 };
 
 export default NewForm;
+
 
 
 

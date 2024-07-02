@@ -13,19 +13,25 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 const App = () => {
   const [resetFormTrigger, setResetFormTrigger] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('isLoggedIn') === 'true');
 
   const handleResetRegisterForm = useCallback(() => {
     setResetFormTrigger((prev) => !prev);
   }, []);
 
+  const handleLogout = () => {
+    localStorage.setItem('isLoggedIn', 'false');
+    setIsLoggedIn(false);
+  };
+
   return (
     <Router>
       <div>
-        <Header onResetRegisterForm={handleResetRegisterForm} />
+        <Header onResetRegisterForm={handleResetRegisterForm} isLoggedIn={isLoggedIn} onLogout={handleLogout} />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
           <Route
             path="/register"
             element={<Register resetFormTrigger={resetFormTrigger} />}
@@ -60,6 +66,9 @@ const RequireAuth = ({ children }) => {
 };
 
 export default App;
+
+
+
 
 
 

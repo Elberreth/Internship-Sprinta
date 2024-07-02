@@ -24,19 +24,40 @@ const UserProfile = () => {
   const [bio, setBio] = useState('');
   const navigate = useNavigate();
 
-  const handleImageChange = (e) => {
+  const handleImageChange = async (e) => {
     const file = e.target.files[0];
-    setImage(URL.createObjectURL(file));
-    setShowAddImageButton(false);
+    const formData = new FormData();
+    formData.append('profilePicture', file);
+
+    try {
+      const response = await axios.post('/api/user/profile-picture', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+      setImage(URL.createObjectURL(file));
+      setShowAddImageButton(false);
+      alert('Profile picture saved successfully');
+    } catch (error) {
+      console.error('Error uploading profile picture:', error);
+      alert('Failed to save profile picture');
+    }
   };
 
-  const handleRemoveImage = () => {
+  const handleRemoveImage = async () => {
     const confirmed = window.confirm("Are you sure you want to remove the image?");
     if (confirmed) {
-      setImage(null);
-      setShowAddImageButton(true);
-      if (fileInputRef.current) {
-        fileInputRef.current.value = '';
+      try {
+        await axios.delete('/api/user/profile-picture');
+        setImage(null);
+        setShowAddImageButton(true);
+        if (fileInputRef.current) {
+          fileInputRef.current.value = '';
+        }
+        alert('Profile picture removed successfully');
+      } catch (error) {
+        console.error('Error removing profile picture:', error);
+        alert('Failed to remove profile picture');
       }
     }
   };
@@ -70,6 +91,7 @@ const UserProfile = () => {
       alert('Data saved successfully');
     } catch (error) {
       console.error('Error saving data:', error);
+      alert('Failed to save data');
     }
   };
 
@@ -87,6 +109,7 @@ const UserProfile = () => {
       alert('Files uploaded successfully');
     } catch (error) {
       console.error('Error uploading files:', error);
+      alert('Failed to upload files');
     }
   };
 
@@ -262,6 +285,9 @@ const UserProfile = () => {
 };
 
 export default UserProfile;
+
+
+
 
 
 
