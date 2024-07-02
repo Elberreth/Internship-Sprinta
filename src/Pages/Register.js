@@ -6,9 +6,11 @@ import "../CSS/Popup.css";
 import AgreementPopup from "./AgreementPopup";
 import generateRandomCode from "../Utils/RandomCodeGenerator";
 import organisationList from "../Utils/OrganisationList";
-import axios from 'axios';
+import axios from "axios";
 
 const Register = ({ resetFormTrigger }) => {
+  const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+  const [invalidEmailError, setInvalidEmailError] = useState(null);
   const [validationCode, setValidationCode] = useState("");
   const [validationCodeError, setValidationCodeError] = useState("");
   const [showPopup, setShowPopup] = useState(false);
@@ -29,7 +31,8 @@ const Register = ({ resetFormTrigger }) => {
       firstname: "",
       lastname: "",
       email: "",
-      validateEmail: "",
+      emailFormat: "",
+      codeToValidate: "",
       password: "",
       confirmPassword: "",
       organisation: "",
@@ -43,7 +46,8 @@ const Register = ({ resetFormTrigger }) => {
       firstname: "",
       lastname: "",
       email: "",
-      validateEmail: "",
+      emailFormat: "",
+      codeToValidate: "",
       password: "",
       confirmPassword: "",
       organisation: "",
@@ -61,14 +65,25 @@ const Register = ({ resetFormTrigger }) => {
     console.log(data);
   };
 
+  const validateEmail = (emailGiven) => {
+    if (!emailRegex.test(emailGiven)) {
+      setInvalidEmailError("Please enter a valid email address");
+    } else {
+      setInvalidEmailError("");
+    }
+  };
+
   const handleSubmitGetValidationCode = async (data) => {
     console.log(
       data
     ); /*TODO: Remove before going live, BUT KEEP NOW for testing purposes during development*/
     let errorMessage = "";
 
+    validateEmail(data.email);
+
     if (!data.firstname || !data.lastname || !data.email) {
-      errorMessage += "First Name, Last Name, and Email are required. ";
+      errorMessage +=
+        "First Name, Last Name, and Email in valid format are required. ";
     }
     if (!data.employmentStatus) {
       errorMessage += "Employment status is required. ";
@@ -98,21 +113,20 @@ const Register = ({ resetFormTrigger }) => {
   const sendEmail = async (email, code) => {
     console.log(`Sending code ${code} to ${email}`);
     /* Calls backend to send validation code to email */
-    axios.post('http://localhost:8080/email',{
-      "to": [
-        email
-      ],
-        "subject":"Jambiz Alumni - Email Verification Code",
-        "templateId":"RegistrationCode",
-        "vals":{
-            "code": code
-        }
-    })
-      .then(response => {
+    axios
+      .post("http://localhost:8080/email", {
+        to: [email],
+        subject: "Jambiz Alumni - Email Verification Code",
+        templateId: "RegistrationCode",
+        vals: {
+          code: code,
+        },
+      })
+      .then((response) => {
         console.log(response.data);
       })
-      .catch(error => {
-        console.error('There was an error in sending valiation code!', error);
+      .catch((error) => {
+        console.error("There was an error in sending valiation code!", error);
       });
   };
 
@@ -132,18 +146,18 @@ const Register = ({ resetFormTrigger }) => {
   };
 
   const handleRegister = handleSubmit((data) => {
-    const { validateEmail, password, confirmPassword, acceptAgreement } = data;
+    const { codeToValidate, password, confirmPassword, acceptAgreement } = data;
     let errors = {};
 
-    // Validate email format and code
+    // Validate code format
     const validationCodePattern = /^\d{4}-\d{4}$/;
 
     if (
-      !validateEmail ||
-      !validationCodePattern.test(validateEmail) ||
-      validateEmail !== validationCode
+      !codeToValidate ||
+      !validationCodePattern.test(codeToValidate) ||
+      codeToValidate !== validationCode
     ) {
-      errors.validateEmail =
+      errors.codeToValidate =
         "Please enter your recieved validation code in the format xxxx-xxxx.";
     }
 
@@ -171,27 +185,26 @@ const Register = ({ resetFormTrigger }) => {
     setValidationErrors(errors);
 
     if (Object.keys(errors).length === 0) {
-      
-      let employmentStatus = (data.employmentStatus === "Currently Employed") ? true : false;
-      axios.post('http://localhost:8080/register',{
-      
-        "firstName" : data.firstname,
-        "lastName" : data.lastname,
-        "email" : data.email, 
-        "password": data.password,
-        "isEmployed" : employmentStatus,
-        "organisation_name" : data.organisation
-       
-    }).then(response => {
-      console.log(response.data);
-      setAccountCreated(true);
-      alert("Your application have been sent to an admin for approval");
-    })
-    .catch(error => {
-      setAccountCreated(false);
-      console.error('There was an error in registering user!', error);
-    });
-      
+      let employmentStatus =
+        data.employmentStatus === "Currently Employed" ? true : false;
+      axios
+        .post("http://localhost:8080/register", {
+          firstName: data.firstname,
+          lastName: data.lastname,
+          email: data.email,
+          password: data.password,
+          isEmployed: employmentStatus,
+          organisation_name: data.organisation,
+        })
+        .then((response) => {
+          console.log(response.data);
+          setAccountCreated(true);
+          alert("Your application have been sent to an admin for approval");
+        })
+        .catch((error) => {
+          setAccountCreated(false);
+          console.error("There was an error in registering user!", error);
+        });
     }
   });
 
@@ -297,6 +310,9 @@ const Register = ({ resetFormTrigger }) => {
             {errors.email && (
               <div className="error">{errors.email.message}</div>
             )}
+            {invalidEmailError && (
+              <div className="error">{invalidEmailError}</div>
+            )}
           </div>
           <button
             type="button"
@@ -317,10 +333,10 @@ const Register = ({ resetFormTrigger }) => {
                 className="form-control"
                 id="inputValidateEmail"
                 placeholder="Type in your code (xxxx-xxxx)"
-                {...register("validateEmail")}
+                {...register("codeToValidate")}
               />
-              {validationErrors.validateEmail && (
-                <div className="error">{validationErrors.validateEmail}</div>
+              {validationErrors.codeToValidate && (
+                <div className="error">{validationErrors.codeToValidate}</div>
               )}
             </div>
             <div className="form-group">
