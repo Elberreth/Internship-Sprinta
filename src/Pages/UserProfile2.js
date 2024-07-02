@@ -12,13 +12,13 @@ const mockFriends = [
 
 const UserProfile2 = () => {
   const [userData, setUserData] = useState({
-    profilePicture: ''
+    profilePicture: localStorage.getItem('profilePicture') || ''
   });
 
   const [friends, setFriends] = useState(mockFriends);
   const [newFriend, setNewFriend] = useState('');
-  const [image, setImage] = useState(null);
-  const [showAddImageButton, setShowAddImageButton] = useState(true);
+  const [image, setImage] = useState(localStorage.getItem('profilePicture') || null);
+  const [showAddImageButton, setShowAddImageButton] = useState(!localStorage.getItem('profilePicture'));
   const fileInputRef = useRef(null);
 
   useEffect(() => {
@@ -37,49 +37,6 @@ const UserProfile2 = () => {
 
     fetchUserData();
   }, []);
-
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    setImage(URL.createObjectURL(file));
-    setUserData((prevData) => ({
-      ...prevData,
-      profilePicture: file
-    }));
-    setShowAddImageButton(false);
-  };
-
-  const handleRemoveImage = () => {
-    const confirmed = window.confirm("Are you sure you want to remove the image?");
-    if (confirmed) {
-      setImage(null);
-      setUserData((prevData) => ({
-        ...prevData,
-        profilePicture: ''
-      }));
-      setShowAddImageButton(true);
-      if (fileInputRef.current) {
-        fileInputRef.current.value = '';
-      }
-    }
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    for (const key in userData) {
-      formData.append(key, userData[key]);
-    }
-    try {
-      await axios.post('/api/user', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      });
-      alert('User data saved successfully');
-    } catch (error) {
-      console.error('Error saving user data:', error);
-    }
-  };
 
   const handleAddFriend = (e) => {
     e.preventDefault();
@@ -102,33 +59,6 @@ const UserProfile2 = () => {
                 <p>Profile Picture</p>
               )}
             </div>
-            <input
-              type="file"
-              onChange={handleImageChange}
-              className="image-input"
-              ref={fileInputRef}
-              style={{ display: 'none' }}
-            />
-            <div className="button-group mt-3 d-flex justify-content-center">
-              {showAddImageButton && (
-                <button
-                  type="button"
-                  className="btn btn-primary btn-add btn-sm"
-                  onClick={() => fileInputRef.current.click()}
-                >
-                  Add Image
-                </button>
-              )}
-              {!showAddImageButton && (
-                <button
-                  type="button"
-                  className="btn btn-danger btn-remove btn-sm"
-                  onClick={handleRemoveImage}
-                >
-                  Remove Image
-                </button>
-              )}
-            </div>
           </form>
         </div>
         <div className="col-md-6">
@@ -137,7 +67,7 @@ const UserProfile2 = () => {
           </div>
         </div>
         <div className="col-md-3 d-flex flex-column align-items-center">
-          <div className="friends-container card p-3 mb-4" style={{ width: '100%' }}>
+          <div className="friends-container card p-3 mb-4 match-height" style={{ width: '100%' }}>
             <h5 className="card-title text-center">Friends List</h5>
             <form onSubmit={handleAddFriend}>
               <div className="mb-3">
@@ -170,6 +100,9 @@ const UserProfile2 = () => {
 };
 
 export default UserProfile2;
+
+
+
 
 
 
