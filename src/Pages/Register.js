@@ -171,23 +171,27 @@ const Register = ({ resetFormTrigger }) => {
     setValidationErrors(errors);
 
     if (Object.keys(errors).length === 0) {
-      setAccountCreated(true);
+      
+      let employmentStatus = (data.employmentStatus === "Currently Employed") ? true : false;
       axios.post('http://localhost:8080/register',{
       
-        "firstName" : "Anita",
-        "lastName" : "Rajappa",
-        "email" : "anita.rajappa@gmail.com",
-        "password": "Anita@123",
-        "isEmployed" : true,
-        "organisation_name" : "Sprinta"
+        "firstName" : data.firstname,
+        "lastName" : data.lastname,
+        "email" : data.email, 
+        "password": data.password,
+        "isEmployed" : employmentStatus,
+        "organisation_name" : data.organisation
        
     }).then(response => {
       console.log(response.data);
+      setAccountCreated(true);
+      alert("Your application have been sent to an admin for approval");
     })
     .catch(error => {
+      setAccountCreated(false);
       console.error('There was an error in registering user!', error);
     });
-      alert("Your application have been sent to an admin for approval");
+      
     }
   });
 
