@@ -5,7 +5,6 @@ import ReactPlayer from 'react-player';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp, faThumbsDown, faShare } from '@fortawesome/free-solid-svg-icons';
 
-// Mockup för användarens vänner
 const userFriends = [
   { id: 1, name: 'Friend 1', contact: 'user2@example.com' },
   { id: 2, name: 'Friend 2', contact: 'friend2@example.com' },
@@ -22,6 +21,7 @@ const NewForm = () => {
   const [editMedia, setEditMedia] = useState('');
   const [editMediaType, setEditMediaType] = useState('');
   const fileInputRef = useRef(null);
+  const editFileInputRef = useRef(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -50,14 +50,34 @@ const NewForm = () => {
   };
 
   const handleSave = () => {
-    const timestamp = new Date().getTime();
     const newEntries = [...entries];
-    newEntries[editIndex] = { info: editText, media: editMedia, mediaType: editMediaType, timestamp };
-    setEntries(newEntries.sort((a, b) => b.timestamp - a.timestamp));
+    newEntries[editIndex] = { ...newEntries[editIndex], info: editText, media: editMedia, mediaType: editMediaType };
+    setEntries(newEntries);
     setEditIndex(-1);
     setEditText('');
     setEditMedia('');
     setEditMediaType('');
+  };
+
+  const handleLike = (index) => {
+    const newEntries = [...entries];
+    newEntries[index] = { ...newEntries[index], likes: (newEntries[index].likes || 0) + 1 };
+    setEntries(newEntries);
+  };
+
+  const handleDislike = (index) => {
+    const newEntries = [...entries];
+    newEntries[index] = { ...newEntries[index], dislikes: (newEntries[index].dislikes || 0) + 1 };
+    setEntries(newEntries);
+  };
+
+  const handleShare = (index) => {
+    const entry = entries[index];
+    const shareText = `${entry.info}\n${entry.media}`;
+    userFriends.forEach(friend => {
+      console.log(`Sharing with ${friend.name}: ${shareText}`);
+    });
+    alert('Shared with all friends!');
   };
 
   const handleMediaChange = (e) => {
@@ -94,19 +114,10 @@ const NewForm = () => {
     setEditMediaType(ReactPlayer.canPlay(url) ? 'video' : 'image');
   };
 
-  const handleShare = (index) => {
-    const entry = entries[index];
-    const shareText = `${entry.info}\n${entry.media}`;
-    userFriends.forEach(friend => {
-      console.log(`Sharing with ${friend.name}: ${shareText}`);
-    });
-    alert('Shared with all friends!');
-  };
-
   return (
     <>
       <form className="new-form card p-3 mb-4" onSubmit={handleSubmit}>
-        <div className="d-flex justify-content-between align-items-center">
+        <div className="d-flex justify-content-center align-items-center">
           <h5 className="card-title text-center">What is New</h5>
         </div>
         <div className="mb-3">
@@ -132,7 +143,7 @@ const NewForm = () => {
               &#8942;
             </Dropdown.Toggle>
             <Dropdown.Menu>
-              <Dropdown.Item onClick={() => fileInputRef.current.click()}>Browse</Dropdown.Item>
+              <Dropdown.Item onClick={() => fileInputRef.current && fileInputRef.current.click()}>Browse</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
           <input
@@ -146,7 +157,7 @@ const NewForm = () => {
       </form>
       {entries.length > 0 && (
         <div className="entries mt-3">
-          {entries.map((entry, index) => (
+          {entries.sort((a, b) => b.timestamp - a.timestamp).map((entry, index) => (
             <div key={index} className="entry card p-3 mb-2">
               {editIndex === index ? (
                 <div className="mb-3">
@@ -170,17 +181,17 @@ const NewForm = () => {
                         &#8942;
                       </Dropdown.Toggle>
                       <Dropdown.Menu>
-                        <Dropdown.Item onClick={() => fileInputRef.current.click()}>Browse</Dropdown.Item>
+                        <Dropdown.Item onClick={() => editFileInputRef.current && editFileInputRef.current.click()}>Browse</Dropdown.Item>
                       </Dropdown.Menu>
                     </Dropdown>
                     <input
                       type="file"
-                      ref={fileInputRef}
+                      ref={editFileInputRef}
                       onChange={handleEditMediaChange}
                       style={{ display: 'none' }}
                     />
                   </div>
-                  <div className="button-group mt-2">
+                  <div className="button-group mt-2 d-flex justify-content-center">
                     <button
                       type="button"
                       className="btn btn-primary btn-sm me-2"
@@ -219,7 +230,7 @@ const NewForm = () => {
                         </Dropdown.Menu>
                       </Dropdown>
                     </div>
-                    <div className="d-flex align-items-center">
+                    <div className="button-group ms-auto d-flex">
                       <button
                         type="button"
                         className="btn btn-outline-primary btn-sm me-2"
@@ -230,12 +241,14 @@ const NewForm = () => {
                       <button
                         type="button"
                         className="btn btn-outline-success btn-sm me-2"
+                        onClick={() => handleLike(index)}
                       >
                         <FontAwesomeIcon icon={faThumbsUp} />
                       </button>
                       <button
                         type="button"
                         className="btn btn-outline-danger btn-sm"
+                        onClick={() => handleDislike(index)}
                       >
                         <FontAwesomeIcon icon={faThumbsDown} />
                       </button>
@@ -252,6 +265,9 @@ const NewForm = () => {
 };
 
 export default NewForm;
+
+
+
 
 
 

@@ -9,7 +9,7 @@
     margin-top: 20px;
     padding: 20px;
     width: 100%;
-    max-width: 800px; /* Maximal bredd på formuläret */
+    max-width: 800px; 
 }
 
 .new-form h2 {
@@ -21,14 +21,15 @@
 
 textarea {
     resize: none;
-    width: 100%; /* Låt textarea ta upp hela bredden av sitt föräldraselement */
-    height: 200px; /* Justera höjden till en större storlek */
-    box-sizing: border-box; /* Inkludera padding och border i elementets totala bredd och höjd */
+    width: 100%; 
+    height: 200px; 
+    box-sizing: border-box; 
 }
 
 .submit-button {
     width: 100%;
-    max-width: 200px;
+    max-width: 100px; /* Reduced width */
+    padding: 5px 10px; /* Smaller padding */
 }
 
 .entries {
@@ -48,7 +49,7 @@ textarea {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 20px;
     width: 100%;
-    max-width: 600px; /* Mindre bredd för meddelandefälten */
+    max-width: 600px; 
     margin-bottom: 10px;
 }
 
@@ -60,9 +61,10 @@ textarea {
 
 @media (min-width: 768px) {
     .new-form {
-        margin: 0 auto; /* Centrera formuläret */
+        margin: 0 auto; 
     }
     .entry {
-        margin: 0 auto; /* Centrera meddelandefälten */
+        margin: 0 auto; 
     }
 }
+
