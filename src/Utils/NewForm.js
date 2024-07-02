@@ -2,6 +2,8 @@ import React, { useState, useRef } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Dropdown } from 'react-bootstrap';
 import ReactPlayer from 'react-player';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faThumbsUp, faThumbsDown, faShare } from '@fortawesome/free-solid-svg-icons';
 
 // Mockup för användarens vänner
 const userFriends = [
@@ -23,8 +25,9 @@ const NewForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const timestamp = new Date().getTime();
     if (newInfo.trim() || newMedia.trim()) {
-      setEntries([{ info: newInfo, media: newMedia, mediaType: newMediaType }, ...entries]);
+      setEntries([{ info: newInfo, media: newMedia, mediaType: newMediaType, timestamp }, ...entries]);
       setNewInfo('');
       setNewMedia('');
       setNewMediaType('');
@@ -47,9 +50,10 @@ const NewForm = () => {
   };
 
   const handleSave = () => {
+    const timestamp = new Date().getTime();
     const newEntries = [...entries];
-    newEntries[editIndex] = { info: editText, media: editMedia, mediaType: editMediaType };
-    setEntries(newEntries);
+    newEntries[editIndex] = { info: editText, media: editMedia, mediaType: editMediaType, timestamp };
+    setEntries(newEntries.sort((a, b) => b.timestamp - a.timestamp));
     setEditIndex(-1);
     setEditText('');
     setEditMedia('');
@@ -215,13 +219,27 @@ const NewForm = () => {
                         </Dropdown.Menu>
                       </Dropdown>
                     </div>
-                    <button
-                      type="button"
-                      className="btn btn-outline-primary btn-sm"
-                      onClick={() => handleShare(index)}
-                    >
-                      Share
-                    </button>
+                    <div className="d-flex align-items-center">
+                      <button
+                        type="button"
+                        className="btn btn-outline-primary btn-sm me-2"
+                        onClick={() => handleShare(index)}
+                      >
+                        <FontAwesomeIcon icon={faShare} />
+                      </button>
+                      <button
+                        type="button"
+                        className="btn btn-outline-success btn-sm me-2"
+                      >
+                        <FontAwesomeIcon icon={faThumbsUp} />
+                      </button>
+                      <button
+                        type="button"
+                        className="btn btn-outline-danger btn-sm"
+                      >
+                        <FontAwesomeIcon icon={faThumbsDown} />
+                      </button>
+                    </div>
                   </div>
                 </>
               )}
@@ -234,6 +252,8 @@ const NewForm = () => {
 };
 
 export default NewForm;
+
+
 
 
 

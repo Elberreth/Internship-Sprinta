@@ -147,7 +147,7 @@ const UserProfile2 = () => {
                   placeholder="Enter friend's name"
                 />
               </div>
-              <button type="submit" className="btn btn-primary btn-sm w-100">Add Friend</button>
+              <button type="submit" className="btn btn-primary btn-sm-custom w-100">Add Friend</button>
             </form>
             <h5 className="card-title text-center mt-4">Friends</h5>
             <ul className="list-group">
@@ -168,6 +168,7 @@ const UserProfile2 = () => {
 };
 
 export default UserProfile2;
+
 
 
 

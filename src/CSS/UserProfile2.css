@@ -115,8 +115,14 @@ textarea {
 .friends-list-form {
   width: 50%; 
   margin-left: auto; 
-  margin-top: 10; /* Ta bort eventuell övre marginal */
+  margin-top: 10; 
+
 }
+.btn-sm-custom {
+  padding: 5px 10px;
+  font-size: 12px;
+}
+
 
 
 
