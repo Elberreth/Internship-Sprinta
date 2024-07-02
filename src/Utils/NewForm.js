@@ -24,7 +24,7 @@ const NewForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (newInfo.trim() || newMedia.trim()) {
-      setEntries([...entries, { info: newInfo, media: newMedia, mediaType: newMediaType }]);
+      setEntries([{ info: newInfo, media: newMedia, mediaType: newMediaType }, ...entries]);
       setNewInfo('');
       setNewMedia('');
       setNewMediaType('');
@@ -94,9 +94,7 @@ const NewForm = () => {
     const entry = entries[index];
     const shareText = `${entry.info}\n${entry.media}`;
     userFriends.forEach(friend => {
-     
       console.log(`Sharing with ${friend.name}: ${shareText}`);
-      
     });
     alert('Shared with all friends!');
   };
@@ -236,6 +234,7 @@ const NewForm = () => {
 };
 
 export default NewForm;
+
 
 
 

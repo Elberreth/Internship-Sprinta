@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import '../CSS/UserProfile.css';
+import '../CSS/UserProfile2.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import NewForm from './NewForm'; 
+import NewForm from '../Utils/NewForm';
 
 const mockFriends = [
   { id: 1, name: 'Friend 1', online: true },
@@ -10,15 +10,8 @@ const mockFriends = [
   { id: 3, name: 'Friend 3', online: true },
 ];
 
-const UserProfile = () => {
+const UserProfile2 = () => {
   const [userData, setUserData] = useState({
-    firstName: '',
-    lastName: '',
-    contactInfo: '',
-    facebook: '',
-    linkedin: '',
-    cv: '',
-    personalLetter: '',
     profilePicture: ''
   });
 
@@ -45,14 +38,6 @@ const UserProfile = () => {
     fetchUserData();
   }, []);
 
-  const handleInputChange = (e) => {
-    const { id, value } = e.target;
-    setUserData((prevData) => ({
-      ...prevData,
-      [id]: value
-    }));
-  };
-
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     setImage(URL.createObjectURL(file));
@@ -73,18 +58,9 @@ const UserProfile = () => {
       }));
       setShowAddImageButton(true);
       if (fileInputRef.current) {
-        fileInputRef.current.value = ''; 
+        fileInputRef.current.value = '';
       }
     }
-  };
-
-  const handleFileChange = (e) => {
-    const { id } = e.target;
-    const file = e.target.files[0];
-    setUserData((prevData) => ({
-      ...prevData,
-      [id]: file
-    }));
   };
 
   const handleSubmit = async (e) => {
@@ -130,14 +106,14 @@ const UserProfile = () => {
               type="file"
               onChange={handleImageChange}
               className="image-input"
-              ref={fileInputRef} 
-              style={{ display: 'none' }} // Hide the file input
+              ref={fileInputRef}
+              style={{ display: 'none' }}
             />
-            <div className="button-group mt-3">
+            <div className="button-group mt-3 d-flex justify-content-center">
               {showAddImageButton && (
                 <button
                   type="button"
-                  className="btn btn-primary btn-add"
+                  className="btn btn-primary btn-add btn-sm"
                   onClick={() => fileInputRef.current.click()}
                 >
                   Add Image
@@ -146,7 +122,7 @@ const UserProfile = () => {
               {!showAddImageButton && (
                 <button
                   type="button"
-                  className="btn btn-danger btn-remove"
+                  className="btn btn-danger btn-remove btn-sm"
                   onClick={handleRemoveImage}
                 >
                   Remove Image
@@ -154,104 +130,15 @@ const UserProfile = () => {
               )}
             </div>
           </form>
-          <form className="additional-form card p-3" onSubmit={handleSubmit}>
-            <h2 className="card-title text-center">About Me</h2>
-            <div className="mb-3">
-              <label htmlFor="firstName" className="form-label">First Name</label>
-              <input
-                type="text"
-                className="form-control"
-                id="firstName"
-                value={userData.firstName}
-                onChange={handleInputChange}
-                placeholder="Enter first name"
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="lastName" className="form-label">Last Name</label>
-              <input
-                type="text"
-                className="form-control"
-                id="lastName"
-                value={userData.lastName}
-                onChange={handleInputChange}
-                placeholder="Enter last name"
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="contactInfo" className="form-label">Contact Info</label>
-              <input
-                type="text"
-                className="form-control"
-                id="contactInfo"
-                value={userData.contactInfo}
-                onChange={handleInputChange}
-                placeholder="Enter contact info"
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="facebook" className="form-label">Facebook</label>
-              <input
-                type="text"
-                className="form-control"
-                id="facebook"
-                value={userData.facebook}
-                onChange={handleInputChange}
-                placeholder="Enter Facebook profile"
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="linkedin" className="form-label">LinkedIn</label>
-              <input
-                type="text"
-                className="form-control"
-                id="linkedin"
-                value={userData.linkedin}
-                onChange={handleInputChange}
-                placeholder="Enter LinkedIn profile"
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="cv" className="form-label">Upload CV</label>
-              {userData.cv && (
-                <div>
-                  <a href={userData.cv} target="_blank" rel="noopener noreferrer">View CV</a>
-                </div>
-              )}
-              <input
-                type="file"
-                className="form-control"
-                id="cv"
-                onChange={handleFileChange}
-                data-browse="Browse"
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="personalLetter" className="form-label">Upload Personal Letter</label>
-              {userData.personalLetter && (
-                <div>
-                  <a href={userData.personalLetter} target="_blank" rel="noopener noreferrer">View Personal Letter</a>
-                </div>
-              )}
-              <input
-                type="file"
-                className="form-control"
-                id="personalLetter"
-                onChange={handleFileChange}
-                data-browse="Browse"
-              />
-            </div>
-            <button type="submit" className="btn btn-primary submit-button mt-3">Submit</button>
-          </form>
         </div>
         <div className="col-md-6">
           <div className="new-form-container">
             <NewForm />
           </div>
         </div>
-        <div className="col-md-3">
-          <div className="friends-container card p-3">
-            <h5 className="card-title text-center">Add Friend</h5>
+        <div className="col-md-3 d-flex flex-column align-items-center">
+          <div className="friends-container card p-3 mb-4" style={{ width: '100%' }}>
+            <h5 className="card-title text-center">Friends List</h5>
             <form onSubmit={handleAddFriend}>
               <div className="mb-3">
                 <input
@@ -282,7 +169,10 @@ const UserProfile = () => {
   );
 };
 
-export default UserProfile;
+export default UserProfile2;
+
+
+
 
 
 

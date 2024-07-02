@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Form, Button, Card, Container, Row, Col, Tabs, Tab } from 'react-bootstrap';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -21,6 +22,7 @@ const UserProfile = () => {
     education: '',
   });
   const [bio, setBio] = useState('');
+  const navigate = useNavigate();
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -90,8 +92,7 @@ const UserProfile = () => {
 
   const handleContinue = (e) => {
     e.preventDefault();
-    alert('Navigating to personal page...');
-    // Implement the navigation logic here
+    navigate('/userprofile2');
   };
 
   return (
@@ -99,9 +100,9 @@ const UserProfile = () => {
       <Row className="mt-3">
         <Col xs={12} md={3}>
           <Card className="p-3 mb-4 small-card">
-            <Card.Body>
+            <Card.Body className="d-flex flex-column align-items-center">
               <Form onSubmit={(e) => handleSubmit(e, { profilePicture: image }, '/api/profile-picture')}>
-                <div className="image-preview card-img-top mb-3">
+                <div className="image-preview card-img-top mb-3 d-flex justify-content-center align-items-center">
                   {image ? (
                     <img src={image} alt="Profile" className="img-fluid" />
                   ) : (
@@ -114,9 +115,9 @@ const UserProfile = () => {
                   onChange={handleImageChange}
                   style={{ display: 'none' }}
                 />
-                <div className="button-group mt-3">
+                <div className="button-group mt-3 d-flex justify-content-center">
                   {showAddImageButton && (
-                    <Button variant="primary" onClick={() => fileInputRef.current.click()}>
+                    <Button variant="primary" onClick={() => fileInputRef.current.click()} className="btn-sm">
                       Add Image
                     </Button>
                   )}
@@ -177,7 +178,7 @@ const UserProfile = () => {
                       />
                     </Form.Group>
                     <div className="d-flex justify-content-center">
-                      <Button variant="primary" type="submit" className="mt-3">
+                      <Button variant="primary" type="submit" className="mt-3 btn-sm">
                         Submit
                       </Button>
                     </div>
@@ -204,7 +205,7 @@ const UserProfile = () => {
                       />
                     </Form.Group>
                     <div className="d-flex justify-content-center">
-                      <Button variant="primary" type="submit" className="mt-3">
+                      <Button variant="primary" type="submit" className="mt-3 btn-sm">
                         Submit
                       </Button>
                     </div>
@@ -223,7 +224,7 @@ const UserProfile = () => {
                       />
                     </Form.Group>
                     <div className="d-flex justify-content-center">
-                      <Button variant="primary" type="submit" className="mt-3">
+                      <Button variant="primary" type="submit" className="mt-3 btn-sm">
                         Submit
                       </Button>
                     </div>
@@ -240,12 +241,12 @@ const UserProfile = () => {
                       <Form.Control type="file" id="personalLetter" onChange={handleFileChange} />
                     </Form.Group>
                     <div className="d-flex justify-content-center">
-                      <Button variant="primary" type="submit" className="mt-3">
+                      <Button variant="primary" type="submit" className="mt-3 btn-sm">
                         Submit
                       </Button>
                     </div>
                     <div className="d-flex justify-content-center mt-3">
-                      <Button variant="success" type="button" onClick={handleContinue} className="continue-button">
+                      <Button variant="success" type="button" onClick={handleContinue} className="continue-button btn-sm">
                         Continue
                       </Button>
                     </div>
@@ -261,6 +262,12 @@ const UserProfile = () => {
 };
 
 export default UserProfile;
+
+
+
+
+
+
 
 
 
