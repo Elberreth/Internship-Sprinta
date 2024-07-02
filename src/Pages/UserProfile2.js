@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import '../CSS/UserProfile2.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import NewForm from '../Utils/NewForm';
@@ -20,6 +21,7 @@ const UserProfile2 = () => {
   const [image, setImage] = useState(null);
   const [showAddImageButton, setShowAddImageButton] = useState(true);
   const fileInputRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -81,6 +83,10 @@ const UserProfile2 = () => {
     }
   };
 
+  const handleEditProfile = () => {
+    navigate('/userprofile');
+  };
+
   return (
     <div className="container-fluid user-profile">
       <header className="header"></header>
@@ -112,6 +118,15 @@ const UserProfile2 = () => {
                 </button>
               )}
             </div>
+            <div className="mt-3 d-flex justify-content-center">
+              <button
+                type="button"
+                className="btn btn-primary btn-sm"
+                onClick={handleEditProfile}
+              >
+                Edit Profile
+              </button>
+            </div>
           </form>
         </div>
         <div className="col-md-6">
@@ -119,8 +134,8 @@ const UserProfile2 = () => {
             <NewForm />
           </div>
         </div>
-        <div className="col-md-3 d-flex flex-column align-items-center">
-          <div className="friends-container card p-3 mb-4" style={{ width: '100%' }}>
+        <div className="col-md-3 d-flex flex-column align-items-end match-height">
+          <div className="friends-container card p-3 mb-4 friends-list-form">
             <h5 className="card-title text-center">Friends List</h5>
             <form onSubmit={handleAddFriend}>
               <div className="mb-3">
@@ -153,6 +168,10 @@ const UserProfile2 = () => {
 };
 
 export default UserProfile2;
+
+
+
+
 
 
 

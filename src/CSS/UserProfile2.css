@@ -108,9 +108,20 @@ textarea {
 .match-height {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   height: 100%;
 }
+
+.friends-list-form {
+  width: 50%; 
+  margin-left: auto; 
+  margin-top: 10; /* Ta bort eventuell övre marginal */
+}
+
+
+
+
+
 
 
   
