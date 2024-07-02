@@ -6,6 +6,7 @@ import "../CSS/Popup.css";
 import AgreementPopup from "./AgreementPopup";
 import generateRandomCode from "../Utils/RandomCodeGenerator";
 import organisationList from "../Utils/OrganisationList";
+import axios from 'axios';
 
 const Register = ({ resetFormTrigger }) => {
   const [validationCode, setValidationCode] = useState("");
@@ -95,15 +96,24 @@ const Register = ({ resetFormTrigger }) => {
   };
 
   const sendEmail = async (email, code) => {
-    console.log(
-      `Sending code ${code} to ${email}`
-    ); /*TODO: remove before going live, BUT KEEP NOW for testing purposes during development*/
-    return new Promise((resolve, reject) =>
-      setTimeout(() => {
-        const success = Math.random() > 0.1;
-        success ? resolve() : reject(new Error("Failed to send email"));
-      }, 1000)
-    );
+    console.log(`Sending code ${code} to ${email}`);
+    /* Calls backend to send validation code to email */
+    axios.post('http://localhost:8080/email',{
+      "to": [
+        email
+      ],
+        "subject":"Jambiz Alumni - Email Verification Code",
+        "templateId":"RegistrationCode",
+        "vals":{
+            "code": code
+        }
+    })
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.error('There was an error in sending valiation code!', error);
+      });
   };
 
   const openPopup = (event) => {
@@ -161,8 +171,27 @@ const Register = ({ resetFormTrigger }) => {
     setValidationErrors(errors);
 
     if (Object.keys(errors).length === 0) {
+      
+      let employmentStatus = (data.employmentStatus === "Currently Employed") ? true : false;
+      axios.post('http://localhost:8080/register',{
+      
+        "firstName" : data.firstname,
+        "lastName" : data.lastname,
+        "email" : data.email, 
+        "password": data.password,
+        "isEmployed" : employmentStatus,
+        "organisation_name" : data.organisation
+       
+    }).then(response => {
+      console.log(response.data);
       setAccountCreated(true);
       alert("Your application have been sent to an admin for approval");
+    })
+    .catch(error => {
+      setAccountCreated(false);
+      console.error('There was an error in registering user!', error);
+    });
+      
     }
   });
 
