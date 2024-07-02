@@ -25,12 +25,9 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/login" element={<Login />} />
-          <Route
-            path="/register"
-            element={<Register resetFormTrigger={resetFormTrigger} />}
-          />
+          <Route path="/register" element={<Register resetFormTrigger={resetFormTrigger} />} />
           <Route path="/admin" element={<AdminPages />} />
-          <Route path="/user/:username" element={<UserProfile />} /> {/* Uppdaterad rutt för UserProfile */}
+          <Route path="/user/:username" element={<UserProfile />} />
         </Routes>
       </div>
     </Router>
@@ -38,6 +35,10 @@ const App = () => {
 };
 
 export default App;
+
+
+
+
 
 
 

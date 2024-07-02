@@ -1,65 +1,16 @@
-import React, { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
-import '../CSS/UserProfile.css';
+import React, { useState, useRef } from 'react';
+import { Form, Button, Card, Container, Row, Col, Tabs, Tab } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import NewForm from '../Utils/NewForm'; 
-
-const mockFriends = [
-  { id: 1, name: 'Friend 1', online: true },
-  { id: 2, name: 'Friend 2', online: false },
-  { id: 3, name: 'Friend 3', online: true },
-];
+import '../CSS/UserProfile.css';
 
 const UserProfile = () => {
-  const [userData, setUserData] = useState({
-    firstName: '',
-    lastName: '',
-    contactInfo: '',
-    facebook: '',
-    linkedin: '',
-    cv: '',
-    personalLetter: '',
-    profilePicture: ''
-  });
-
-  const [friends, setFriends] = useState(mockFriends);
-  const [newFriend, setNewFriend] = useState('');
   const [image, setImage] = useState(null);
   const [showAddImageButton, setShowAddImageButton] = useState(true);
   const fileInputRef = useRef(null);
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const response = await axios.get('/api/user/{userId}');
-        setUserData(response.data);
-        if (response.data.profilePicture) {
-          setImage(response.data.profilePicture);
-          setShowAddImageButton(false);
-        }
-      } catch (error) {
-        console.error('Error fetching user data:', error);
-      }
-    };
-
-    fetchUserData();
-  }, []);
-
-  const handleInputChange = (e) => {
-    const { id, value } = e.target;
-    setUserData((prevData) => ({
-      ...prevData,
-      [id]: value
-    }));
-  };
-
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     setImage(URL.createObjectURL(file));
-    setUserData((prevData) => ({
-      ...prevData,
-      profilePicture: file
-    }));
     setShowAddImageButton(false);
   };
 
@@ -67,10 +18,6 @@ const UserProfile = () => {
     const confirmed = window.confirm("Are you sure you want to remove the image?");
     if (confirmed) {
       setImage(null);
-      setUserData((prevData) => ({
-        ...prevData,
-        profilePicture: ''
-      }));
       setShowAddImageButton(true);
       if (fileInputRef.current) {
         fileInputRef.current.value = ''; 
@@ -78,215 +25,131 @@ const UserProfile = () => {
     }
   };
 
-  const handleFileChange = (e) => {
-    const { id } = e.target;
-    const file = e.target.files[0];
-    setUserData((prevData) => ({
-      ...prevData,
-      [id]: file
-    }));
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    alert('Data saved successfully');
   };
 
-  const handleSubmit = async (e) => {
+  const handleContinue = (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    for (const key in userData) {
-      formData.append(key, userData[key]);
-    }
-    try {
-      await axios.post('/api/user', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      });
-      alert('User data saved successfully');
-    } catch (error) {
-      console.error('Error saving user data:', error);
-    }
-  };
-
-  const handleAddFriend = (e) => {
-    e.preventDefault();
-    if (newFriend.trim()) {
-      setFriends([...friends, { id: friends.length + 1, name: newFriend, online: false }]);
-      setNewFriend('');
-    }
+    alert('Navigating to personal page...');
+    // Implement the navigation logic here
   };
 
   return (
-    <div className="container-fluid user-profile">
-      <header className="header"></header>
-      <div className="row mt-3">
-        <div className="col-md-3">
-          <form className="profile-form card p-3 mb-4">
-            <div className="image-preview card-img-top">
-              {image ? (
-                <img src={image} alt="Profile" />
-              ) : (
-                <p>Profile Picture</p>
-              )}
-            </div>
-            <input
-              type="file"
-              onChange={handleImageChange}
-              className="image-input"
-              ref={fileInputRef} 
-              style={{ display: 'none' }} // Hide the file input
-            />
-            <div className="button-group mt-3">
-              {showAddImageButton && (
-                <button
-                  type="button"
-                  className="btn btn-primary btn-add"
-                  onClick={() => fileInputRef.current.click()}
-                >
-                  Add Image
-                </button>
-              )}
-              {!showAddImageButton && (
-                <button
-                  type="button"
-                  className="btn btn-danger btn-remove"
-                  onClick={handleRemoveImage}
-                >
-                  Remove Image
-                </button>
-              )}
-            </div>
-          </form>
-          <form className="additional-form card p-3" onSubmit={handleSubmit}>
-            <h2 className="card-title text-center">About Me</h2>
-            <div className="mb-3">
-              <label htmlFor="firstName" className="form-label">First Name</label>
-              <input
-                type="text"
-                className="form-control"
-                id="firstName"
-                value={userData.firstName}
-                onChange={handleInputChange}
-                placeholder="Enter first name"
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="lastName" className="form-label">Last Name</label>
-              <input
-                type="text"
-                className="form-control"
-                id="lastName"
-                value={userData.lastName}
-                onChange={handleInputChange}
-                placeholder="Enter last name"
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="contactInfo" className="form-label">Contact Info</label>
-              <input
-                type="text"
-                className="form-control"
-                id="contactInfo"
-                value={userData.contactInfo}
-                onChange={handleInputChange}
-                placeholder="Enter contact info"
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="facebook" className="form-label">Facebook</label>
-              <input
-                type="text"
-                className="form-control"
-                id="facebook"
-                value={userData.facebook}
-                onChange={handleInputChange}
-                placeholder="Enter Facebook profile"
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="linkedin" className="form-label">LinkedIn</label>
-              <input
-                type="text"
-                className="form-control"
-                id="linkedin"
-                value={userData.linkedin}
-                onChange={handleInputChange}
-                placeholder="Enter LinkedIn profile"
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="cv" className="form-label">Upload CV</label>
-              {userData.cv && (
-                <div>
-                  <a href={userData.cv} target="_blank" rel="noopener noreferrer">View CV</a>
+    <Container fluid className="user-profile">
+      <Row className="mt-3">
+        <Col xs={12} md={3}>
+          <Card className="p-3 mb-4 small-card">
+            <Card.Body>
+              <Form onSubmit={handleSubmit}>
+                <div className="image-preview card-img-top mb-3">
+                  {image ? (
+                    <img src={image} alt="Profile" className="img-fluid" />
+                  ) : (
+                    <p className="bold-text">Profile Picture</p>
+                  )}
                 </div>
-              )}
-              <input
-                type="file"
-                className="form-control"
-                id="cv"
-                onChange={handleFileChange}
-                data-browse="Browse"
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="personalLetter" className="form-label">Upload Personal Letter</label>
-              {userData.personalLetter && (
-                <div>
-                  <a href={userData.personalLetter} target="_blank" rel="noopener noreferrer">View Personal Letter</a>
-                </div>
-              )}
-              <input
-                type="file"
-                className="form-control"
-                id="personalLetter"
-                onChange={handleFileChange}
-                data-browse="Browse"
-              />
-            </div>
-            <button type="submit" className="btn btn-primary submit-button mt-3">Submit</button>
-          </form>
-        </div>
-        <div className="col-md-6">
-          <div className="new-form-container">
-            <NewForm />
-          </div>
-        </div>
-        <div className="col-md-3">
-          <div className="friends-container card p-3">
-            <h5 className="card-title text-center">Add Friend</h5>
-            <form onSubmit={handleAddFriend}>
-              <div className="mb-3">
                 <input
-                  type="text"
-                  className="form-control"
-                  value={newFriend}
-                  onChange={(e) => setNewFriend(e.target.value)}
-                  placeholder="Enter friend's name"
+                  type="file"
+                  ref={fileInputRef}
+                  onChange={handleImageChange}
+                  style={{ display: 'none' }}
                 />
-              </div>
-              <button type="submit" className="btn btn-primary btn-sm w-100">Add Friend</button>
-            </form>
-            <h5 className="card-title text-center mt-4">Friends</h5>
-            <ul className="list-group">
-              {friends.map(friend => (
-                <li key={friend.id} className="list-group-item d-flex justify-content-between align-items-center">
-                  {friend.name}
-                  <span className={`badge ${friend.online ? 'bg-success' : 'bg-secondary'}`}>
-                    {friend.online ? 'Online' : 'Offline'}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
+                <div className="button-group mt-3">
+                  {showAddImageButton && (
+                    <Button variant="primary" onClick={() => fileInputRef.current.click()}>
+                      Add Image
+                    </Button>
+                  )}
+                  {!showAddImageButton && (
+                    <Button variant="danger" onClick={handleRemoveImage} size="sm">
+                      Remove Image
+                    </Button>
+                  )}
+                </div>
+              </Form>
+            </Card.Body>
+          </Card>
+        </Col>
+        <Col xs={12} md={6} className="d-flex justify-content-center">
+          <Card className="p-3 mb-4 about-me-card">
+            <Card.Body>
+              <Card.Title className="text-center bold-text">About Me</Card.Title>
+              <Card.Text className="text-center bold-text">
+                Please fill out this form to have the best experience with Jambiz Alumni Portal.
+              </Card.Text>
+              <Tabs defaultActiveKey="personal" id="about-me-tabs">
+                <Tab eventKey="personal" title="Personal Information">
+                  <Form className="mt-3" onSubmit={handleSubmit}>
+                    <Form.Group controlId="formFirstName">
+                      <Form.Label>First Name</Form.Label>
+                      <Form.Control type="text" placeholder="Enter your first name" />
+                    </Form.Group>
+                    <Form.Group controlId="formLastName" className="mt-3">
+                      <Form.Label>Last Name</Form.Label>
+                      <Form.Control type="text" placeholder="Enter your last name" />
+                    </Form.Group>
+                    <Form.Group controlId="formEmail" className="mt-3">
+                      <Form.Label>Email</Form.Label>
+                      <Form.Control type="email" placeholder="Enter your email" />
+                    </Form.Group>
+                    <Form.Group controlId="formPhone" className="mt-3">
+                      <Form.Label>Phone Number</Form.Label>
+                      <Form.Control type="text" placeholder="Enter your phone number" />
+                    </Form.Group>
+                    <div className="d-flex justify-content-center">
+                      <Button variant="primary" type="submit" className="mt-3">
+                        Submit
+                      </Button>
+                    </div>
+                  </Form>
+                </Tab>
+                <Tab eventKey="professional" title="Professional Information">
+                  <Form className="mt-3" onSubmit={handleSubmit}>
+                    <Form.Group controlId="formEmployer">
+                      <Form.Label>Current Employer</Form.Label>
+                      <Form.Control type="text" placeholder="Enter your current employer" />
+                    </Form.Group>
+                    <Form.Group controlId="formEducation" className="mt-3">
+                      <Form.Label>Education</Form.Label>
+                      <Form.Control type="text" placeholder="Enter your education" />
+                    </Form.Group>
+                    <div className="d-flex justify-content-center">
+                      <Button variant="primary" type="submit" className="mt-3">
+                        Submit
+                      </Button>
+                    </div>
+                  </Form>
+                </Tab>
+                <Tab eventKey="social" title="Social Information">
+                  <Form className="mt-3" onSubmit={handleSubmit}>
+                    <Form.Group controlId="formBio">
+                      <Form.Label>About Me</Form.Label>
+                      <Form.Control as="textarea" rows={5} placeholder="Tell us about yourself" />
+                    </Form.Group>
+                    <div className="d-flex justify-content-center">
+                      <Button variant="primary" type="submit" className="mt-3">
+                        Submit
+                      </Button>
+                    </div>
+                    <div className="d-flex flex-column align-items-center mt-3">
+                      <Button variant="success" type="submit" className="continue-button">
+                        Continue
+                      </Button>
+                    </div>
+                  </Form>
+                </Tab>
+              </Tabs>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 
 export default UserProfile;
-
-
-
-
 
 
 
