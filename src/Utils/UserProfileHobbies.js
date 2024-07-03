@@ -1,47 +1,42 @@
 import React from 'react';
-import { Form } from 'react-bootstrap';
+import { Form, Row, Col } from 'react-bootstrap';
 
 const UserProfileHobbies = ({ hobbies, handleCheckboxChange }) => {
+  const hobbyOptions = [
+    { label: "Reading", name: "reading" },
+    { label: "Traveling", name: "traveling" },
+    { label: "Cooking", name: "cooking" },
+    { label: "Sports", name: "sports" },
+    { label: "Music", name: "music" },
+    { label: "Fishing", name: "fishing" },
+    { label: "Skiing", name: "skiing" },
+    { label: "Climbing", name: "climbing" },
+    { label: "Gaming", name: "gaming" },
+    { label: "IT", name: "it" },
+    { label: "Movies", name: "movies" },
+    { label: "Writing", name: "writing" },
+    { label: "Gardening", name: "gardening" },
+  ];
+
   return (
     <Form.Group className="mt-3">
-      <Form.Label>What are your hobbies?</Form.Label>
-      <Form.Check
-        type="checkbox"
-        label="Reading"
-        name="reading"
-        checked={hobbies.reading}
-        onChange={handleCheckboxChange}
-      />
-      <Form.Check
-        type="checkbox"
-        label="Traveling"
-        name="traveling"
-        checked={hobbies.traveling}
-        onChange={handleCheckboxChange}
-      />
-      <Form.Check
-        type="checkbox"
-        label="Cooking"
-        name="cooking"
-        checked={hobbies.cooking}
-        onChange={handleCheckboxChange}
-      />
-      <Form.Check
-        type="checkbox"
-        label="Sports"
-        name="sports"
-        checked={hobbies.sports}
-        onChange={handleCheckboxChange}
-      />
-      <Form.Check
-        type="checkbox"
-        label="Music"
-        name="music"
-        checked={hobbies.music}
-        onChange={handleCheckboxChange}
-      />
+      <Form.Label className="d-flex justify-content-center">What are your hobbies?</Form.Label>
+      <Row>
+        {hobbyOptions.map((hobby, index) => (
+          <Col xs={6} md={4} lg={2} key={index} className="mb-2">
+            <Form.Check
+              type="checkbox"
+              label={hobby.label}
+              name={hobby.name}
+              checked={hobbies[hobby.name]}
+              onChange={handleCheckboxChange}
+            />
+          </Col>
+        ))}
+      </Row>
     </Form.Group>
   );
 };
 
 export default UserProfileHobbies;
+
