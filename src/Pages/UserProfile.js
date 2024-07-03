@@ -7,6 +7,7 @@ import '../CSS/UserProfile.css';
 import UserProfileHobbies from '../Utils/UserProfileHobbies';
 
 const UserProfile = () => {
+  const [key, setKey] = useState('personal'); // For tab navigation
   const [image, setImage] = useState(null);
   const [showAddImageButton, setShowAddImageButton] = useState(true);
   const fileInputRef = useRef(null);
@@ -29,6 +30,14 @@ const UserProfile = () => {
     cooking: false,
     sports: false,
     music: false,
+    fishing: false,
+    skiing: false,
+    climbing: false,
+    gaming: false,
+    it: false,
+    movies: false,
+    writing: false,
+    gardening: false,
   });
   const navigate = useNavigate();
 
@@ -96,6 +105,11 @@ const UserProfile = () => {
     }));
   };
 
+  const handleNext = (e, nextKey) => {
+    e.preventDefault();
+    setKey(nextKey);
+  };
+
   const handleSubmit = async (e, data, endpoint) => {
     e.preventDefault();
     try {
@@ -123,6 +137,13 @@ const UserProfile = () => {
         },
       });
       alert('Files uploaded successfully');
+      // Now save all other data
+      await handleSubmit(e, {
+        ...personalInfo,
+        ...professionalInfo,
+        bio,
+        hobbies
+      }, '/api/user/data');
     } catch (error) {
       console.error('Error uploading files:', error);
       alert('Failed to upload files');
@@ -177,9 +198,9 @@ const UserProfile = () => {
               <Card.Text className="text-center bold-text">
                 Please fill out this form to have the best experience with Jambiz Alumni Portal.
               </Card.Text>
-              <Tabs defaultActiveKey="personal" id="about-me-tabs">
+              <Tabs activeKey={key} onSelect={(k) => setKey(k)} id="about-me-tabs">
                 <Tab eventKey="personal" title="Contact Info">
-                  <Form className="mt-3" onSubmit={(e) => handleSubmit(e, personalInfo, '/api/personal-info')}>
+                  <Form className="mt-3" onSubmit={(e) => handleNext(e, 'professional')}>
                     <Form.Group controlId="firstName">
                       <Form.Label>First Name</Form.Label>
                       <Form.Control
@@ -218,13 +239,13 @@ const UserProfile = () => {
                     </Form.Group>
                     <div className="d-flex justify-content-center">
                       <Button variant="primary" type="submit" className="mt-3 btn-sm">
-                        Submit
+                        Next
                       </Button>
                     </div>
                   </Form>
                 </Tab>
                 <Tab eventKey="professional" title="Professional Information">
-                  <Form className="mt-3" onSubmit={(e) => handleSubmit(e, professionalInfo, '/api/professional-info')}>
+                  <Form className="mt-3" onSubmit={(e) => handleNext(e, 'social')}>
                     <Form.Group controlId="employer">
                       <Form.Label>Current Employer</Form.Label>
                       <Form.Control
@@ -245,13 +266,13 @@ const UserProfile = () => {
                     </Form.Group>
                     <div className="d-flex justify-content-center">
                       <Button variant="primary" type="submit" className="mt-3 btn-sm">
-                        Submit
+                        Next
                       </Button>
                     </div>
                   </Form>
                 </Tab>
                 <Tab eventKey="social" title="This is Me">
-                  <Form className="mt-3" onSubmit={(e) => handleSubmit(e, { bio, hobbies }, '/api/bio')}>
+                  <Form className="mt-3" onSubmit={(e) => handleNext(e, 'upload')}>
                     <Form.Group controlId="bio">
                       <Form.Label>About Me</Form.Label>
                       <Form.Control
@@ -265,7 +286,7 @@ const UserProfile = () => {
                     <UserProfileHobbies hobbies={hobbies} handleCheckboxChange={handleCheckboxChange} />
                     <div className="d-flex justify-content-center">
                       <Button variant="primary" type="submit" className="mt-3 btn-sm">
-                        Submit
+                        Next
                       </Button>
                     </div>
                   </Form>
@@ -282,7 +303,7 @@ const UserProfile = () => {
                     </Form.Group>
                     <div className="d-flex justify-content-center">
                       <Button variant="primary" type="submit" className="mt-3 btn-sm">
-                        Submit
+                        Save
                       </Button>
                     </div>
                     <div className="d-flex justify-content-center mt-3">
@@ -302,6 +323,8 @@ const UserProfile = () => {
 };
 
 export default UserProfile;
+
+
 
 
 
