@@ -105,7 +105,7 @@ const UserProfileHobbies = ({ hobbies, handleCheckboxChange }) => {
           />
           <Form.Check
             type="checkbox"
-            label="Running"
+            label="Training"
             name="running"
             checked={hobbies.running}
             onChange={handleCheckboxChange}
