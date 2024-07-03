@@ -16,8 +16,8 @@ const UserProfile = () => {
   const [personalInfo, setPersonalInfo] = useState({
     firstName: '',
     lastName: '',
-    email: '',
     phone: '',
+    city: '', // Added city field
   });
   const [professionalInfo, setProfessionalInfo] = useState({
     employer: '',
@@ -38,6 +38,13 @@ const UserProfile = () => {
     movies: false,
     writing: false,
     gardening: false,
+    running: false,
+    meditate: false,
+    decoration: false,
+    charity: false,
+    nature: false,
+    animals: false,
+    other: false,
   });
   const navigate = useNavigate();
 
@@ -219,21 +226,21 @@ const UserProfile = () => {
                         onChange={(e) => handleInputChange(e, setPersonalInfo)}
                       />
                     </Form.Group>
-                    <Form.Group controlId="email" className="mt-3">
-                      <Form.Label>Email</Form.Label>
-                      <Form.Control
-                        type="email"
-                        placeholder="Enter your email"
-                        value={personalInfo.email}
-                        onChange={(e) => handleInputChange(e, setPersonalInfo)}
-                      />
-                    </Form.Group>
                     <Form.Group controlId="phone" className="mt-3">
                       <Form.Label>Phone Number</Form.Label>
                       <Form.Control
                         type="text"
                         placeholder="Enter your phone number"
                         value={personalInfo.phone}
+                        onChange={(e) => handleInputChange(e, setPersonalInfo)}
+                      />
+                    </Form.Group>
+                    <Form.Group controlId="city" className="mt-3">
+                      <Form.Label>City</Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="Enter your city"
+                        value={personalInfo.city}
                         onChange={(e) => handleInputChange(e, setPersonalInfo)}
                       />
                     </Form.Group>
@@ -307,7 +314,7 @@ const UserProfile = () => {
                       </Button>
                     </div>
                     <div className="d-flex justify-content-center mt-3">
-                      <Button variant="success" type="button" onClick={handleContinue} className="continue-button btn-sm">
+                      <Button variant="success" type="button" onClick={handleContinue} className="continue-button">
                         Continue
                       </Button>
                     </div>
@@ -323,6 +330,7 @@ const UserProfile = () => {
 };
 
 export default UserProfile;
+
 
 
 
