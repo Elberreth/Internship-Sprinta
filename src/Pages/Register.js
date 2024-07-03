@@ -6,11 +6,12 @@ import "../CSS/Popup.css";
 import AgreementPopup from "./AgreementPopup";
 import generateRandomCode from "../Utils/RandomCodeGenerator";
 import organisationList from "../Utils/OrganisationList";
+import validateEmailFormat from "../Utils/EmailFormatValidation";
 import axios from "axios";
 
 const Register = ({ resetFormTrigger }) => {
-  const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-  const [invalidEmailError, setInvalidEmailError] = useState(null);
+  const [email, setEmail] = useState("");
+  const [emailFormatError, setEmailFormatError] = useState("");
   const [validationCode, setValidationCode] = useState("");
   const [validationCodeError, setValidationCodeError] = useState("");
   const [showPopup, setShowPopup] = useState(false);
@@ -41,6 +42,18 @@ const Register = ({ resetFormTrigger }) => {
     },
   });
 
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
+  };
+
+  useEffect(() => {
+    if (!validateEmailFormat(email)) {
+      setEmailFormatError("Please enter a valid email address");
+    } else {
+      setEmailFormatError("");
+    }
+  }, [email]);
+
   useEffect(() => {
     reset({
       firstname: "",
@@ -54,6 +67,7 @@ const Register = ({ resetFormTrigger }) => {
       employmentStatus: "",
       acceptAgreement: false,
     });
+    setEmailFormatError("");
     setValidationCode("");
     setValidationCodeError("");
     setEmailSent(false);
@@ -65,21 +79,11 @@ const Register = ({ resetFormTrigger }) => {
     console.log(data);
   };
 
-  const validateEmail = (emailGiven) => {
-    if (!emailRegex.test(emailGiven)) {
-      setInvalidEmailError("Please enter a valid email address");
-    } else {
-      setInvalidEmailError("");
-    }
-  };
-
   const handleSubmitGetValidationCode = async (data) => {
     console.log(
       data
     ); /*TODO: Remove before going live, BUT KEEP NOW for testing purposes during development*/
     let errorMessage = "";
-
-    validateEmail(data.email);
 
     if (!data.firstname || !data.lastname || !data.email) {
       errorMessage +=
@@ -90,6 +94,12 @@ const Register = ({ resetFormTrigger }) => {
     }
     if (!data.organisation) {
       errorMessage += "Organisation is required. ";
+    }
+    if (data.email) {
+      setEmail(data.email);
+      if (!validateEmailFormat(data.email)) {
+        errorMessage += "Email in valid format are required.";
+      }
     }
 
     setValidationCodeError(errorMessage);
@@ -305,13 +315,14 @@ const Register = ({ resetFormTrigger }) => {
               className="form-control"
               id="inputEmail"
               placeholder="Email"
+              onChange={handleEmailChange}
               {...register("email", { required: "Email is required" })}
             />
             {errors.email && (
               <div className="error">{errors.email.message}</div>
             )}
-            {invalidEmailError && (
-              <div className="error">{invalidEmailError}</div>
+            {emailFormatError && (
+              <div className="error">{emailFormatError}</div>
             )}
           </div>
           <button
