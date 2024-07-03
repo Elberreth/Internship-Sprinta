@@ -4,6 +4,7 @@ import { Form, Button, Card, Container, Row, Col, Tabs, Tab } from 'react-bootst
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../CSS/UserProfile.css';
+import UserProfileHobbies from '../Utils/UserProfileHobbies';
 
 const UserProfile = () => {
   const [image, setImage] = useState(null);
@@ -22,6 +23,13 @@ const UserProfile = () => {
     education: '',
   });
   const [bio, setBio] = useState('');
+  const [hobbies, setHobbies] = useState({
+    reading: false,
+    traveling: false,
+    cooking: false,
+    sports: false,
+    music: false,
+  });
   const navigate = useNavigate();
 
   const handleImageChange = async (e) => {
@@ -77,6 +85,14 @@ const UserProfile = () => {
     setState((prevState) => ({
       ...prevState,
       [id]: value,
+    }));
+  };
+
+  const handleCheckboxChange = (e) => {
+    const { name, checked } = e.target;
+    setHobbies((prevHobbies) => ({
+      ...prevHobbies,
+      [name]: checked,
     }));
   };
 
@@ -162,7 +178,7 @@ const UserProfile = () => {
                 Please fill out this form to have the best experience with Jambiz Alumni Portal.
               </Card.Text>
               <Tabs defaultActiveKey="personal" id="about-me-tabs">
-                <Tab eventKey="personal" title="Personal Information">
+                <Tab eventKey="personal" title="Contact Info">
                   <Form className="mt-3" onSubmit={(e) => handleSubmit(e, personalInfo, '/api/personal-info')}>
                     <Form.Group controlId="firstName">
                       <Form.Label>First Name</Form.Label>
@@ -234,8 +250,8 @@ const UserProfile = () => {
                     </div>
                   </Form>
                 </Tab>
-                <Tab eventKey="social" title="Social Information">
-                  <Form className="mt-3" onSubmit={(e) => handleSubmit(e, { bio }, '/api/bio')}>
+                <Tab eventKey="social" title="This is Me">
+                  <Form className="mt-3" onSubmit={(e) => handleSubmit(e, { bio, hobbies }, '/api/bio')}>
                     <Form.Group controlId="bio">
                       <Form.Label>About Me</Form.Label>
                       <Form.Control
@@ -246,6 +262,7 @@ const UserProfile = () => {
                         onChange={(e) => setBio(e.target.value)}
                       />
                     </Form.Group>
+                    <UserProfileHobbies hobbies={hobbies} handleCheckboxChange={handleCheckboxChange} />
                     <div className="d-flex justify-content-center">
                       <Button variant="primary" type="submit" className="mt-3 btn-sm">
                         Submit
@@ -285,6 +302,11 @@ const UserProfile = () => {
 };
 
 export default UserProfile;
+
+
+
+
+
 
 
 
