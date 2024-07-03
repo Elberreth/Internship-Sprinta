@@ -111,3 +111,4 @@ const UserProfileHobbies = ({ hobbies, handleCheckboxChange }) => {
 export default UserProfileHobbies;
 
 
+
