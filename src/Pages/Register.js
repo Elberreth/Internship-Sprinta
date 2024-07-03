@@ -6,12 +6,13 @@ import "../CSS/Popup.css";
 import AgreementPopup from "./AgreementPopup";
 import generateRandomCode from "../Utils/RandomCodeGenerator";
 import organisationList from "../Utils/OrganisationList";
-import validateEmailFormat from "../Utils/EmailFormatValidation";
+import {
+  validateEmailFormat,
+  validatePassword,
+} from "../Utils/ValidationTools";
 import axios from "axios";
 
 const Register = ({ resetFormTrigger }) => {
-  const [email, setEmail] = useState("");
-  const [emailFormatError, setEmailFormatError] = useState("");
   const [validationCode, setValidationCode] = useState("");
   const [validationCodeError, setValidationCodeError] = useState("");
   const [showPopup, setShowPopup] = useState(false);
@@ -26,13 +27,13 @@ const Register = ({ resetFormTrigger }) => {
     register,
     handleSubmit,
     reset,
+    getValues,
     formState: { errors },
   } = useForm({
     defaultValues: {
       firstname: "",
       lastname: "",
       email: "",
-      emailFormat: "",
       codeToValidate: "",
       password: "",
       confirmPassword: "",
@@ -42,24 +43,11 @@ const Register = ({ resetFormTrigger }) => {
     },
   });
 
-  const handleEmailChange = (event) => {
-    setEmail(event.target.value);
-  };
-
-  useEffect(() => {
-    if (!validateEmailFormat(email)) {
-      setEmailFormatError("Please enter a valid email address");
-    } else {
-      setEmailFormatError("");
-    }
-  }, [email]);
-
   useEffect(() => {
     reset({
       firstname: "",
       lastname: "",
       email: "",
-      emailFormat: "",
       codeToValidate: "",
       password: "",
       confirmPassword: "",
@@ -67,7 +55,6 @@ const Register = ({ resetFormTrigger }) => {
       employmentStatus: "",
       acceptAgreement: false,
     });
-    setEmailFormatError("");
     setValidationCode("");
     setValidationCodeError("");
     setEmailSent(false);
@@ -85,21 +72,20 @@ const Register = ({ resetFormTrigger }) => {
     ); /*TODO: Remove before going live, BUT KEEP NOW for testing purposes during development*/
     let errorMessage = "";
 
-    if (!data.firstname || !data.lastname || !data.email) {
+    if (
+      !data.firstname ||
+      !data.lastname ||
+      !data.email ||
+      !validateEmailFormat(data.email)
+    ) {
       errorMessage +=
-        "First Name, Last Name, and Email in valid format are required. ";
+        "First Name, Last Name, and Email in valid format is required. ";
     }
     if (!data.employmentStatus) {
       errorMessage += "Employment status is required. ";
     }
     if (!data.organisation) {
       errorMessage += "Organisation is required. ";
-    }
-    if (data.email) {
-      setEmail(data.email);
-      if (!validateEmailFormat(data.email)) {
-        errorMessage += "Email in valid format are required.";
-      }
     }
 
     setValidationCodeError(errorMessage);
@@ -136,7 +122,7 @@ const Register = ({ resetFormTrigger }) => {
         console.log(response.data);
       })
       .catch((error) => {
-        console.error("There was an error in sending valiation code!", error);
+        console.error("There was an error in sending validation code!", error);
       });
   };
 
@@ -149,11 +135,11 @@ const Register = ({ resetFormTrigger }) => {
     setShowPopup(false);
   };
 
-  const validatePassword = (password) => {
-    const passwordRegex =
-      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{6,10}$/;
-    return passwordRegex.test(password);
-  };
+  // const validatePassword = (password) => {
+  //   const passwordRegex =
+  //     /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{6,10}$/;
+  //   return passwordRegex.test(password);
+  // };
 
   const handleRegister = handleSubmit((data) => {
     const { codeToValidate, password, confirmPassword, acceptAgreement } = data;
@@ -172,11 +158,7 @@ const Register = ({ resetFormTrigger }) => {
     }
 
     if (password) {
-      if (
-        password.length < 6 ||
-        password.length > 10 ||
-        !validatePassword(password)
-      ) {
+      if (!validatePassword(password)) {
         errors.password =
           "Password must have at least 1 small-case letter,1 Capital letter, 1 digit, 1 special character and the length should be between 6-10 characters.";
       }
@@ -315,14 +297,16 @@ const Register = ({ resetFormTrigger }) => {
               className="form-control"
               id="inputEmail"
               placeholder="Email"
-              onChange={handleEmailChange}
-              {...register("email", { required: "Email is required" })}
+              {...register("email", {
+                required: "Email is required.",
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                  message: "Please enter a valid Email.",
+                },
+              })}
             />
             {errors.email && (
               <div className="error">{errors.email.message}</div>
-            )}
-            {emailFormatError && (
-              <div className="error">{emailFormatError}</div>
             )}
           </div>
           <button
@@ -344,10 +328,17 @@ const Register = ({ resetFormTrigger }) => {
                 className="form-control"
                 id="inputValidateEmail"
                 placeholder="Type in your code (xxxx-xxxx)"
-                {...register("codeToValidate")}
+                {...register("codeToValidate", {
+                  required: "Validation Code is required.",
+                  pattern: {
+                    value: /^\d{4}-\d{4}$/,
+                    message:
+                      "Please enter Validation Code in format: xxxx-xxxx",
+                  },
+                })}
               />
-              {validationErrors.codeToValidate && (
-                <div className="error">{validationErrors.codeToValidate}</div>
+              {errors.codeToValidate && (
+                <div className="error">{errors.codeToValidate.message}</div>
               )}
             </div>
             <div className="form-group">
@@ -357,7 +348,15 @@ const Register = ({ resetFormTrigger }) => {
                   className="form-control"
                   id="inputPassword"
                   placeholder="Password"
-                  {...register("password")}
+                  {...register("password", {
+                    required: "Password is reqired",
+                    pattern: {
+                      value:
+                        /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{6,10}$/,
+                      message:
+                        "Password must have at least 1 small-case letter,1 Capital letter, 1 digit, 1 special character and the length should be between 6-10 characters.",
+                    },
+                  })}
                 />
                 <span
                   className="password-tooltip"
@@ -384,10 +383,16 @@ const Register = ({ resetFormTrigger }) => {
                 className="form-control"
                 id="inputConfirmPassword"
                 placeholder="Confirm Password"
-                {...register("confirmPassword")}
+                {...register("confirmPassword", {
+                  required: "Confirmation of Password is required.",
+                  validate: (match) => {
+                    const password = getValues("password");
+                    return match === password || "Passwords have to match.";
+                  },
+                })}
               />
-              {validationErrors.confirmPassword && (
-                <div className="error">{validationErrors.confirmPassword}</div>
+              {errors.confirmPassword && (
+                <div className="error">{errors.confirmPassword.message}</div>
               )}
             </div>
           </div>
