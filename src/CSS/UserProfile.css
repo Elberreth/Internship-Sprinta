@@ -66,25 +66,25 @@
 .next-button {
   background-color: #007bff !important;
   border-color: #007bff !important;
-  width: 115px !important; /* Justera bredden efter behov */
-  height: 35px !important; /* Justera höjden efter behov */
-  font-size: 14px !important; /* Justera fontstorleken efter behov */
+  width: 115px !important; 
+  height: 32px !important; 
+  font-size: 14px !important; 
 }
 
 .save-button {
   background-color: #007bff !important;
   border-color: #007bff !important;
-  width: 115px !important; /* Justera bredden efter behov */
-  height: 35px !important; /* Justera höjden efter behov */
-  font-size: 14px !important; /* Justera fontstorleken efter behov */
+  width: 115px !important; 
+  height: 32px !important; 
+  font-size: 14px !important; 
 }
 
 .continue-button {
   background-color: #28a745 !important;
   border-color: #28a745 !important;
-  width: 130px !important; /* Justera bredden efter behov */
-  height: 35px !important; /* Justera höjden efter behov */
-  font-size: 14px !important; /* Justera fontstorleken efter behov */
+  width: 150px !important; 
+  height: 32px !important; 
+  font-size: 14px !important; 
 }
 
 .mt-3 {
