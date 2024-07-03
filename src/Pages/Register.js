@@ -27,18 +27,28 @@ const Register = ({ resetFormTrigger }) => {
     register,
     handleSubmit,
     reset,
-    getValues,
     formState: { errors },
   } = useForm({
     defaultValues: {
       firstname: "",
       lastname: "",
       email: "",
+      organisation: "",
+      employmentStatus: "",
+    },
+  });
+
+  const {
+    register: register2,
+    getValues: getValues2,
+    handleSubmit: handleSubmit2,
+    reset: reset2,
+    formState: { errors: errors2 },
+  } = useForm({
+    defaultValues: {
       codeToValidate: "",
       password: "",
       confirmPassword: "",
-      organisation: "",
-      employmentStatus: "",
       acceptAgreement: false,
     },
   });
@@ -55,12 +65,22 @@ const Register = ({ resetFormTrigger }) => {
       employmentStatus: "",
       acceptAgreement: false,
     });
+    setValidationErrors({});
+  }, [resetFormTrigger, accountCreated, reset]);
+
+  useEffect(() => {
+    reset2({
+      codeToValidate: "",
+      password: "",
+      confirmPassword: "",
+      acceptAgreement: false,
+    });
     setValidationCode("");
     setValidationCodeError("");
     setEmailSent(false);
     setAccountCreated(false);
     setValidationErrors({});
-  }, [resetFormTrigger, accountCreated, reset]);
+  }, [resetFormTrigger, accountCreated, reset2]);
 
   const sendData = async (data) => {
     console.log(data);
@@ -141,7 +161,7 @@ const Register = ({ resetFormTrigger }) => {
   //   return passwordRegex.test(password);
   // };
 
-  const handleRegister = handleSubmit((data) => {
+  const handleRegister = (data) => {
     const { codeToValidate, password, confirmPassword, acceptAgreement } = data;
     let errors = {};
 
@@ -198,7 +218,7 @@ const Register = ({ resetFormTrigger }) => {
           console.error("There was an error in registering user!", error);
         });
     }
-  });
+  };
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -335,10 +355,14 @@ const Register = ({ resetFormTrigger }) => {
                     message:
                       "Please enter Validation Code in format: xxxx-xxxx",
                   },
+                  validate: (match) => {
+                    const originalCode = getValues2("codeToValidate");
+                    return match === originalCode || "Wrong code entered.";
+                  },
                 })}
               />
-              {errors.codeToValidate && (
-                <div className="error">{errors.codeToValidate.message}</div>
+              {errors2.codeToValidate && (
+                <div className="error">{errors2.codeToValidate.message}</div>
               )}
             </div>
             <div className="form-group">
@@ -348,7 +372,7 @@ const Register = ({ resetFormTrigger }) => {
                   className="form-control"
                   id="inputPassword"
                   placeholder="Password"
-                  {...register("password", {
+                  {...register2("password", {
                     required: "Password is reqired",
                     pattern: {
                       value:
@@ -383,16 +407,16 @@ const Register = ({ resetFormTrigger }) => {
                 className="form-control"
                 id="inputConfirmPassword"
                 placeholder="Confirm Password"
-                {...register("confirmPassword", {
+                {...register2("confirmPassword", {
                   required: "Confirmation of Password is required.",
                   validate: (match) => {
-                    const password = getValues("password");
+                    const password = getValues2("password");
                     return match === password || "Passwords have to match.";
                   },
                 })}
               />
-              {errors.confirmPassword && (
-                <div className="error">{errors.confirmPassword.message}</div>
+              {errors2.confirmPassword && (
+                <div className="error">{errors2.confirmPassword.message}</div>
               )}
             </div>
           </div>
@@ -403,7 +427,7 @@ const Register = ({ resetFormTrigger }) => {
                 type="checkbox"
                 id="acceptAgreement"
                 name="acceptAgreement"
-                {...register("acceptAgreement")}
+                {...register2("acceptAgreement")}
               />
               <label htmlFor="acceptAgreement">
                 Do you accept the Agreement?{" "}
@@ -419,7 +443,11 @@ const Register = ({ resetFormTrigger }) => {
             )}
           </div>
 
-          <button type="button" onClick={handleRegister} className="btn-small">
+          <button
+            type="button"
+            onClick={handleSubmit2(handleRegister)}
+            className="btn-small"
+          >
             Register
           </button>
           {validationCodeError && (
