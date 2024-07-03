@@ -238,7 +238,7 @@ const UserProfile = () => {
                       />
                     </Form.Group>
                     <div className="d-flex justify-content-center">
-                      <Button variant="primary" type="submit" className="mt-3 btn-sm">
+                      <Button variant="primary" type="submit" className="mt-3 next-button">
                         Next
                       </Button>
                     </div>
@@ -265,7 +265,7 @@ const UserProfile = () => {
                       />
                     </Form.Group>
                     <div className="d-flex justify-content-center">
-                      <Button variant="primary" type="submit" className="mt-3 btn-sm">
+                      <Button variant="primary" type="submit" className="mt-3 next-button">
                         Next
                       </Button>
                     </div>
@@ -285,7 +285,7 @@ const UserProfile = () => {
                     </Form.Group>
                     <UserProfileHobbies hobbies={hobbies} handleCheckboxChange={handleCheckboxChange} />
                     <div className="d-flex justify-content-center">
-                      <Button variant="primary" type="submit" className="mt-3 btn-sm">
+                      <Button variant="primary" type="submit" className="mt-3 next-button">
                         Next
                       </Button>
                     </div>
@@ -302,7 +302,7 @@ const UserProfile = () => {
                       <Form.Control type="file" id="personalLetter" onChange={handleFileChange} />
                     </Form.Group>
                     <div className="d-flex justify-content-center">
-                      <Button variant="primary" type="submit" className="mt-3 btn-sm">
+                      <Button variant="primary" type="submit" className="mt-3 save-button">
                         Save
                       </Button>
                     </div>
@@ -323,6 +323,7 @@ const UserProfile = () => {
 };
 
 export default UserProfile;
+
 
 
 
