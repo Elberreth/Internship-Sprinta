@@ -1,12 +1,13 @@
 import React from 'react';
 import { Form, Row, Col } from 'react-bootstrap';
+import '../CSS/UserProfile.css';
 
 const UserProfileHobbies = ({ hobbies, handleCheckboxChange }) => {
   return (
-    <Form.Group className="mt-3">
-      <Form.Label className="d-block text-center">What are your hobbies?</Form.Label>
-      <Row>
-        <Col xs={6} md={4} lg={3}>
+    <Form.Group className="mt-3 hobbies-form-group">
+      <Form.Label className="d-block text-center hobbies-form-label">What are your hobbies?</Form.Label>
+      <Row className="hobbies-checkbox-row">
+        <Col xs={6} md={4} lg={3} className="hobbies-checkbox-col">
           <Form.Check
             type="checkbox"
             label="Reading"
@@ -43,7 +44,7 @@ const UserProfileHobbies = ({ hobbies, handleCheckboxChange }) => {
             onChange={handleCheckboxChange}
           />
         </Col>
-        <Col xs={6} md={4} lg={3}>
+        <Col xs={6} md={4} lg={3} className="hobbies-checkbox-col">
           <Form.Check
             type="checkbox"
             label="Fishing"
@@ -80,7 +81,7 @@ const UserProfileHobbies = ({ hobbies, handleCheckboxChange }) => {
             onChange={handleCheckboxChange}
           />
         </Col>
-        <Col xs={6} md={4} lg={3}>
+        <Col xs={6} md={4} lg={3} className="hobbies-checkbox-col">
           <Form.Check
             type="checkbox"
             label="Movies"
@@ -102,6 +103,57 @@ const UserProfileHobbies = ({ hobbies, handleCheckboxChange }) => {
             checked={hobbies.gardening}
             onChange={handleCheckboxChange}
           />
+          <Form.Check
+            type="checkbox"
+            label="Running"
+            name="running"
+            checked={hobbies.running}
+            onChange={handleCheckboxChange}
+          />
+          <Form.Check
+            type="checkbox"
+            label="Meditate"
+            name="meditate"
+            checked={hobbies.meditate}
+            onChange={handleCheckboxChange}
+          />
+        </Col>
+        <Col xs={6} md={4} lg={3} className="hobbies-checkbox-col">
+          <Form.Check
+            type="checkbox"
+            label="Decoration"
+            name="decoration"
+            checked={hobbies.decoration}
+            onChange={handleCheckboxChange}
+          />
+          <Form.Check
+            type="checkbox"
+            label="Charity"
+            name="charity"
+            checked={hobbies.charity}
+            onChange={handleCheckboxChange}
+          />
+          <Form.Check
+            type="checkbox"
+            label="Nature"
+            name="nature"
+            checked={hobbies.nature}
+            onChange={handleCheckboxChange}
+          />
+          <Form.Check
+            type="checkbox"
+            label="Animals"
+            name="animals"
+            checked={hobbies.animals}
+            onChange={handleCheckboxChange}
+          />
+          <Form.Check
+            type="checkbox"
+            label="Other"
+            name="other"
+            checked={hobbies.other}
+            onChange={handleCheckboxChange}
+          />
         </Col>
       </Row>
     </Form.Group>
@@ -109,6 +161,8 @@ const UserProfileHobbies = ({ hobbies, handleCheckboxChange }) => {
 };
 
 export default UserProfileHobbies;
+
+
 
 
 
