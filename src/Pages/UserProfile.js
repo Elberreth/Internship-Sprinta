@@ -262,11 +262,11 @@ const UserProfile = () => {
                         onChange={(e) => handleInputChange(e, setProfessionalInfo)}
                       />
                     </Form.Group>
-                    <Form.Group controlId="education" className="mt-3">
-                      <Form.Label>Education</Form.Label>
+                    <Form.Group controlId="occupation" className="mt-3">
+                      <Form.Label>Occupation</Form.Label>
                       <Form.Control
                         type="text"
-                        placeholder="Enter your education"
+                        placeholder="Enter your occupation"
                         value={professionalInfo.education}
                         onChange={(e) => handleInputChange(e, setProfessionalInfo)}
                       />
