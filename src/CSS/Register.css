@@ -40,7 +40,6 @@
   margin-bottom: 5px;
 }
 
-
 .form-group input,
 .form-group select {
   width: 100%;
@@ -60,22 +59,6 @@
   color: red;
   font-size: 12px;
   text-align: center;
-}
-
-.btn-small {
-  padding: 8px 20px;
-  font-size: 14px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  margin-top: 10px;
-}
-
-.btn-small:hover {
-  background-color: #0056b3;
 }
 
 .btn-wide-purple {
@@ -248,6 +231,6 @@ select {
 
 @media (max-width: 768px) {
   .register-page {
-    overflow-y: auto; 
+    overflow-y: auto;
   }
 }
