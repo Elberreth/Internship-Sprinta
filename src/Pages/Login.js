@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from 'react-router-dom';
 import '../CSS/Register.css';
 
-const Login = () => {
+const Login = ({ setIsLoggedIn }) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -11,10 +11,21 @@ const Login = () => {
   const sendData = async (data) => {
     setLoading(true);
     try {
-      if ((data.uname === 'admin@example.com' && data.password === '1111') || process.env.NODE_ENV === 'development') {
+      const isUser1 = data.uname === 'user1@example.com' && data.password === '2222';
+      const isUser2 = data.uname === 'user2@example.com' && data.password === '2222';
+
+      if (isUser1 || isUser2 || (data.uname === 'admin@example.com' && data.password === '1111') || process.env.NODE_ENV === 'development') {
         localStorage.setItem('isLoggedIn', 'true');
-        console.log('User logged in');
-        navigate('/admin');
+        setIsLoggedIn(true);
+        
+        if (isUser1) {
+          navigate('/userprofile');
+        } else if (isUser2) {
+          navigate('/userprofile2');
+        } else {
+          navigate('/admin');
+        }
+        
         window.dispatchEvent(new Event('storage')); // Trigger storage event to sync state
       } else {
         setError('Authentication failed');
@@ -76,6 +87,10 @@ const Login = () => {
 }
 
 export default Login;
+
+
+
+
 
 
 
