@@ -13,6 +13,7 @@ import {
 import axios from "axios";
 
 const Register = ({ resetFormTrigger }) => {
+  const [firstStepDone, setFirstStepDone] = useState(false);
   const [validationCode, setValidationCode] = useState("");
   const [validationCodeError, setValidationCodeError] = useState("");
   const [showPopup, setShowPopup] = useState(false);
@@ -25,6 +26,7 @@ const Register = ({ resetFormTrigger }) => {
 
   const {
     register,
+    getValues,
     handleSubmit,
     reset,
     formState: { errors },
@@ -35,18 +37,6 @@ const Register = ({ resetFormTrigger }) => {
       email: "",
       organisation: "",
       employmentStatus: "",
-    },
-  });
-
-  const {
-    register: register2,
-    getValues: getValues2,
-    handleSubmit: handleSubmit2,
-    reset: reset2,
-    formState: { errors: errors2 },
-  } = useForm({
-    defaultValues: {
-      codeToValidate: "",
       password: "",
       confirmPassword: "",
       acceptAgreement: false,
@@ -68,19 +58,19 @@ const Register = ({ resetFormTrigger }) => {
     setValidationErrors({});
   }, [resetFormTrigger, accountCreated, reset]);
 
-  useEffect(() => {
-    reset2({
-      codeToValidate: "",
-      password: "",
-      confirmPassword: "",
-      acceptAgreement: false,
-    });
-    setValidationCode("");
-    setValidationCodeError("");
-    setEmailSent(false);
-    setAccountCreated(false);
-    setValidationErrors({});
-  }, [resetFormTrigger, accountCreated, reset2]);
+  // useEffect(() => {
+  //   reset2({
+  //     codeToValidate: "",
+  //     password: "",
+  //     confirmPassword: "",
+  //     acceptAgreement: false,
+  //   });
+  //   setValidationCode("");
+  //   setValidationCodeError("");
+  //   setEmailSent(false);
+  //   setAccountCreated(false);
+  //   setValidationErrors({});
+  // }, [resetFormTrigger, accountCreated, reset2]);
 
   const sendData = async (data) => {
     console.log(data);
@@ -236,240 +226,268 @@ const Register = ({ resetFormTrigger }) => {
 
   return (
     <div className="register-page">
-      <div className="register-form-container">
-        <form className="register-form" onSubmit={handleSubmit(sendData)}>
-          <h2>Register</h2>
-          <div className="form-group">
-            <select
-              id="organisation"
-              className="form-control"
-              {...register("organisation", {
-                required: "Organisation is required",
-              })}
-            >
-              <option value="">Select Organisation</option>
-              {organisationList.map((organisation, index) => (
-                <option key={index} value={organisation}>
-                  {organisation}
-                </option>
-              ))}
-            </select>
-            {errors.organisation && (
-              <div className="error">{errors.organisation.message}</div>
-            )}
-          </div>
-          <div className="form-group radio-group">
-            <div className="radio-buttons">
-              <label>
-                <input
-                  type="radio"
-                  name="employmentStatus"
-                  value="Currently Employed"
-                  {...register("employmentStatus", {
-                    required: "Employment status is required",
-                  })}
-                />
-                Currently Employed
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  name="employmentStatus"
-                  value="Previously Employed"
-                  {...register("employmentStatus", {
-                    required: "Employment status is required",
-                  })}
-                />
-                Previously Employed
-              </label>
+      {!firstStepDone && (
+        <div className="register-form-container">
+          <form className="register-form" onSubmit={handleSubmit(sendData)}>
+            <h2>Register</h2>
+            <h4>Step 1/2</h4>
+            <div className="form-group">
+              <select
+                id="organisation"
+                className="form-control"
+                {...register("organisation", {
+                  required: "Organisation is required",
+                })}
+              >
+                <option value="">Select Organisation</option>
+                {organisationList.map((organisation, index) => (
+                  <option key={index} value={organisation}>
+                    {organisation}
+                  </option>
+                ))}
+              </select>
+              {errors.organisation && (
+                <div className="error">{errors.organisation.message}</div>
+              )}
             </div>
-            {errors.employmentStatus && (
-              <div className="error">{errors.employmentStatus.message}</div>
-            )}
-          </div>
-          <div className="form-group">
-            <input
-              type="text"
-              className="form-control"
-              id="inputFirstName"
-              placeholder="First Name"
-              {...register("firstname", { required: "First Name is required" })}
-            />
-            {errors.firstname && (
-              <div className="error">{errors.firstname.message}</div>
-            )}
-          </div>
-          <div className="form-group">
-            <input
-              type="text"
-              className="form-control"
-              id="inputLastName"
-              placeholder="Last Name"
-              {...register("lastname", { required: "Last Name is required" })}
-            />
-            {errors.lastname && (
-              <div className="error">{errors.lastname.message}</div>
-            )}
-          </div>
-          <div className="form-group">
-            <input
-              type="email"
-              className="form-control"
-              id="inputEmail"
-              placeholder="Email"
-              {...register("email", {
-                required: "Email is required.",
-                pattern: {
-                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                  message: "Please enter a valid Email.",
-                },
-              })}
-            />
-            {errors.email && (
-              <div className="error">{errors.email.message}</div>
-            )}
-          </div>
-          <button
-            type="button"
-            onClick={handleSubmit(handleSubmitGetValidationCode)}
-            className="btn-wide-purple"
-          >
-            Get Validation Code
-          </button>
-          {emailSent && (
-            <div className="success validation-message">
-              Validation code has been sent to your email.
+            <div className="form-group radio-group">
+              <div className="radio-buttons">
+                <label>
+                  <input
+                    type="radio"
+                    name="employmentStatus"
+                    value="Currently Employed"
+                    {...register("employmentStatus", {
+                      required: "Employment status is required",
+                    })}
+                  />
+                  Currently Employed
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="employmentStatus"
+                    value="Previously Employed"
+                    {...register("employmentStatus", {
+                      required: "Employment status is required",
+                    })}
+                  />
+                  Previously Employed
+                </label>
+              </div>
+              {errors.employmentStatus && (
+                <div className="error">{errors.employmentStatus.message}</div>
+              )}
             </div>
-          )}
-          <div className="move-up-1cm">
             <div className="form-group">
               <input
                 type="text"
                 className="form-control"
-                id="inputValidateEmail"
-                placeholder="Type in your code (xxxx-xxxx)"
-                {...register("codeToValidate", {
-                  required: "Validation Code is required.",
-                  pattern: {
-                    value: /^\d{4}-\d{4}$/,
-                    message:
-                      "Please enter Validation Code in format: xxxx-xxxx",
-                  },
-                  validate: (match) => {
-                    const originalCode = getValues2("codeToValidate");
-                    return match === originalCode || "Wrong code entered.";
-                  },
+                id="inputFirstName"
+                placeholder="First Name"
+                {...register("firstname", {
+                  required: "First Name is required",
                 })}
               />
-              {errors2.codeToValidate && (
-                <div className="error">{errors2.codeToValidate.message}</div>
+              {errors.firstname && (
+                <div className="error">{errors.firstname.message}</div>
               )}
             </div>
             <div className="form-group">
-              <div className="password-container">
+              <input
+                type="text"
+                className="form-control"
+                id="inputLastName"
+                placeholder="Last Name"
+                {...register("lastname", { required: "Last Name is required" })}
+              />
+              {errors.lastname && (
+                <div className="error">{errors.lastname.message}</div>
+              )}
+            </div>
+            <div className="form-group">
+              <input
+                type="email"
+                className="form-control"
+                id="inputEmail"
+                placeholder="Email"
+                {...register("email", {
+                  required: "Email is required.",
+                  pattern: {
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                    message: "Please enter a valid Email.",
+                  },
+                })}
+              />
+              {errors.email && (
+                <div className="error">{errors.email.message}</div>
+              )}
+            </div>
+            <div className="move-up-1cm">
+              <div className="form-group"></div>
+              <div className="form-group">
+                <div className="password-container">
+                  <input
+                    type="password"
+                    className="form-control"
+                    id="inputPassword"
+                    placeholder="Password"
+                    {...register("password", {
+                      required: "Password is reqired",
+                      pattern: {
+                        value:
+                          /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{6,10}$/,
+                        message:
+                          "Password must have at least 1 small-case letter,1 Capital letter, 1 digit, 1 special character and the length should be between 6-10 characters.",
+                      },
+                    })}
+                  />
+                  <span
+                    className="password-tooltip"
+                    onMouseEnter={() => setShowPasswordRequirements(true)}
+                    onMouseLeave={() => setShowPasswordRequirements(false)}
+                  >
+                    ?
+                  </span>
+                  {showPasswordRequirements && (
+                    <div className="password-requirements-tooltip">
+                      Password must have at least 1 small-case letter, 1 capital
+                      letter, 1 digit, 1 special character, and be between 6-10
+                      characters long.
+                    </div>
+                  )}
+                </div>
+                {validationErrors.password && (
+                  <div className="error">{validationErrors.password}</div>
+                )}
+              </div>
+              <div className="form-group">
                 <input
                   type="password"
                   className="form-control"
-                  id="inputPassword"
-                  placeholder="Password"
-                  {...register2("password", {
-                    required: "Password is reqired",
-                    pattern: {
-                      value:
-                        /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{6,10}$/,
-                      message:
-                        "Password must have at least 1 small-case letter,1 Capital letter, 1 digit, 1 special character and the length should be between 6-10 characters.",
+                  id="inputConfirmPassword"
+                  placeholder="Confirm Password"
+                  {...register("confirmPassword", {
+                    required: "Confirmation of Password is required.",
+                    validate: (match) => {
+                      const password = getValues("password");
+                      return match === password || "Passwords have to match.";
                     },
                   })}
                 />
-                <span
-                  className="password-tooltip"
-                  onMouseEnter={() => setShowPasswordRequirements(true)}
-                  onMouseLeave={() => setShowPasswordRequirements(false)}
-                >
-                  ?
-                </span>
-                {showPasswordRequirements && (
-                  <div className="password-requirements-tooltip">
-                    Password must have at least 1 small-case letter, 1 capital
-                    letter, 1 digit, 1 special character, and be between 6-10
-                    characters long.
-                  </div>
+                {errors.confirmPassword && (
+                  <div className="error">{errors.confirmPassword.message}</div>
                 )}
               </div>
-              {validationErrors.password && (
-                <div className="error">{validationErrors.password}</div>
-              )}
             </div>
-            <div className="form-group">
-              <input
-                type="password"
-                className="form-control"
-                id="inputConfirmPassword"
-                placeholder="Confirm Password"
-                {...register2("confirmPassword", {
-                  required: "Confirmation of Password is required.",
-                  validate: (match) => {
-                    const password = getValues2("password");
-                    return match === password || "Passwords have to match.";
-                  },
-                })}
-              />
-              {errors2.confirmPassword && (
-                <div className="error">{errors2.confirmPassword.message}</div>
-              )}
-            </div>
-          </div>
 
-          <div className="checkbox-container">
-            <div className="agreement-container">
-              <input
-                type="checkbox"
-                id="acceptAgreement"
-                name="acceptAgreement"
-                {...register2("acceptAgreement")}
-              />
-              <label htmlFor="acceptAgreement">
-                Do you accept the Agreement?{" "}
-                <span onClick={openPopup} className="agreement-link">
-                  (View Agreement)
-                </span>
-              </label>
+            <div className="checkbox-container">
+              <div className="agreement-container">
+                <input
+                  type="checkbox"
+                  id="acceptAgreement"
+                  name="acceptAgreement"
+                  {...register("acceptAgreement")}
+                />
+                <label htmlFor="acceptAgreement">
+                  Do you accept the Agreement?{" "}
+                  <span onClick={openPopup} className="agreement-link">
+                    (View Agreement)
+                  </span>
+                </label>
+              </div>
+              {validationErrors.acceptAgreement && (
+                <div className="error agreement-error">
+                  {validationErrors.acceptAgreement}
+                </div>
+              )}
             </div>
-            {validationErrors.acceptAgreement && (
-              <div className="error agreement-error">
-                {validationErrors.acceptAgreement}
+
+            <button
+              type="button"
+              onClick={handleSubmit(handleRegister)}
+              className="btn-small"
+            >
+              Proceed
+            </button>
+            {validationCodeError && (
+              <div className="error">{validationCodeError}</div>
+            )}
+            {accountCreated && (
+              <div className="success">
+                Your application has been sent to an Admin for approval.
+              </div>
+            )}
+            {showPopup && (
+              <div className="agreement-popup" ref={popupRef}>
+                <div className="agreement-popup-content">
+                  <h3 className="main-title">
+                    User Agreement for Jambiz Alumni Portal
+                  </h3>
+                  <AgreementPopup onClose={closePopup} />
+                </div>
+              </div>
+            )}
+          </form>
+        </div>
+      )}
+      {firstStepDone && (
+        <div className="register-form-container">
+          <div className="register-form" onSubmit={handleSubmit(sendData)}>
+            <h2>Confirm Email Address</h2>
+            {emailSent && (
+              <div className="success validation-message">
+                Validation code has been sent to your email.
+              </div>
+            )}
+            <h4>Step 2/2</h4>
+
+            {emailSent && (
+              <div className="success validation-message">
+                Validation code has been sent to your email.
+              </div>
+            )}
+            <div className="move-up-1cm">
+              <div className="form-group">
+                <input
+                  type="text"
+                  className="form-control"
+                  id="inputValidateEmail"
+                  placeholder="Type in your code (xxxx-xxxx)"
+                  {...register("codeToValidate", {
+                    required: "Validation Code is required.",
+                    pattern: {
+                      value: /^\d{4}-\d{4}$/,
+                      message:
+                        "Please enter Validation Code in format: xxxx-xxxx",
+                    },
+                    validate: (match) => {
+                      const originalCode = getValues("codeToValidate");
+                      return match === originalCode || "Wrong code entered.";
+                    },
+                  })}
+                />
+                {errors.codeToValidate && (
+                  <div className="error">{errors.codeToValidate.message}</div>
+                )}
+              </div>
+            </div>
+
+            <button
+              type="button"
+              onClick={handleSubmit(handleRegister)}
+              className="btn-small"
+            >
+              Confirm
+            </button>
+            {accountCreated && (
+              <div className="success">
+                Your application has been sent to an Admin for approval.
               </div>
             )}
           </div>
-
-          <button
-            type="button"
-            onClick={handleSubmit2(handleRegister)}
-            className="btn-small"
-          >
-            Register
-          </button>
-          {validationCodeError && (
-            <div className="error">{validationCodeError}</div>
-          )}
-          {accountCreated && (
-            <div className="success">
-              Your application has been sent to an Admin for approval.
-            </div>
-          )}
-          {showPopup && (
-            <div className="agreement-popup" ref={popupRef}>
-              <div className="agreement-popup-content">
-                <h3 className="main-title">
-                  User Agreement for Jambiz Alumni Portal
-                </h3>
-                <AgreementPopup onClose={closePopup} />
-              </div>
-            </div>
-          )}
-        </form>
-      </div>
+        </div>
+      )}
     </div>
   );
 };
