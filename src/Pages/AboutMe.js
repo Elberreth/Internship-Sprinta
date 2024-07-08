@@ -1,11 +1,16 @@
-import React, { useContext } from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Dropdown, Card, Container, Row, Col, Form, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../CSS/AboutMe.css';
-import UserProfileContext from '../Utils/UserProfileContext';
 
 const AboutMe = () => {
-  const { profilePicture, personalInfo } = useContext(UserProfileContext);
+  const [image, setImage] = useState(null);
+  const navigate = useNavigate();
+
+  const handleEditProfile = () => {
+    navigate('/userprofile');
+  };
 
   return (
     <Container fluid className="about-me">
@@ -14,8 +19,8 @@ const AboutMe = () => {
           <Card className="p-3 mb-4 profile-card">
             <Card.Body className="d-flex flex-column align-items-center">
               <div className="image-preview">
-                {profilePicture ? (
-                  <img src={profilePicture} alt="Profile" className="img-fluid" />
+                {image ? (
+                  <img src={image} alt="Profile" className="img-fluid" />
                 ) : (
                   <p className="bold-text">Profile Picture</p>
                 )}
@@ -25,7 +30,7 @@ const AboutMe = () => {
                   &#8942;
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
-                  <Dropdown.Item>Edit profile</Dropdown.Item>
+                  <Dropdown.Item onClick={handleEditProfile}>Edit profile</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
             </Card.Body>
@@ -34,15 +39,9 @@ const AboutMe = () => {
         <Col xs={12} md={6} className="d-flex justify-content-center">
           <Card className="p-3 mb-4 about-me-card">
             <Card.Body>
-              <Card.Title className="text-center bold-text">About Me</Card.Title>
-              <Card.Text className="text-center">
-                <p>Name: {personalInfo.firstName} {personalInfo.lastName}</p>
-                <p>Phone: {personalInfo.phone}</p>
-                <p>City: {personalInfo.city}</p>
-                <p>Employer: {personalInfo.employer}</p>
-                <p>Occupation: {personalInfo.occupation}</p>
-                <p>About Me: {personalInfo.bio}</p>
-              </Card.Text>
+              <Card.Title className="text-center bold-text">
+                About Me
+              </Card.Title>
             </Card.Body>
           </Card>
         </Col>
@@ -50,7 +49,9 @@ const AboutMe = () => {
           <div className="fixed-right">
             <Card className="p-3 mb-4 chat-card">
               <Card.Body>
-                <Card.Title className="text-center bold-text">Add Friends</Card.Title>
+                <Card.Title className="text-center bold-text">
+                  Add Friends
+                </Card.Title>
                 <Form>
                   <Form.Group controlId="formFriendEmail">
                     <Form.Control type="email" placeholder="Enter friend's email" />
@@ -61,7 +62,9 @@ const AboutMe = () => {
                     </Button>
                   </div>
                 </Form>
-                <div className="mt-4 text-center bold-text">Online Friends</div>
+                <div className="mt-4 text-center bold-text">
+                  Online Friends
+                </div>
               </Card.Body>
             </Card>
           </div>
@@ -72,7 +75,6 @@ const AboutMe = () => {
 };
 
 export default AboutMe;
-
 
 
 

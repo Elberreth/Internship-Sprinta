@@ -12,7 +12,28 @@ export const UserProfileProvider = ({ children }) => {
     employer: '',
     occupation: '',
     bio: '',
-    hobbies: [],
+    hobbies: {
+      reading: false,
+      traveling: false,
+      cooking: false,
+      sports: false,
+      music: false,
+      fishing: false,
+      skiing: false,
+      climbing: false,
+      gaming: false,
+      it: false,
+      movies: false,
+      writing: false,
+      gardening: false,
+      running: false,
+      meditate: false,
+      decoration: false,
+      charity: false,
+      nature: false,
+      animals: false,
+      other: false,
+    },
   });
 
   return (
@@ -23,3 +44,4 @@ export const UserProfileProvider = ({ children }) => {
 };
 
 export default UserProfileContext;
+
