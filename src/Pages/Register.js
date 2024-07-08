@@ -3,24 +3,18 @@ import { useForm } from "react-hook-form";
 import "../CSS/Register.css";
 import "../CSS/FormControls.css";
 import "../CSS/Popup.css";
-import AgreementPopup from "./AgreementPopup";
+import AgreementPopup from "../Components/AgreementPopup";
 import generateRandomCode from "../Utils/RandomCodeGenerator";
 import organisationList from "../Utils/OrganisationList";
-import {
-  validateEmailFormat,
-  validatePassword,
-} from "../Utils/ValidationTools";
 import axios from "axios";
 
 const Register = ({ resetFormTrigger }) => {
   const [firstStepDone, setFirstStepDone] = useState(false);
-  const [validationCode, setValidationCode] = useState("");
-  const [validationCodeError, setValidationCodeError] = useState("");
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
   const [accountCreated, setAccountCreated] = useState(false);
   const popupRef = useRef(null);
-  const [validationErrors, setValidationErrors] = useState({});
   const [showPasswordRequirements, setShowPasswordRequirements] =
     useState(false);
 
@@ -32,11 +26,11 @@ const Register = ({ resetFormTrigger }) => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      firstname: "",
-      lastname: "",
+      firstName: "",
+      lastName: "",
       email: "",
       organisation: "",
-      employmentStatus: "",
+      employmentStatus: null,
       password: "",
       confirmPassword: "",
       acceptAgreement: false,
@@ -45,68 +39,35 @@ const Register = ({ resetFormTrigger }) => {
 
   useEffect(() => {
     reset({
-      firstname: "",
-      lastname: "",
+      firstName: "",
+      lastName: "",
       email: "",
       codeToValidate: "",
       password: "",
       confirmPassword: "",
       organisation: "",
-      employmentStatus: "",
+      employmentStatus: null,
       acceptAgreement: false,
     });
-    setValidationErrors({});
-  }, [resetFormTrigger, accountCreated, reset]);
-
-  // useEffect(() => {
-  //   reset2({
-  //     codeToValidate: "",
-  //     password: "",
-  //     confirmPassword: "",
-  //     acceptAgreement: false,
-  //   });
-  //   setValidationCode("");
-  //   setValidationCodeError("");
-  //   setEmailSent(false);
-  //   setAccountCreated(false);
-  //   setValidationErrors({});
-  // }, [resetFormTrigger, accountCreated, reset2]);
+  }, [accountCreated, resetFormTrigger, reset]);
 
   const sendData = async (data) => {
     console.log(data);
   };
 
-  const handleSubmitGetValidationCode = async (data) => {
+  const handleProceedBtnClick = async (data) => {
     console.log(
       data
     ); /*TODO: Remove before going live, BUT KEEP NOW for testing purposes during development*/
-    let errorMessage = "";
 
-    if (
-      !data.firstname ||
-      !data.lastname ||
-      !data.email ||
-      !validateEmailFormat(data.email)
-    ) {
-      errorMessage +=
-        "First Name, Last Name, and Email in valid format is required. ";
-    }
-    if (!data.employmentStatus) {
-      errorMessage += "Employment status is required. ";
-    }
-    if (!data.organisation) {
-      errorMessage += "Organisation is required. ";
-    }
-
-    setValidationCodeError(errorMessage);
-
-    if (!errorMessage) {
+    if (data.acceptAgreement) {
       const generatedCode = generateRandomCode();
-      setValidationCode(generatedCode);
+      setShowSuccessMessage(false);
 
       try {
         await sendEmail(data.email, generatedCode);
         setEmailSent(true);
+        setFirstStepDone(true);
       } catch (error) {
         console.error("Error sending email:", error);
         setEmailSent(false);
@@ -145,69 +106,27 @@ const Register = ({ resetFormTrigger }) => {
     setShowPopup(false);
   };
 
-  // const validatePassword = (password) => {
-  //   const passwordRegex =
-  //     /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{6,10}$/;
-  //   return passwordRegex.test(password);
-  // };
-
-  const handleRegister = (data) => {
-    const { codeToValidate, password, confirmPassword, acceptAgreement } = data;
-    let errors = {};
-
-    // Validate code format
-    const validationCodePattern = /^\d{4}-\d{4}$/;
-
-    if (
-      !codeToValidate ||
-      !validationCodePattern.test(codeToValidate) ||
-      codeToValidate !== validationCode
-    ) {
-      errors.codeToValidate =
-        "Please enter your recieved validation code in the format xxxx-xxxx.";
-    }
-
-    if (password) {
-      if (!validatePassword(password)) {
-        errors.password =
-          "Password must have at least 1 small-case letter,1 Capital letter, 1 digit, 1 special character and the length should be between 6-10 characters.";
-      }
-    } else {
-      errors.password = "Please enter a valid password.";
-    }
-
-    if (password !== confirmPassword) {
-      errors.confirmPassword = "Passwords do not match.";
-    }
-
-    if (!acceptAgreement) {
-      errors.acceptAgreement = "You must accept the agreement.";
-    }
-
-    setValidationErrors(errors);
-
-    if (Object.keys(errors).length === 0) {
-      let employmentStatus =
-        data.employmentStatus === "Currently Employed" ? true : false;
-      axios
-        .post("http://localhost:8080/register", {
-          firstName: data.firstname,
-          lastName: data.lastname,
-          email: data.email,
-          password: data.password,
-          isEmployed: employmentStatus,
-          organisation_name: data.organisation,
-        })
-        .then((response) => {
-          console.log(response.data);
-          setAccountCreated(true);
-          alert("Your application have been sent to an admin for approval");
-        })
-        .catch((error) => {
-          setAccountCreated(false);
-          console.error("There was an error in registering user!", error);
-        });
-    }
+  const handleRegister = async (data) => {
+    axios
+      .post("http://localhost:8080/register", {
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: data.email,
+        password: data.password,
+        isEmployed: data.employmentStatus,
+        organisation_name: data.organisation,
+      })
+      .then((response) => {
+        console.log(response.data);
+        setShowSuccessMessage(true);
+        alert("Your application have been sent to an admin for approval");
+        setAccountCreated(!accountCreated);
+        setFirstStepDone(false);
+      })
+      .catch((error) => {
+        setAccountCreated(false);
+        console.error("There was an error in registering user!", error);
+      });
   };
 
   useEffect(() => {
@@ -256,7 +175,7 @@ const Register = ({ resetFormTrigger }) => {
                   <input
                     type="radio"
                     name="employmentStatus"
-                    value="Currently Employed"
+                    value={true}
                     {...register("employmentStatus", {
                       required: "Employment status is required",
                     })}
@@ -267,7 +186,7 @@ const Register = ({ resetFormTrigger }) => {
                   <input
                     type="radio"
                     name="employmentStatus"
-                    value="Previously Employed"
+                    value={false}
                     {...register("employmentStatus", {
                       required: "Employment status is required",
                     })}
@@ -285,12 +204,12 @@ const Register = ({ resetFormTrigger }) => {
                 className="form-control"
                 id="inputFirstName"
                 placeholder="First Name"
-                {...register("firstname", {
+                {...register("firstName", {
                   required: "First Name is required",
                 })}
               />
-              {errors.firstname && (
-                <div className="error">{errors.firstname.message}</div>
+              {errors.firstName && (
+                <div className="error">{errors.firstName.message}</div>
               )}
             </div>
             <div className="form-group">
@@ -299,10 +218,10 @@ const Register = ({ resetFormTrigger }) => {
                 className="form-control"
                 id="inputLastName"
                 placeholder="Last Name"
-                {...register("lastname", { required: "Last Name is required" })}
+                {...register("lastName", { required: "Last Name is required" })}
               />
-              {errors.lastname && (
-                <div className="error">{errors.lastname.message}</div>
+              {errors.lastName && (
+                <div className="error">{errors.lastName.message}</div>
               )}
             </div>
             <div className="form-group">
@@ -357,8 +276,8 @@ const Register = ({ resetFormTrigger }) => {
                     </div>
                   )}
                 </div>
-                {validationErrors.password && (
-                  <div className="error">{validationErrors.password}</div>
+                {errors.password && (
+                  <div className="error">{errors.password.message}</div>
                 )}
               </div>
               <div className="form-group">
@@ -387,7 +306,9 @@ const Register = ({ resetFormTrigger }) => {
                   type="checkbox"
                   id="acceptAgreement"
                   name="acceptAgreement"
-                  {...register("acceptAgreement")}
+                  {...register("acceptAgreement", {
+                    required: "You have to accept the Agreement to proceed.",
+                  })}
                 />
                 <label htmlFor="acceptAgreement">
                   Do you accept the Agreement?{" "}
@@ -396,28 +317,20 @@ const Register = ({ resetFormTrigger }) => {
                   </span>
                 </label>
               </div>
-              {validationErrors.acceptAgreement && (
+              {errors.acceptAgreement && (
                 <div className="error agreement-error">
-                  {validationErrors.acceptAgreement}
+                  {errors.acceptAgreement.message}
                 </div>
               )}
             </div>
 
             <button
               type="button"
-              onClick={handleSubmit(handleRegister)}
+              onClick={handleSubmit(handleProceedBtnClick)}
               className="btn-small"
             >
               Proceed
             </button>
-            {validationCodeError && (
-              <div className="error">{validationCodeError}</div>
-            )}
-            {accountCreated && (
-              <div className="success">
-                Your application has been sent to an Admin for approval.
-              </div>
-            )}
             {showPopup && (
               <div className="agreement-popup" ref={popupRef}>
                 <div className="agreement-popup-content">
@@ -441,12 +354,6 @@ const Register = ({ resetFormTrigger }) => {
               </div>
             )}
             <h4>Step 2/2</h4>
-
-            {emailSent && (
-              <div className="success validation-message">
-                Validation code has been sent to your email.
-              </div>
-            )}
             <div className="move-up-1cm">
               <div className="form-group">
                 <input
@@ -480,7 +387,7 @@ const Register = ({ resetFormTrigger }) => {
             >
               Confirm
             </button>
-            {accountCreated && (
+            {showSuccessMessage && (
               <div className="success">
                 Your application has been sent to an Admin for approval.
               </div>
