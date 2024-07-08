@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Dropdown, Card, Container, Row, Col } from 'react-bootstrap';
+import { Dropdown, Card, Container, Row, Col, Form, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../CSS/AboutMe.css';
 
@@ -42,12 +42,32 @@ const AboutMe = () => {
               <Card.Title className="text-center bold-text">
                 About Me
               </Card.Title>
-              <Card.Text>
-                {/* Lägg till din information här */}
-                This is the About Me section.
-              </Card.Text>
             </Card.Body>
           </Card>
+        </Col>
+        <Col xs={12} md={3} className="position-relative">
+          <div className="fixed-right">
+            <Card className="p-3 mb-4 chat-card">
+              <Card.Body>
+                <Card.Title className="text-center bold-text">
+                  Add Friends
+                </Card.Title>
+                <Form>
+                  <Form.Group controlId="formFriendEmail">
+                    <Form.Control type="email" placeholder="Enter friend's email" />
+                  </Form.Group>
+                  <div className="button-container move-down">
+                    <Button variant="primary" type="submit" className="custom-add-button">
+                      Add
+                    </Button>
+                  </div>
+                </Form>
+                <div className="mt-4 text-center bold-text">
+                  Online Friends
+                </div>
+              </Card.Body>
+            </Card>
+          </div>
         </Col>
       </Row>
     </Container>
@@ -55,6 +75,12 @@ const AboutMe = () => {
 };
 
 export default AboutMe;
+
+
+
+
+
+
 
 
 

@@ -1,11 +1,10 @@
-/* AboutMe.css */
 .about-me {
     padding: 20px;
   }
   
   .image-preview {
-    width: 200px; /* Justera storleken efter behov */
-    height: 200px; /* Justera storleken efter behov */
+    width: 200px;
+    height: 200px;
     border: 1px solid #ccc;
     display: flex;
     justify-content: center;
@@ -22,8 +21,8 @@
   
   .dropdown-container {
     position: absolute;
-    top: 25px; /* Justera för att placera längre ner */
-    right: 15px; /* Justera för att placera mer till vänster */
+    top: 15px;
+    right: 15px;
   }
   
   .bold-text {
@@ -31,14 +30,49 @@
   }
   
   .profile-card {
-    max-width: 300px; /* Sätt en maxbredd för att minska kortets bredd */
-    margin: 0; /* Se till att kortet inte har någon extra marginal */
+    max-width: 300px;
+    margin: 0;
   }
   
   .about-me-card {
-    max-width: 600px; /* Justera maxbredden efter behov */
-    margin: 0 auto; /* Centrerar kortet */
+    max-width: 600px;
+    margin: 0 auto;
   }
+  
+  .chat-card {
+    max-width: 300px;
+    margin: 0;
+  }
+  
+  .fixed-right {
+    position: fixed;
+    top: 189px;
+    right: 20px;
+  }
+  
+  .button-container {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .custom-add-button {
+    width: 120px;
+    height: 30px;
+    font-size: 12px;
+  }
+  
+  .move-down {
+    margin-top: 10px;
+  }
+  
+  
+  
+  
+  
+  
+  
+  
+  
   
   
   
