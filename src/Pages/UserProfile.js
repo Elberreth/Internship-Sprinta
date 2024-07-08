@@ -174,7 +174,7 @@ const UserProfile = () => {
 
   const handleContinue = (e) => {
     e.preventDefault();
-    navigate("/userprofile2");
+    navigate("/aboutme");
   };
 
   return (
@@ -413,3 +413,5 @@ const UserProfile = () => {
 };
 
 export default UserProfile;
+
+

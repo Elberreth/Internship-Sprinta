@@ -1,0 +1,45 @@
+/* AboutMe.css */
+.about-me {
+    padding: 20px;
+  }
+  
+  .image-preview {
+    width: 200px; /* Justera storleken efter behov */
+    height: 200px; /* Justera storleken efter behov */
+    border: 1px solid #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .image-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .dropdown-container {
+    position: absolute;
+    top: 25px; /* Justera för att placera längre ner */
+    right: 15px; /* Justera för att placera mer till vänster */
+  }
+  
+  .bold-text {
+    font-weight: bold;
+  }
+  
+  .profile-card {
+    max-width: 300px; /* Sätt en maxbredd för att minska kortets bredd */
+    margin: 0; /* Se till att kortet inte har någon extra marginal */
+  }
+  
+  .about-me-card {
+    max-width: 600px; /* Justera maxbredden efter behov */
+    margin: 0 auto; /* Centrerar kortet */
+  }
+  
+  
+  
+  

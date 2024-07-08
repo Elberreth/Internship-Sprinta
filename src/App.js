@@ -1,9 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  useNavigate,
+  BrowserRouter as Router, Routes, Route, useNavigate,
 } from "react-router-dom";
 import Header from "./Components/Header";
 import Home from "./Components/Home";
@@ -12,7 +9,7 @@ import Login from "./Pages/Login";
 import Register from "./Pages/Register";
 import AdminPages from "./Pages/AdminPage";
 import UserProfile from "./Pages/UserProfile";
-import UserProfile2 from "./Pages/UserProfile2";
+import AboutMe from "./Pages/AboutMe";
 import "./CSS/App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -52,7 +49,7 @@ const App = () => {
           />
           <Route path="/admin" element={<AdminPages />} />
           <Route path="/userprofile" element={<UserProfile />} />
-          <Route path="/userprofile2" element={<UserProfile2 />} />
+          <Route path="/aboutme" element={<AboutMe />} /> {/* Lägg till AboutMe-rutten */}
           <Route
             path="*"
             element={
@@ -84,3 +81,9 @@ const RequireAuth = ({ children }) => {
 };
 
 export default App;
+
+
+
+
+
+
