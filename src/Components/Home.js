@@ -1,5 +1,5 @@
 import React from "react";
-import ParentComponent from "../Pages/ParentComponent";
+
 import LogoGrid from "../Components/LogoGrid";
 import "../CSS/Home.css";
 
