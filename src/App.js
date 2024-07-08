@@ -1,6 +1,9 @@
 import React, { useEffect, useState, useCallback } from "react";
 import {
-  BrowserRouter as Router, Routes, Route, useNavigate,
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useNavigate,
 } from "react-router-dom";
 import Header from "./Components/Header";
 import Home from "./Components/Home";
@@ -9,7 +12,8 @@ import Login from "./Pages/Login";
 import Register from "./Pages/Register";
 import AdminPages from "./Pages/AdminPage";
 import UserProfile from "./Pages/UserProfile";
-import AboutMe from "./Pages/AboutMe";
+import AboutMe from './Pages/AboutMe';
+import { UserProfileProvider } from './Utils/UserProfileContext';
 import "./CSS/App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -29,38 +33,40 @@ const App = () => {
   };
 
   return (
-    <Router>
-      <div>
-        <Header
-          onResetRegisterForm={handleResetRegisterForm}
-          isLoggedIn={isLoggedIn}
-          onLogout={handleLogout}
-        />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route
-            path="/login"
-            element={<Login setIsLoggedIn={setIsLoggedIn} />}
+    <UserProfileProvider>
+      <Router>
+        <div>
+          <Header
+            onResetRegisterForm={handleResetRegisterForm}
+            isLoggedIn={isLoggedIn}
+            onLogout={handleLogout}
           />
-          <Route
-            path="/register"
-            element={<Register resetFormTrigger={resetFormTrigger} />}
-          />
-          <Route path="/admin" element={<AdminPages />} />
-          <Route path="/userprofile" element={<UserProfile />} />
-          <Route path="/aboutme" element={<AboutMe />} /> {/* Lägg till AboutMe-rutten */}
-          <Route
-            path="*"
-            element={
-              <RequireAuth>
-                <Home />
-              </RequireAuth>
-            }
-          />
-        </Routes>
-      </div>
-    </Router>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route
+              path="/login"
+              element={<Login setIsLoggedIn={setIsLoggedIn} />}
+            />
+            <Route
+              path="/register"
+              element={<Register resetFormTrigger={resetFormTrigger} />}
+            />
+            <Route path="/admin" element={<AdminPages />} />
+            <Route path="/userprofile" element={<UserProfile />} />
+            <Route path="/aboutme" element={<AboutMe />} />
+            <Route
+              path="*"
+              element={
+                <RequireAuth>
+                  <Home />
+                </RequireAuth>
+              }
+            />
+          </Routes>
+        </div>
+      </Router>
+    </UserProfileProvider>
   );
 };
 
@@ -81,6 +87,7 @@ const RequireAuth = ({ children }) => {
 };
 
 export default App;
+
 
 
 
