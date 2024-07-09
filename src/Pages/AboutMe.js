@@ -62,16 +62,16 @@ const AboutMe = () => {
                   <Dropdown.Item onClick={handleViewFeed}>View your feed</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
-              <Card className="p-3 mt-4 job-openings-card">
-                <Card.Body>
-                  <Card.Title className="job-openings-title">Job Openings</Card.Title>
-                </Card.Body>
-              </Card>
-              <Card className="p-3 mt-4 latest-news-card">
-                <Card.Body>
-                  <Card.Title className="latest-news-title">Latest news from Jambiz</Card.Title>
-                </Card.Body>
-              </Card>
+            </Card.Body>
+          </Card>
+          <Card className="p-3 mt-4 job-openings-card">
+            <Card.Body>
+              <Card.Title className="job-openings-title">Job Openings</Card.Title>
+            </Card.Body>
+          </Card>
+          <Card className="p-3 mt-4 latest-news-card">
+            <Card.Body>
+              <Card.Title className="latest-news-title">Latest news from Jambiz</Card.Title>
             </Card.Body>
           </Card>
         </Col>
@@ -149,6 +149,7 @@ const AboutMe = () => {
 };
 
 export default AboutMe;
+
 
 
 
