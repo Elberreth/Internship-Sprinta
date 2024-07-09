@@ -1,11 +1,11 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Dropdown, Card, Container, Row, Col, Form, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../CSS/AboutMe.css';
+import UserProfileContext from '../Utils/UserProfileContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileAlt } from '@fortawesome/free-solid-svg-icons';
-import UserProfileContext from '../Utils/UserProfileContext';
 
 const capitalizeFirstLetter = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
@@ -14,9 +14,23 @@ const capitalizeFirstLetter = (string) => {
 const AboutMe = () => {
   const { profilePicture, personalInfo } = useContext(UserProfileContext);
   const navigate = useNavigate();
+  const [friends, setFriends] = useState([]);
+  const [friendEmail, setFriendEmail] = useState('');
 
   const handleEditProfile = () => {
     navigate('/userprofile');
+  };
+
+  const handleAddFriend = (e) => {
+    e.preventDefault();
+    if (friendEmail) {
+      setFriends([...friends, { email: friendEmail, online: Math.random() < 0.5 }]); // Random online status for demo
+      setFriendEmail('');
+    }
+  };
+
+  const handleFriendEmailChange = (e) => {
+    setFriendEmail(e.target.value);
   };
 
   return (
@@ -83,9 +97,14 @@ const AboutMe = () => {
             <Card className="p-3 mb-4 chat-card">
               <Card.Body>
                 <Card.Title className="text-center bold-text">Add Friends</Card.Title>
-                <Form>
+                <Form onSubmit={handleAddFriend}>
                   <Form.Group controlId="formFriendEmail">
-                    <Form.Control type="email" placeholder="Enter friend's email" />
+                    <Form.Control
+                      type="email"
+                      placeholder="Enter friend's email"
+                      value={friendEmail}
+                      onChange={handleFriendEmailChange}
+                    />
                   </Form.Group>
                   <div className="button-container move-down">
                     <Button variant="primary" type="submit" className="custom-add-button">
@@ -94,6 +113,14 @@ const AboutMe = () => {
                   </div>
                 </Form>
                 <div className="mt-4 text-center bold-text">Online Friends</div>
+                <ul className="online-friends-list">
+                  {friends.filter(friend => friend.online).map((friend, index) => (
+                    <li key={index} className="online-friend-item">
+                      <span className="online-dot"></span>
+                      {friend.email}
+                    </li>
+                  ))}
+                </ul>
               </Card.Body>
             </Card>
           </div>
@@ -104,6 +131,9 @@ const AboutMe = () => {
 };
 
 export default AboutMe;
+
+
+
 
 
 
