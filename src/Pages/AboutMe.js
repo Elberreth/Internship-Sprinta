@@ -25,13 +25,13 @@ const AboutMe = () => {
   };
 
   const handleViewFeed = () => {
-    navigate('/userprofile2'); // Länkar till UserProfile2
+    navigate('/userprofile2');
   };
 
   const handleAddFriend = (e) => {
     e.preventDefault();
     if (friendEmail) {
-      setFriends([...friends, { email: friendEmail, online: Math.random() < 0.5 }]); // Random online status for demo
+      setFriends([...friends, { email: friendEmail, online: Math.random() < 0.5 }]);
       setFriendEmail('');
     }
   };
@@ -62,12 +62,16 @@ const AboutMe = () => {
                   <Dropdown.Item onClick={handleViewFeed}>View your feed</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
-            </Card.Body>
-          </Card>
-          <Card className="p-3 mb-4 job-openings-card">
-            <Card.Body>
-              <Card.Title className="text-center bold-text">Job Openings</Card.Title>
-              <Card.Text className="text-center">This section will be used later.</Card.Text>
+              <Card className="p-3 mt-4 job-openings-card">
+                <Card.Body>
+                  <Card.Title className="job-openings-title">Job Openings</Card.Title>
+                </Card.Body>
+              </Card>
+              <Card className="p-3 mt-4 latest-news-card">
+                <Card.Body>
+                  <Card.Title className="latest-news-title">Latest news from Jambiz</Card.Title>
+                </Card.Body>
+              </Card>
             </Card.Body>
           </Card>
         </Col>
@@ -75,7 +79,7 @@ const AboutMe = () => {
           <Card className="p-3 mb-4 about-me-card">
             <Card.Body>
               <Card.Title className="text-center bold-text">About Me</Card.Title>
-              <Card.Text className="left-aligned-text small-text">
+              <Card.Text className="left-aligned-text">
                 <p><span className="bold-text">Name:</span> {personalInfo.firstName} {personalInfo.lastName}</p>
                 <p><span className="bold-text">Phone:</span> {personalInfo.phone}</p>
                 <p><span className="bold-text">City:</span> {personalInfo.city}</p>
@@ -145,6 +149,7 @@ const AboutMe = () => {
 };
 
 export default AboutMe;
+
 
 
 
