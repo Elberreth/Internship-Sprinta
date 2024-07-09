@@ -15,6 +15,8 @@ const Register = ({ resetFormTrigger }) => {
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
+  const [receivedValidationCode, setReceivedValidationCode] = useState("");
+  const [wrongCodeMessage, setWrongCodeMessage] = useState("");
   const [triggerReset, setTriggerReset] = useState(false);
   const popupRef = useRef(null);
   const [showPasswordRequirements, setShowPasswordRequirements] =
@@ -33,6 +35,7 @@ const Register = ({ resetFormTrigger }) => {
       firstName: "",
       lastName: "",
       email: "",
+      codeToValidate: "",
       organisation: "",
       employmentStatus: null,
       password: "",
@@ -67,6 +70,7 @@ const Register = ({ resetFormTrigger }) => {
     if (data.acceptAgreement) {
       const generatedCode = generateRandomCode();
       setShowSuccessMessage(false);
+      setReceivedValidationCode(generatedCode);
 
       try {
         await sendEmail(data.email, generatedCode);
@@ -74,6 +78,7 @@ const Register = ({ resetFormTrigger }) => {
         setFirstStepDone(true);
       } catch (error) {
         console.error("Error sending email:", error);
+        setReceivedValidationCode("");
         setEmailSent(false);
       }
     } else {
@@ -111,25 +116,33 @@ const Register = ({ resetFormTrigger }) => {
   };
 
   const handleRegister = async (data) => {
-    axios
-      .post("http://localhost:8080/register", {
-        firstName: data.firstName,
-        lastName: data.lastName,
-        email: data.email,
-        password: data.password,
-        isEmployed: data.employmentStatus,
-        organisation_name: data.organisation,
-      })
-      .then((response) => {
-        console.log(response.data);
-        setShowSuccessMessage(true);
-        alert("Your application have been sent to an admin for approval");
-        setTriggerReset(!triggerReset);
-        setAccountCreated(true);
-      })
-      .catch((error) => {
-        console.error("There was an error in registering user!", error);
-      });
+    if (receivedValidationCode === data.codeToValidate) {
+      axios
+        .post("http://localhost:8080/register", {
+          firstName: data.firstName,
+          lastName: data.lastName,
+          email: data.email,
+          password: data.password,
+          isEmployed: data.employmentStatus,
+          organisation_name: data.organisation,
+        })
+        .then((response) => {
+          console.log(response.data);
+          setWrongCodeMessage("");
+          setShowSuccessMessage(true);
+          alert("Your application have been sent to an admin for approval");
+          setTriggerReset(!triggerReset);
+          setReceivedValidationCode("");
+          setAccountCreated(true);
+        })
+        .catch((error) => {
+          console.error("There was an error in registering user!", error);
+        });
+    } else {
+      setWrongCodeMessage(
+        "Wrong code entered. Please check your email inbox for the valid code."
+      );
+    }
   };
 
   const handleToLogin = () => {
@@ -378,14 +391,13 @@ const Register = ({ resetFormTrigger }) => {
                       message:
                         "Please enter Validation Code in format: xxxx-xxxx",
                     },
-                    validate: (match) => {
-                      const originalCode = getValues("codeToValidate");
-                      return match === originalCode || "Wrong code entered.";
-                    },
                   })}
                 />
                 {errors.codeToValidate && (
                   <div className="error">{errors.codeToValidate.message}</div>
+                )}
+                {wrongCodeMessage && (
+                  <div className="error">{wrongCodeMessage}</div>
                 )}
               </div>
             </div>
