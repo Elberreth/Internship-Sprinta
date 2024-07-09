@@ -8,6 +8,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileAlt } from '@fortawesome/free-solid-svg-icons';
 
 const capitalizeFirstLetter = (string) => {
+  if (string.toLowerCase() === 'it') {
+    return 'IT';
+  }
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
@@ -19,6 +22,10 @@ const AboutMe = () => {
 
   const handleEditProfile = () => {
     navigate('/userprofile');
+  };
+
+  const handleViewFeed = () => {
+    navigate('/userprofile2'); // Länkar till UserProfile2
   };
 
   const handleAddFriend = (e) => {
@@ -52,6 +59,7 @@ const AboutMe = () => {
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
                   <Dropdown.Item onClick={handleEditProfile}>Edit profile</Dropdown.Item>
+                  <Dropdown.Item onClick={handleViewFeed}>View your feed</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
             </Card.Body>
@@ -131,6 +139,8 @@ const AboutMe = () => {
 };
 
 export default AboutMe;
+
+
 
 
 
