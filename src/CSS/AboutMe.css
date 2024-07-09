@@ -87,6 +87,29 @@
     margin-right: 10px;
   }
   
+  .job-openings-card {
+    font-size: 0.875rem;
+    margin-top: 10px;
+    width: 100%; /* Standard bredd */
+    max-width: 300px; /* Max bredd */
+    height: auto;
+  }
+  
+  .job-openings-title {
+    font-size: 1rem; /* Sätter en specifik textstorlek för titeln */
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  @media (max-width: 576px) {
+    .profile-card, .job-openings-card, .chat-card {
+      max-width: 100%;
+    }
+  }
+  
+  
+  
+  
   
   
   

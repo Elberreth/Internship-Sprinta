@@ -64,12 +64,18 @@ const AboutMe = () => {
               </Dropdown>
             </Card.Body>
           </Card>
+          <Card className="p-3 mb-4 job-openings-card">
+            <Card.Body>
+              <Card.Title className="text-center bold-text">Job Openings</Card.Title>
+              <Card.Text className="text-center">This section will be used later.</Card.Text>
+            </Card.Body>
+          </Card>
         </Col>
         <Col xs={12} md={6} className="d-flex justify-content-center">
           <Card className="p-3 mb-4 about-me-card">
             <Card.Body>
               <Card.Title className="text-center bold-text">About Me</Card.Title>
-              <Card.Text className="left-aligned-text">
+              <Card.Text className="left-aligned-text small-text">
                 <p><span className="bold-text">Name:</span> {personalInfo.firstName} {personalInfo.lastName}</p>
                 <p><span className="bold-text">Phone:</span> {personalInfo.phone}</p>
                 <p><span className="bold-text">City:</span> {personalInfo.city}</p>
@@ -139,6 +145,9 @@ const AboutMe = () => {
 };
 
 export default AboutMe;
+
+
+
 
 
 
