@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import AgreementPopup from './AgreementPopup';
+import React, { useState } from "react";
+import AgreementPopup from "./AgreementPopup";
 
 const ParentComponent = () => {
   const [showPopup, setShowPopup] = useState(false);
@@ -21,4 +21,3 @@ const ParentComponent = () => {
 };
 
 export default ParentComponent;
-
