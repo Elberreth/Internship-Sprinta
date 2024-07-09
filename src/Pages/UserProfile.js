@@ -10,7 +10,8 @@ import UserProfileContext from '../Utils/UserProfileContext';
 const UserProfile = () => {
   const { profilePicture, setProfilePicture, personalInfo, setPersonalInfo } = useContext(UserProfileContext);
   const [key, setKey] = useState('personal');
-  const [showAddImageButton, setShowAddImageButton] = useState(!profilePicture);
+  const [cvFile, setCvFile] = useState(null);
+  const [personalLetterFile, setPersonalLetterFile] = useState(null);
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
 
@@ -26,29 +27,27 @@ const UserProfile = () => {
         },
       });
       setProfilePicture(URL.createObjectURL(file));
-      setShowAddImageButton(false);
-      alert('Profile picture saved successfully');
     } catch (error) {
       console.error('Error uploading profile picture:', error);
       alert('Failed to save profile picture');
     }
   };
 
-  const handleRemoveImage = async () => {
-    const confirmed = window.confirm('Are you sure you want to remove the image?');
-    if (confirmed) {
-      try {
-        await axios.delete('/api/user/profile-picture');
-        setProfilePicture(null);
-        setShowAddImageButton(true);
-        if (fileInputRef.current) {
-          fileInputRef.current.value = '';
-        }
-        alert('Profile picture removed successfully');
-      } catch (error) {
-        console.error('Error removing profile picture:', error);
-        alert('Failed to remove profile picture');
-      }
+  const handleFileChange = async (e, setFile) => {
+    const file = e.target.files[0];
+    const formData = new FormData();
+    formData.append(e.target.id, file);
+
+    try {
+      const response = await axios.post(`/api/user/${e.target.id}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      setFile(URL.createObjectURL(file));
+    } catch (error) {
+      console.error(`Error uploading ${e.target.id}:`, error);
+      alert(`Failed to save ${e.target.id}`);
     }
   };
 
@@ -97,7 +96,7 @@ const UserProfile = () => {
         <Col xs={12} md={3}>
           <Card className="p-3 mb-4 small-card">
             <Card.Body className="d-flex flex-column align-items-center">
-              <Form onSubmit={(e) => handleSubmit(e)}>
+              <Form onSubmit={handleSubmit}>
                 <div className="image-preview card-img-top mb-3 d-flex justify-content-center align-items-center">
                   {profilePicture ? (
                     <img src={profilePicture} alt="Profile" className="img-fluid" />
@@ -112,16 +111,9 @@ const UserProfile = () => {
                   style={{ display: 'none' }}
                 />
                 <div className="button-group mt-3 d-flex justify-content-center">
-                  {showAddImageButton && (
-                    <Button variant="primary" onClick={() => fileInputRef.current.click()} className="btn-sm">
-                      Add Image
-                    </Button>
-                  )}
-                  {!showAddImageButton && (
-                    <Button variant="danger" onClick={handleRemoveImage} size="sm">
-                      Remove Image
-                    </Button>
-                  )}
+                  <Button variant="primary" onClick={() => fileInputRef.current.click()} className="btn-sm">
+                    Add Image
+                  </Button>
                 </div>
               </Form>
             </Card.Body>
@@ -228,11 +220,11 @@ const UserProfile = () => {
                   <Form className="mt-3" onSubmit={handleSubmit}>
                     <Form.Group controlId="cv">
                       <Form.Label>Upload CV</Form.Label>
-                      <Form.Control type="file" />
+                      <Form.Control type="file" onChange={(e) => handleFileChange(e, setCvFile)} />
                     </Form.Group>
                     <Form.Group controlId="personalLetter" className="mt-3">
                       <Form.Label>Upload Personal Letter</Form.Label>
-                      <Form.Control type="file" />
+                      <Form.Control type="file" onChange={(e) => handleFileChange(e, setPersonalLetterFile)} />
                     </Form.Group>
                     <div className="d-flex justify-content-center">
                       <Button variant="primary" type="submit" className="mt-3 save-button">
@@ -256,6 +248,7 @@ const UserProfile = () => {
 };
 
 export default UserProfile;
+
 
 
 

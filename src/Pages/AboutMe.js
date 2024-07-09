@@ -3,7 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import { Dropdown, Card, Container, Row, Col, Form, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../CSS/AboutMe.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFileAlt } from '@fortawesome/free-solid-svg-icons';
 import UserProfileContext from '../Utils/UserProfileContext';
+
+const capitalizeFirstLetter = (string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+};
 
 const AboutMe = () => {
   const { profilePicture, personalInfo } = useContext(UserProfileContext);
@@ -51,9 +57,23 @@ const AboutMe = () => {
                 <p><span className="bold-text">Hobbies:</span></p>
                 <ul>
                   {Object.keys(personalInfo.hobbies).map((hobby) => (
-                    personalInfo.hobbies[hobby] ? <li key={hobby}>{hobby}</li> : null
+                    personalInfo.hobbies[hobby] ? <li key={hobby}>{capitalizeFirstLetter(hobby)}</li> : null
                   ))}
                 </ul>
+                <div className="document-icons">
+                  {personalInfo.cv && (
+                    <a href={personalInfo.cv} target="_blank" rel="noopener noreferrer">
+                      <FontAwesomeIcon icon={faFileAlt} size="2x" />
+                      <span className="document-text">CV</span>
+                    </a>
+                  )}
+                  {personalInfo.personalLetter && (
+                    <a href={personalInfo.personalLetter} target="_blank" rel="noopener noreferrer">
+                      <FontAwesomeIcon icon={faFileAlt} size="2x" />
+                      <span className="document-text">Personal Letter</span>
+                    </a>
+                  )}
+                </div>
               </Card.Text>
             </Card.Body>
           </Card>
@@ -84,6 +104,9 @@ const AboutMe = () => {
 };
 
 export default AboutMe;
+
+
+
 
 
 

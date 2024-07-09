@@ -34,6 +34,8 @@ export const UserProfileProvider = ({ children }) => {
       animals: false,
       other: false,
     },
+    cv: null,
+    personalLetter: null,
   });
 
   return (
@@ -44,4 +46,5 @@ export const UserProfileProvider = ({ children }) => {
 };
 
 export default UserProfileContext;
+
 
