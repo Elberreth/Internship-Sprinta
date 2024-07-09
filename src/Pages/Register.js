@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import "../CSS/Register.css";
 import "../CSS/FormControls.css";
@@ -10,13 +11,16 @@ import axios from "axios";
 
 const Register = ({ resetFormTrigger }) => {
   const [firstStepDone, setFirstStepDone] = useState(false);
+  const [accountCreated, setAccountCreated] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
-  const [accountCreated, setAccountCreated] = useState(false);
+  const [triggerReset, setTriggerReset] = useState(false);
   const popupRef = useRef(null);
   const [showPasswordRequirements, setShowPasswordRequirements] =
     useState(false);
+
+  const navigate = useNavigate();
 
   const {
     register,
@@ -49,7 +53,7 @@ const Register = ({ resetFormTrigger }) => {
       employmentStatus: null,
       acceptAgreement: false,
     });
-  }, [accountCreated, resetFormTrigger, reset]);
+  }, [triggerReset, resetFormTrigger, reset]);
 
   const sendData = async (data) => {
     console.log(data);
@@ -120,13 +124,18 @@ const Register = ({ resetFormTrigger }) => {
         console.log(response.data);
         setShowSuccessMessage(true);
         alert("Your application have been sent to an admin for approval");
-        setAccountCreated(!accountCreated);
-        setFirstStepDone(false);
+        setTriggerReset(!triggerReset);
+        setAccountCreated(true);
       })
       .catch((error) => {
-        setAccountCreated(false);
         console.error("There was an error in registering user!", error);
       });
+  };
+
+  const handleToLogin = () => {
+    setFirstStepDone(false);
+    setAccountCreated(false);
+    navigate("/login");
   };
 
   useEffect(() => {
@@ -323,14 +332,15 @@ const Register = ({ resetFormTrigger }) => {
                 </div>
               )}
             </div>
-
-            <button
-              type="button"
-              onClick={handleSubmit(handleProceedBtnClick)}
-              className="btn-small"
-            >
-              Proceed
-            </button>
+            <div className="btn-div">
+              <button
+                type="button"
+                onClick={handleSubmit(handleProceedBtnClick)}
+                className="btn-proceed"
+              >
+                Proceed
+              </button>
+            </div>
             {showPopup && (
               <div className="agreement-popup" ref={popupRef}>
                 <div className="agreement-popup-content">
@@ -344,7 +354,7 @@ const Register = ({ resetFormTrigger }) => {
           </form>
         </div>
       )}
-      {firstStepDone && (
+      {firstStepDone && !accountCreated && (
         <div className="register-form-container">
           <div className="register-form" onSubmit={handleSubmit(sendData)}>
             <h2>Confirm Email Address</h2>
@@ -379,19 +389,49 @@ const Register = ({ resetFormTrigger }) => {
                 )}
               </div>
             </div>
-
-            <button
-              type="button"
-              onClick={handleSubmit(handleRegister)}
-              className="btn-small"
-            >
-              Confirm
-            </button>
+            <div className="btn-div">
+              <button
+                type="button"
+                onClick={handleSubmit(handleRegister)}
+                className="btn-confirm-email"
+              >
+                Confirm
+              </button>
+            </div>
             {showSuccessMessage && (
               <div className="success">
                 Your application has been sent to an Admin for approval.
               </div>
             )}
+          </div>
+        </div>
+      )}
+
+      {accountCreated && (
+        <div className="register-form-container">
+          <div className="register-form" onSubmit={handleSubmit(sendData)}>
+            <h2>Thank You!</h2>
+            <div className="move-up-1cm">
+              <div className="success">
+                You have successfully sent an apply for registering an Alumni
+                Portal account!
+              </div>
+              <div className="success">
+                The request gets handled shortly and then you will get an email
+                notification.
+              </div>
+            </div>
+            <div className="btn-div">
+              <Link to="/login">
+                <button
+                  type="button"
+                  onClick={handleToLogin}
+                  className="btn-to-login"
+                >
+                  To Login
+                </button>
+              </Link>
+            </div>
           </div>
         </div>
       )}
