@@ -120,6 +120,12 @@
       max-width: 100%;
     }
   }
+
+.left-aligned-text p {
+  margin-left: 0;
+  white-space: pre-wrap; /* Bevara mellanrum och radbrytningar */
+}
+
   
   
   
