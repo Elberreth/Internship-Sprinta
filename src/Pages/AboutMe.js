@@ -53,6 +53,7 @@ const AboutMe = () => {
                   <p className="bold-text">Profile Picture</p>
                 )}
               </div>
+              <p className="bold-text text-center mt-3">{personalInfo.firstName} {personalInfo.lastName}</p>
               <Dropdown className="dropdown-container">
                 <Dropdown.Toggle variant="link" className="text-decoration-none p-0">
                   &#8942;
@@ -64,28 +65,17 @@ const AboutMe = () => {
               </Dropdown>
             </Card.Body>
           </Card>
-          <Card className="p-3 mt-4 job-openings-card">
-            <Card.Body>
-              <Card.Title className="job-openings-title">Job Openings</Card.Title>
-            </Card.Body>
-          </Card>
-          <Card className="p-3 mt-4 latest-news-card">
-            <Card.Body>
-              <Card.Title className="latest-news-title">Latest news from Jambiz</Card.Title>
-            </Card.Body>
-          </Card>
         </Col>
         <Col xs={12} md={6} className="d-flex justify-content-center">
           <Card className="p-3 mb-4 about-me-card">
             <Card.Body>
               <Card.Title className="text-center bold-text">About Me</Card.Title>
               <Card.Text className="left-aligned-text">
-                <p><span className="bold-text">Name:</span> {personalInfo.firstName} {personalInfo.lastName}</p>
+                <p><span className="bold-text">Who am i?:</span> {personalInfo.bio}</p>
                 <p><span className="bold-text">Phone:</span> {personalInfo.phone}</p>
                 <p><span className="bold-text">City:</span> {personalInfo.city}</p>
                 <p><span className="bold-text">Employer:</span> {personalInfo.employer}</p>
                 <p><span className="bold-text">Occupation:</span> {personalInfo.occupation}</p>
-                <p><span className="bold-text">About Me:</span> {personalInfo.bio}</p>
                 <p><span className="bold-text">Hobbies:</span></p>
                 <ul>
                   {Object.keys(personalInfo.hobbies).map((hobby) => (
@@ -149,6 +139,9 @@ const AboutMe = () => {
 };
 
 export default AboutMe;
+
+
+
 
 
 
