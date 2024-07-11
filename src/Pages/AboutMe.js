@@ -1,11 +1,11 @@
 import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Dropdown, Card, Container, Row, Col, Form, Button } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCog, faUser, faHome, faFileAlt } from '@fortawesome/free-solid-svg-icons';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../CSS/AboutMe.css';
 import UserProfileContext from '../Utils/UserProfileContext';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFileAlt } from '@fortawesome/free-solid-svg-icons';
 
 const capitalizeFirstLetter = (string) => {
   if (string.toLowerCase() === 'it') {
@@ -28,6 +28,10 @@ const AboutMe = () => {
     navigate('/userprofile2');
   };
 
+  const handleHome = () => {
+    navigate('/');
+  };
+
   const handleAddFriend = (e) => {
     e.preventDefault();
     if (friendEmail) {
@@ -42,6 +46,17 @@ const AboutMe = () => {
 
   return (
     <Container fluid className="about-me">
+      <Row className="header-icons justify-content-center">
+        <Col xs="auto">
+          <FontAwesomeIcon icon={faCog} size="2x" onClick={handleEditProfile} className="icon clickable" />
+        </Col>
+        <Col xs="auto">
+          <FontAwesomeIcon icon={faUser} size="2x" onClick={handleViewFeed} className="icon clickable" />
+        </Col>
+        <Col xs="auto">
+          <FontAwesomeIcon icon={faHome} size="2x" onClick={handleHome} className="icon clickable" />
+        </Col>
+      </Row>
       <Row className="mt-3">
         <Col xs={12} md={3} className="position-relative">
           <Card className="p-3 mb-4 profile-card">
@@ -71,7 +86,7 @@ const AboutMe = () => {
             <Card.Body>
               <Card.Title className="text-center bold-text">About Me</Card.Title>
               <Card.Text className="left-aligned-text">
-                <p><span className="bold-text">This is me:</span> {personalInfo.bio}</p>
+                <p><span className="bold-text">About Me:</span> {personalInfo.bio}</p>
                 <p><span className="bold-text">Phone:</span> {personalInfo.phone}</p>
                 <p><span className="bold-text">City:</span> {personalInfo.city}</p>
                 <p><span className="bold-text">Employer:</span> {personalInfo.employer}</p>
@@ -100,38 +115,36 @@ const AboutMe = () => {
             </Card.Body>
           </Card>
         </Col>
-        <Col xs={12} md={3} className="position-relative">
-          <div className="fixed-right">
-            <Card className="p-3 mb-4 chat-card">
-              <Card.Body>
-                <Card.Title className="text-center bold-text">Add Friends</Card.Title>
-                <Form onSubmit={handleAddFriend}>
-                  <Form.Group controlId="formFriendEmail">
-                    <Form.Control
-                      type="email"
-                      placeholder="Enter friend's email"
-                      value={friendEmail}
-                      onChange={handleFriendEmailChange}
-                    />
-                  </Form.Group>
-                  <div className="button-container move-down">
-                    <Button variant="primary" type="submit" className="custom-add-button">
-                      Add
-                    </Button>
-                  </div>
-                </Form>
-                <div className="mt-4 text-center bold-text">Online Friends</div>
-                <ul className="online-friends-list">
-                  {friends.filter(friend => friend.online).map((friend, index) => (
-                    <li key={index} className="online-friend-item">
-                      <span className="online-dot"></span>
-                      {friend.email}
-                    </li>
-                  ))}
-                </ul>
-              </Card.Body>
-            </Card>
-          </div>
+        <Col xs={12} md={3} className="d-flex justify-content-end">
+          <Card className="p-3 mb-4 chat-card">
+            <Card.Body>
+              <Card.Title className="text-center bold-text">Add Friends</Card.Title>
+              <Form onSubmit={handleAddFriend}>
+                <Form.Group controlId="formFriendEmail">
+                  <Form.Control
+                    type="email"
+                    placeholder="Enter friend's email"
+                    value={friendEmail}
+                    onChange={handleFriendEmailChange}
+                  />
+                </Form.Group>
+                <div className="button-container move-down">
+                  <Button variant="primary" type="submit" className="custom-add-button">
+                    Add
+                  </Button>
+                </div>
+              </Form>
+              <div className="mt-4 text-center bold-text">Online Friends</div>
+              <ul className="online-friends-list">
+                {friends.filter(friend => friend.online).map((friend, index) => (
+                  <li key={index} className="online-friend-item">
+                    <span className="online-dot"></span>
+                    {friend.email}
+                  </li>
+                ))}
+              </ul>
+            </Card.Body>
+          </Card>
         </Col>
       </Row>
     </Container>
@@ -139,6 +152,7 @@ const AboutMe = () => {
 };
 
 export default AboutMe;
+
 
 
 

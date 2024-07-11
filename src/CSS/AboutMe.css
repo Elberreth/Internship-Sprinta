@@ -87,33 +87,7 @@
     margin-right: 10px;
   }
   
-  .job-openings-card {
-    font-size: 0.875rem;
-    margin-top: 10px;
-    width: 100%;
-    max-width: 300px;
-    height: auto;
-  }
-  
-  .job-openings-title {
-    font-size: 1rem;
-    font-weight: bold;
-    text-align: center;
-  }
-  
-  .latest-news-card {
-    font-size: 0.875rem;
-    margin-top: 10px;
-    width: 100%;
-    max-width: 300px;
-    height: auto;
-  }
-  
-  .latest-news-title {
-    font-size: 1rem;
-    font-weight: bold;
-    text-align: center;
-  }
+
   
   @media (max-width: 576px) {
     .profile-card, .job-openings-card, .chat-card, .latest-news-card {
