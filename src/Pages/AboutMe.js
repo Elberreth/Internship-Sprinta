@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Dropdown, Card, Container, Row, Col, Form, Button } from 'react-bootstrap';
+import { Card, Container, Row, Col, Form, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCog, faUser, faHome, faFileAlt } from '@fortawesome/free-solid-svg-icons';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -69,15 +69,6 @@ const AboutMe = () => {
                 )}
               </div>
               <p className="bold-text text-center mt-3">{personalInfo.firstName} {personalInfo.lastName}</p>
-              <Dropdown className="dropdown-container">
-                <Dropdown.Toggle variant="link" className="text-decoration-none p-0">
-                  &#8942;
-                </Dropdown.Toggle>
-                <Dropdown.Menu>
-                  <Dropdown.Item onClick={handleEditProfile}>Edit profile</Dropdown.Item>
-                  <Dropdown.Item onClick={handleViewFeed}>View your feed</Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
             </Card.Body>
           </Card>
         </Col>
@@ -152,6 +143,7 @@ const AboutMe = () => {
 };
 
 export default AboutMe;
+
 
 
 
