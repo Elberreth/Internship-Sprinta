@@ -19,12 +19,6 @@
     object-fit: cover;
   }
   
-  .dropdown-container {
-    position: absolute;
-    top: 25px;
-    right: 5px;
-  }
-  
   .bold-text {
     font-weight: bold;
   }
@@ -32,6 +26,8 @@
   .profile-card {
     max-width: 300px;
     margin: 0;
+    width: 100%; /* Ensures it scales with screen size */
+    min-width: 200px; /* Minimum width to keep it from getting too small */
   }
   
   .about-me-card {
@@ -40,14 +36,7 @@
   }
   
   .chat-card {
-    max-width: 300px;
     margin: 0;
-  }
-  
-  .fixed-right {
-    position: fixed;
-    top: 189px;
-    right: 20px;
   }
   
   .button-container {
@@ -76,6 +65,7 @@
     border-bottom: 1px solid #ccc;
     display: flex;
     align-items: center;
+    white-space: nowrap;
   }
   
   .online-dot {
@@ -87,21 +77,32 @@
     margin-right: 10px;
   }
   
-
-  
-  @media (max-width: 576px) {
-    .profile-card, .job-openings-card, .chat-card, .latest-news-card {
-      max-width: 100%;
-    }
+  .left-aligned-text p {
+    margin-left: 0;
+    white-space: pre-wrap;
   }
-
-.left-aligned-text p {
-  margin-left: 0;
-  white-space: pre-wrap; 
-}
-
   
+  .header-icons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0;
+    background-color: transparent;
+  }
   
+  .icon {
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+  }
+  
+  .add-friends-col {
+    position: absolute;
+    top: 242px; /* Justera detta värde för att matcha höjden på About Me */
+    right: 20px;
+    width: 300px; /* Ställ in en bredd för att hålla kortet smalt */
+  }
   
   
   

@@ -77,7 +77,7 @@ const AboutMe = () => {
             <Card.Body>
               <Card.Title className="text-center bold-text">About Me</Card.Title>
               <Card.Text className="left-aligned-text">
-                <p><span className="bold-text">This is me:</span> {personalInfo.bio}</p>
+                <p><span className="bold-text">About Me:</span> {personalInfo.bio}</p>
                 <p><span className="bold-text">Phone:</span> {personalInfo.phone}</p>
                 <p><span className="bold-text">City:</span> {personalInfo.city}</p>
                 <p><span className="bold-text">Employer:</span> {personalInfo.employer}</p>
@@ -106,8 +106,8 @@ const AboutMe = () => {
             </Card.Body>
           </Card>
         </Col>
-        <Col xs={12} md={3} className="d-flex justify-content-end">
-          <Card className="p-3 mb-4 chat-card">
+        <Col xs={12} md={3} className="add-friends-col">
+          <Card className={`p-3 mb-4 chat-card ${friends.length === 0 ? 'minimal-chat-card' : ''}`}>
             <Card.Body>
               <Card.Title className="text-center bold-text">Add Friends</Card.Title>
               <Form onSubmit={handleAddFriend}>
@@ -143,6 +143,13 @@ const AboutMe = () => {
 };
 
 export default AboutMe;
+
+
+
+
+
+
+
 
 
 
