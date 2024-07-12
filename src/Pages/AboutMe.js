@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Card, Container, Row, Col, Form, Button } from 'react-bootstrap';
+import { Card, Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCog, faUser, faHome, faFileAlt } from '@fortawesome/free-solid-svg-icons';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -19,6 +19,7 @@ const AboutMe = () => {
   const navigate = useNavigate();
   const [friends, setFriends] = useState([]);
   const [friendEmail, setFriendEmail] = useState('');
+  const [showAlert, setShowAlert] = useState(false);
 
   const handleEditProfile = () => {
     navigate('/userprofile');
@@ -34,9 +35,15 @@ const AboutMe = () => {
 
   const handleAddFriend = (e) => {
     e.preventDefault();
-    if (friendEmail) {
-      setFriends([...friends, { email: friendEmail, online: Math.random() < 0.5 }]);
-      setFriendEmail('');
+    if (friendEmail.trim()) {
+      const friendExists = friends.some(friend => friend.email === friendEmail);
+      if (!friendExists) {
+        setFriends([...friends, { email: friendEmail, online: Math.random() < 0.5 }]);
+        setFriendEmail('');
+      } else {
+        setShowAlert(true);
+        setTimeout(() => setShowAlert(false), 3000); // Hide alert after 3 seconds
+      }
     }
   };
 
@@ -125,6 +132,11 @@ const AboutMe = () => {
                   </Button>
                 </div>
               </Form>
+              {showAlert && (
+                <Alert variant="danger" className="mt-2">
+                  This email is already in the list.
+                </Alert>
+              )}
               <div className="mt-4 text-center bold-text">Online Friends</div>
               <ul className="online-friends-list">
                 {friends.filter(friend => friend.online).map((friend, index) => (
@@ -143,6 +155,10 @@ const AboutMe = () => {
 };
 
 export default AboutMe;
+
+
+
+
 
 
 
