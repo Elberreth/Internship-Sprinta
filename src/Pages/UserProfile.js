@@ -33,6 +33,22 @@ const UserProfile = () => {
     }
   };
 
+  const handleRemoveImage = async () => {
+    const confirmed = window.confirm('Are you sure you want to remove the image?');
+    if (confirmed) {
+      try {
+        await axios.delete('/api/user/profile-picture');
+        setProfilePicture(null);
+        if (fileInputRef.current) {
+          fileInputRef.current.value = '';
+        }
+      } catch (error) {
+        console.error('Error removing profile picture:', error);
+        alert('Failed to remove profile picture');
+      }
+    }
+  };
+
   const handleFileChange = async (e, setFile) => {
     const file = e.target.files[0];
     const formData = new FormData();
@@ -113,6 +129,9 @@ const UserProfile = () => {
                 <div className="button-group mt-3 d-flex justify-content-center">
                   <Button variant="primary" onClick={() => fileInputRef.current.click()} className="btn-sm">
                     Add Image
+                  </Button>
+                  <Button variant="danger" onClick={handleRemoveImage} className="btn-sm ms-2">
+                    Delete Image
                   </Button>
                 </div>
               </Form>
@@ -248,6 +267,7 @@ const UserProfile = () => {
 };
 
 export default UserProfile;
+
 
 
 
