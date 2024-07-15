@@ -127,10 +127,10 @@ const UserProfile = () => {
                   style={{ display: 'none' }}
                 />
                 <div className="button-group mt-3 d-flex justify-content-center">
-                  <Button variant="primary" onClick={() => fileInputRef.current.click()} className="btn-sm">
+                  <Button variant="primary" onClick={() => fileInputRef.current.click()} className="btn-xs">
                     Add Image
                   </Button>
-                  <Button variant="danger" onClick={handleRemoveImage} className="btn-sm ms-2">
+                  <Button variant="danger" onClick={handleRemoveImage} className="btn-xs ms-2">
                     Delete Image
                   </Button>
                 </div>
@@ -182,7 +182,7 @@ const UserProfile = () => {
                       />
                     </Form.Group>
                     <div className="d-flex justify-content-center">
-                      <Button variant="primary" type="submit" className="mt-3 next-button">
+                      <Button variant="primary" type="submit" className="mt-3 next-button btn-xs">
                         Next
                       </Button>
                     </div>
@@ -209,7 +209,7 @@ const UserProfile = () => {
                       />
                     </Form.Group>
                     <div className="d-flex justify-content-center">
-                      <Button variant="primary" type="submit" className="mt-3 next-button">
+                      <Button variant="primary" type="submit" className="mt-3 next-button btn-xs">
                         Next
                       </Button>
                     </div>
@@ -229,7 +229,7 @@ const UserProfile = () => {
                     </Form.Group>
                     <UserProfileHobbies hobbies={personalInfo.hobbies} handleCheckboxChange={handleCheckboxChange} />
                     <div className="d-flex justify-content-center">
-                      <Button variant="primary" type="submit" className="mt-3 next-button">
+                      <Button variant="primary" type="submit" className="mt-3 next-button btn-xs">
                         Next
                       </Button>
                     </div>
@@ -246,12 +246,12 @@ const UserProfile = () => {
                       <Form.Control type="file" onChange={(e) => handleFileChange(e, setPersonalLetterFile)} />
                     </Form.Group>
                     <div className="d-flex justify-content-center">
-                      <Button variant="primary" type="submit" className="mt-3 save-button">
+                      <Button variant="primary" type="submit" className="mt-3 save-button btn-xs">
                         Save
                       </Button>
                     </div>
                     <div className="d-flex justify-content-center mt-3">
-                      <Button variant="success" type="button" onClick={() => navigate('/aboutme')} className="continue-button">
+                      <Button variant="success" type="button" onClick={() => navigate('/aboutme')} className="continue-button btn-xs">
                         Continue
                       </Button>
                     </div>
@@ -267,6 +267,7 @@ const UserProfile = () => {
 };
 
 export default UserProfile;
+
 
 
 
