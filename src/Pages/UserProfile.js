@@ -23,7 +23,7 @@ const UserProfile = () => {
     formData.append('profilePicture', file);
 
     try {
-      const response = await axios.post('/api/user/profile-picture', formData, {
+      await axios.post('/api/user/profile-picture', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -51,7 +51,7 @@ const UserProfile = () => {
     formData.append(e.target.id, file);
 
     try {
-      const response = await axios.post(`/api/user/${e.target.id}`, formData, {
+      await axios.post(`/api/user/${e.target.id}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -111,7 +111,7 @@ const UserProfile = () => {
   };
 
   const handleHome = () => {
-    navigate('/');
+    navigate('/userprofile2');
   };
 
   return (
@@ -286,6 +286,7 @@ const UserProfile = () => {
 };
 
 export default UserProfile;
+
 
 
 

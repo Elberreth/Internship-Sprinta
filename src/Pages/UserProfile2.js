@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import '../CSS/UserProfile2.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCog, faUser, faHome } from '@fortawesome/free-solid-svg-icons';
+import '../CSS/UserProfile.css';
 import NewForm from '../Utils/NewForm';
 
 const mockFriends = [
@@ -12,12 +13,8 @@ const mockFriends = [
 ];
 
 const UserProfile2 = () => {
-  const [userData, setUserData] = useState({
-    profilePicture: ''
-  });
-
+  const [userData, setUserData] = useState({ profilePicture: '' });
   const [friends, setFriends] = useState(mockFriends);
-  const [newFriend, setNewFriend] = useState('');
   const [image, setImage] = useState(null);
   const [showAddImageButton, setShowAddImageButton] = useState(true);
   const fileInputRef = useRef(null);
@@ -75,24 +72,22 @@ const UserProfile2 = () => {
     }
   };
 
-  const handleAddFriend = (e) => {
-    e.preventDefault();
-    if (newFriend.trim()) {
-      setFriends([...friends, { id: friends.length + 1, name: newFriend, online: false }]);
-      setNewFriend('');
-    }
-  };
-
-  const handleEditProfile = () => {
-    navigate('/userprofile');
-  };
-
   return (
     <div className="container-fluid user-profile">
-      <header className="header"></header>
+      <div className="row header-icons justify-content-center">
+        <div className="col-auto">
+          <FontAwesomeIcon icon={faCog} size="2x" onClick={() => navigate('/userprofile')} className="icon clickable" />
+        </div>
+        <div className="col-auto">
+          <FontAwesomeIcon icon={faUser} size="2x" onClick={() => navigate('/aboutme')} className="icon clickable" />
+        </div>
+        <div className="col-auto">
+          <FontAwesomeIcon icon={faHome} size="2x" onClick={() => navigate('/userprofile2')} className="icon clickable" />
+        </div>
+      </div>
       <div className="row mt-3">
         <div className="col-md-3">
-          <form className="profile-form card p-3 mb-4">
+          <form className="profile-form card p-3 mb-4 small-card">
             <div className="image-preview card-img-top">
               {image ? (
                 <img src={image} alt="Profile" />
@@ -118,15 +113,6 @@ const UserProfile2 = () => {
                 </button>
               )}
             </div>
-            <div className="mt-3 d-flex justify-content-center">
-              <button
-                type="button"
-                className="btn btn-primary btn-sm"
-                onClick={handleEditProfile}
-              >
-                Edit Profile
-              </button>
-            </div>
           </form>
         </div>
         <div className="col-md-6">
@@ -137,19 +123,6 @@ const UserProfile2 = () => {
         <div className="col-md-3 d-flex flex-column align-items-end match-height">
           <div className="friends-container card p-3 mb-4 friends-list-form">
             <h5 className="card-title text-center">Friends List</h5>
-            <form onSubmit={handleAddFriend}>
-              <div className="mb-3">
-                <input
-                  type="text"
-                  className="form-control"
-                  value={newFriend}
-                  onChange={(e) => setNewFriend(e.target.value)}
-                  placeholder="Enter friend's name"
-                />
-              </div>
-              <button type="submit" className="btn btn-primary btn-sm-custom w-100">Add Friend</button>
-            </form>
-            <h5 className="card-title text-center mt-4">Friends</h5>
             <ul className="list-group">
               {friends.map(friend => (
                 <li key={friend.id} className="list-group-item d-flex justify-content-between align-items-center">
@@ -168,6 +141,10 @@ const UserProfile2 = () => {
 };
 
 export default UserProfile2;
+
+
+
+
 
 
 

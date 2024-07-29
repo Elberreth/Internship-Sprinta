@@ -25,12 +25,12 @@ const AboutMe = () => {
     navigate('/userprofile');
   };
 
-  const handleViewFeed = () => {
-    navigate('/userprofile2');
+  const handleAboutMe = () => {
+    navigate('/aboutme');
   };
 
   const handleHome = () => {
-    navigate('/');
+    navigate('/userprofile2');
   };
 
   const handleAddFriend = (e) => {
@@ -58,7 +58,7 @@ const AboutMe = () => {
           <FontAwesomeIcon icon={faCog} size="2x" onClick={handleEditProfile} className="icon clickable" />
         </Col>
         <Col xs="auto">
-          <FontAwesomeIcon icon={faUser} size="2x" onClick={handleViewFeed} className="icon clickable" />
+          <FontAwesomeIcon icon={faUser} size="2x" onClick={handleAboutMe} className="icon clickable" />
         </Col>
         <Col xs="auto">
           <FontAwesomeIcon icon={faHome} size="2x" onClick={handleHome} className="icon clickable" />
@@ -155,6 +155,8 @@ const AboutMe = () => {
 };
 
 export default AboutMe;
+
+
 
 
 

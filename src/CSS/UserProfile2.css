@@ -1,6 +1,6 @@
 .user-profile {
   background-color: #ffffff; 
-  min-height: 100vh;
+  
 }
 
 .header {
@@ -121,7 +121,9 @@ textarea {
 .btn-sm-custom {
   padding: 5px 10px;
   font-size: 12px;
+
 }
+
 
 
 
