@@ -1,4 +1,4 @@
-/* Gemensamma stilar för AboutMe och UserProfile */
+
 .image-preview {
   width: 200px;
   height: 200px;
@@ -38,7 +38,7 @@
 .next-button, .save-button, .continue-button, .submit-button, .add-friend-button {
   padding: 2px 6px;
   font-size: 12px;
-  width: 150px; /* Gemensam bredd */
+  width: 150px; 
 }
 
 .next-button, .save-button, .submit-button, .add-friend-button {
@@ -51,7 +51,7 @@
   border-color: #28a745 !important;
 }
 
-/* Unika stilar för AboutMe */
+
 .about-me {
   padding: 20px;
   overflow-x: hidden; 
@@ -123,7 +123,7 @@
   width: 300px;
 }
 
-/* Unika stilar för UserProfile2 */
+
 .user-profile {
   padding: 20px;
   background-color: #ffffff;
@@ -168,6 +168,24 @@
   max-width: 800px; 
 }
 
+.image-preview {
+  width: 200px;
+  height: 200px;
+  border: 1px solid #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffffff;
+  overflow: hidden;
+  margin: 0 auto; 
+}
+
+.image-preview img, .image-preview p {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+  display: block;
+}
 
 
 
