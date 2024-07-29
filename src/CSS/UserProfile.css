@@ -1,7 +1,4 @@
-.user-profile {
-  background-color: #ffffff;
-  min-height: 100vh;
-}
+.user-profile 
 
 .small-card {
   max-width: 300px;
@@ -23,8 +20,8 @@
 }
 
 .image-preview {
-  width: 200px; 
-  height: 200px; 
+  width: 200px;
+  height: 200px;
   border: 1px solid #ccc;
   display: flex;
   justify-content: center;
@@ -94,6 +91,7 @@
 .bold-text {
   font-weight: bold;
 }
+
 
 
 
