@@ -1,12 +1,122 @@
-.user-profile 
+/* Gemensam stil för AboutMe och UserProfile */
+.image-preview {
+  width: 200px;
+  height: 200px;
+  border: 1px solid #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background-color: #ffffff;
+}
 
-.small-card {
+.image-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.bold-text {
+  font-weight: bold;
+}
+
+.button-group, .button-container {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.button-group .btn-sm, .button-container .custom-add-button {
+  padding: 2px 6px;
+  font-size: 12px;
+  width: 100px;
+}
+
+/* Unika stilar för AboutMe */
+.about-me {
+  padding: 20px;
+  overflow-x: hidden; /* Förhindrar horisontell scroll */
+}
+
+.profile-card {
   max-width: 300px;
+  margin: 0;
+  width: 100%;
+  min-width: 200px;
 }
 
 .about-me-card {
-  width: 100%;
   max-width: 800px;
+  margin: 0 auto;
+  width: 100%; /* Säkerställer full bredd */
+}
+
+.chat-card {
+  margin: 0;
+}
+
+.move-down {
+  margin-top: 10px;
+}
+
+.online-friends-list {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 10px;
+}
+
+.online-friends-list li {
+  padding: 5px 0;
+  border-bottom: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.online-dot {
+  width: 10px;
+  height: 10px;
+  background-color: green;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.left-aligned-text p {
+  margin-left: 0;
+  white-space: pre-wrap;
+}
+
+.header-icons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  margin-bottom: 10px; /* Justerar avståndet mellan header och innehåll */
+}
+
+.icon {
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0 10px; /* Utrymme mellan ikonerna */
+}
+
+.add-friends-col {
+  position: absolute;
+  top: 242px;
+  right: 20px;
+  width: 300px;
+}
+
+
+
+.small-card {
+  max-width: 300px;
+  margin: 0;
+  width: 100%;
+  min-width: 200px;
 }
 
 .profile-picture-container {
@@ -19,51 +129,7 @@
   align-items: center;
 }
 
-.image-preview {
-  width: 200px;
-  height: 200px;
-  border: 1px solid #ccc;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #ffffff;
-  overflow: hidden;
-}
-
-.image-preview img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.button-group {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  gap: 10px;
-}
-
-.button-group .btn-danger,
-.button-group .btn-primary {
-  padding: 2px 6px;
-  font-size: 12px;
-}
-
-.text-center {
-  text-align: center;
-}
-
-.d-flex {
-  display: flex;
-}
-
-.justify-content-center {
-  justify-content: center;
-}
-
-.next-button,
-.save-button,
-.continue-button {
+.next-button, .save-button, .continue-button {
   padding: 2px 6px;
   font-size: 12px;
   width: 100px;
@@ -88,9 +154,7 @@
   margin-top: 1rem;
 }
 
-.bold-text {
-  font-weight: bold;
-}
+
 
 
 
