@@ -2,8 +2,6 @@ import React, { useState, useRef, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Form, Button, Card, Container, Row, Col, Tabs, Tab } from 'react-bootstrap';
 import axios from 'axios';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCog, faUser, faHome } from '@fortawesome/free-solid-svg-icons';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../CSS/UserProfile.css';
 import UserProfileHobbies from '../Utils/UserProfileHobbies';
@@ -35,23 +33,13 @@ const UserProfile = () => {
     }
   };
 
-  const handleRemoveImage = async () => {
-    try {
-      await axios.delete('/api/user/profile-picture');
-      setProfilePicture(null);
-    } catch (error) {
-      console.error('Error removing profile picture:', error);
-      alert('Failed to remove profile picture');
-    }
-  };
-
   const handleFileChange = async (e, setFile) => {
     const file = e.target.files[0];
     const formData = new FormData();
     formData.append(e.target.id, file);
 
     try {
-      await axios.post(`/api/user/${e.target.id}`, formData, {
+      const response = await axios.post(`/api/user/${e.target.id}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -102,65 +90,42 @@ const UserProfile = () => {
     }
   };
 
-  const handleEditProfile = () => {
-    navigate('/userprofile');
-  };
-
-  const handleAboutMe = () => {
-    navigate('/aboutme');
-  };
-
-  const handleHome = () => {
-    navigate('/userprofile2');
-  };
-
   return (
     <Container fluid className="user-profile">
-      <Row className="header-icons justify-content-center">
-        <Col xs="auto">
-          <FontAwesomeIcon icon={faCog} size="2x" onClick={handleEditProfile} className="icon clickable" />
-        </Col>
-        <Col xs="auto">
-          <FontAwesomeIcon icon={faUser} size="2x" onClick={handleAboutMe} className="icon clickable" />
-        </Col>
-        <Col xs="auto">
-          <FontAwesomeIcon icon={faHome} size="2x" onClick={handleHome} className="icon clickable" />
-        </Col>
-      </Row>
       <Row className="mt-3">
         <Col xs={12} md={3}>
           <Card className="p-3 mb-4 small-card">
             <Card.Body className="d-flex flex-column align-items-center">
-              <div className="image-preview card-img-top mb-3 d-flex justify-content-center align-items-center">
-                {profilePicture ? (
-                  <img src={profilePicture} alt="Profile" className="img-fluid" />
-                ) : (
-                  <p className="bold-text">Profile Picture</p>
-                )}
-              </div>
-              <input
-                type="file"
-                ref={fileInputRef}
-                onChange={handleImageChange}
-                style={{ display: 'none' }}
-              />
-              <div className="button-group mt-3 d-flex justify-content-center">
-                <Button variant="primary" onClick={() => fileInputRef.current.click()} className="btn-sm">
-                  Add Image
-                </Button>
-                {profilePicture && (
-                  <Button variant="danger" onClick={handleRemoveImage} className="btn-sm ms-2">
-                    Remove Image
+              <Form onSubmit={handleSubmit}>
+                <div className="image-preview card-img-top mb-3 d-flex justify-content-center align-items-center">
+                  {profilePicture ? (
+                    <img src={profilePicture} alt="Profile" className="img-fluid" />
+                  ) : (
+                    <p className="bold-text">Profile Picture</p>
+                  )}
+                </div>
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  onChange={handleImageChange}
+                  style={{ display: 'none' }}
+                />
+                <div className="button-group mt-3 d-flex justify-content-center">
+                  <Button variant="primary" onClick={() => fileInputRef.current.click()} className="btn-sm">
+                    Add Image
                   </Button>
-                )}
-              </div>
+                  {/* <Button variant="primary" type="submit" className="btn-sm ms-2">
+                    Save
+                  </Button> */}
+                </div>
+              </Form>
             </Card.Body>
           </Card>
         </Col>
         <Col xs={12} md={6} className="d-flex justify-content-center">
           <Card className="p-3 mb-4 about-me-card">
             <Card.Body>
-              <Card.Title className="text-center bold-text">My profile</Card.Title>
+              <Card.Title className="text-center bold-text">About Me</Card.Title>
               <Tabs activeKey={key} onSelect={(k) => setKey(k)} id="about-me-tabs">
                 <Tab eventKey="personal" title="Contact Info">
                   <Form className="mt-3" onSubmit={(e) => handleNext(e, 'professional')}>
@@ -264,11 +229,11 @@ const UserProfile = () => {
                       <Form.Label>Upload Personal Letter</Form.Label>
                       <Form.Control type="file" onChange={(e) => handleFileChange(e, setPersonalLetterFile)} />
                     </Form.Group>
-                    <div className="d-flex justify-content-center">
+                    {/* <div className="d-flex justify-content-center">
                       <Button variant="primary" type="submit" className="mt-3 save-button">
                         Save
                       </Button>
-                    </div>
+                    </div> */}
                     <div className="d-flex justify-content-center mt-3">
                       <Button variant="success" type="button" onClick={() => navigate('/aboutme')} className="continue-button">
                         Continue
@@ -286,6 +251,7 @@ const UserProfile = () => {
 };
 
 export default UserProfile;
+
 
 
 
