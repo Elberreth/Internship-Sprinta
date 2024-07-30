@@ -18,7 +18,7 @@ const RegistrationDetails = () => {
       <h1>Registration Details</h1>
       <p>Email: {registration.email}</p>
       <p>Other details: {registration.otherDetails}</p>
-      {/* Add more details as needed */}
+      
     </div>
   );
 };
