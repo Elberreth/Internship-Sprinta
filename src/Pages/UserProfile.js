@@ -1,6 +1,8 @@
 import React, { useState, useRef, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Form, Button, Card, Container, Row, Col, Tabs, Tab } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCog, faUser, faHome } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../CSS/UserProfile.css';
@@ -21,7 +23,7 @@ const UserProfile = () => {
     formData.append('profilePicture', file);
 
     try {
-      await axios.post('/api/user/profile-picture', formData, {
+      const response = await axios.post('/api/user/profile-picture', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -75,28 +77,36 @@ const UserProfile = () => {
     setKey(nextKey);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await axios.post('/api/user/data', personalInfo, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      alert('Data saved successfully');
-    } catch (error) {
-      console.error('Error saving data:', error);
-      alert('Failed to save data');
-    }
+  const handleEditProfile = () => {
+    navigate('/userprofile');
+  };
+
+  const handleAboutMe = () => {
+    navigate('/aboutme');
+  };
+
+  const handleHome = () => {
+    navigate('/userprofile2');
   };
 
   return (
     <Container fluid className="user-profile">
+      <Row className="header-icons justify-content-center">
+        <Col xs="auto">
+          <FontAwesomeIcon icon={faCog} size="2x" onClick={handleEditProfile} className="icon clickable" />
+        </Col>
+        <Col xs="auto">
+          <FontAwesomeIcon icon={faUser} size="2x" onClick={handleAboutMe} className="icon clickable" />
+        </Col>
+        <Col xs="auto">
+          <FontAwesomeIcon icon={faHome} size="2x" onClick={handleHome} className="icon clickable" />
+        </Col>
+      </Row>
       <Row className="mt-3">
         <Col xs={12} md={3}>
           <Card className="p-3 mb-4 small-card">
             <Card.Body className="d-flex flex-column align-items-center">
-              <Form onSubmit={handleSubmit}>
+              <Form>
                 <div className="image-preview card-img-top mb-3 d-flex justify-content-center align-items-center">
                   {profilePicture ? (
                     <img src={profilePicture} alt="Profile" className="img-fluid" />
@@ -114,9 +124,6 @@ const UserProfile = () => {
                   <Button variant="primary" onClick={() => fileInputRef.current.click()} className="btn-sm">
                     Add Image
                   </Button>
-                  {/* <Button variant="primary" type="submit" className="btn-sm ms-2">
-                    Save
-                  </Button> */}
                 </div>
               </Form>
             </Card.Body>
@@ -125,7 +132,7 @@ const UserProfile = () => {
         <Col xs={12} md={6} className="d-flex justify-content-center">
           <Card className="p-3 mb-4 about-me-card">
             <Card.Body>
-              <Card.Title className="text-center bold-text">About Me</Card.Title>
+              <Card.Title className="text-center bold-text">My profile</Card.Title>
               <Tabs activeKey={key} onSelect={(k) => setKey(k)} id="about-me-tabs">
                 <Tab eventKey="personal" title="Contact Info">
                   <Form className="mt-3" onSubmit={(e) => handleNext(e, 'professional')}>
@@ -220,7 +227,7 @@ const UserProfile = () => {
                   </Form>
                 </Tab>
                 <Tab eventKey="upload" title="Upload">
-                  <Form className="mt-3" onSubmit={handleSubmit}>
+                  <Form className="mt-3">
                     <Form.Group controlId="cv">
                       <Form.Label>Upload CV</Form.Label>
                       <Form.Control type="file" onChange={(e) => handleFileChange(e, setCvFile)} />
@@ -229,11 +236,6 @@ const UserProfile = () => {
                       <Form.Label>Upload Personal Letter</Form.Label>
                       <Form.Control type="file" onChange={(e) => handleFileChange(e, setPersonalLetterFile)} />
                     </Form.Group>
-                    {/* <div className="d-flex justify-content-center">
-                      <Button variant="primary" type="submit" className="mt-3 save-button">
-                        Save
-                      </Button>
-                    </div> */}
                     <div className="d-flex justify-content-center mt-3">
                       <Button variant="success" type="button" onClick={() => navigate('/aboutme')} className="continue-button">
                         Continue
