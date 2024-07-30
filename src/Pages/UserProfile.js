@@ -160,7 +160,7 @@ const UserProfile = () => {
         <Col xs={12} md={6} className="d-flex justify-content-center">
           <Card className="p-3 mb-4 about-me-card">
             <Card.Body>
-              <Card.Title className="text-center bold-text">About Me</Card.Title>
+              <Card.Title className="text-center bold-text">My profile</Card.Title>
               <Tabs activeKey={key} onSelect={(k) => setKey(k)} id="about-me-tabs">
                 <Tab eventKey="personal" title="Contact Info">
                   <Form className="mt-3" onSubmit={(e) => handleNext(e, 'professional')}>
