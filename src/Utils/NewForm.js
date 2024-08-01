@@ -118,7 +118,7 @@ const NewForm = () => {
     <>
       <form className="new-form card p-3 mb-4" onSubmit={handleSubmit}>
         <div className="d-flex justify-content-center align-items-center">
-          <h5 className="card-title text-center">What is New</h5>
+          <h5 className="card-title text-center bold-text">What is New</h5> {/* Bold text inside the form */}
         </div>
         <div className="mb-3">
           <textarea
@@ -229,29 +229,21 @@ const NewForm = () => {
                           <Dropdown.Item onClick={() => handleDelete(index)}>Delete</Dropdown.Item>
                         </Dropdown.Menu>
                       </Dropdown>
-                    </div>
-                    <div className="button-group ms-auto d-flex">
-                      <button
-                        type="button"
-                        className="btn btn-outline-primary btn-sm me-2"
-                        onClick={() => handleShare(index)}
-                      >
-                        <FontAwesomeIcon icon={faShare} />
-                      </button>
-                      <button
-                        type="button"
-                        className="btn btn-outline-success btn-sm me-2"
+                      <FontAwesomeIcon
+                        icon={faThumbsUp}
                         onClick={() => handleLike(index)}
-                      >
-                        <FontAwesomeIcon icon={faThumbsUp} />
-                      </button>
-                      <button
-                        type="button"
-                        className="btn btn-outline-danger btn-sm"
+                        style={{ cursor: 'pointer', marginRight: '10px' }}
+                      />
+                      <FontAwesomeIcon
+                        icon={faThumbsDown}
                         onClick={() => handleDislike(index)}
-                      >
-                        <FontAwesomeIcon icon={faThumbsDown} />
-                      </button>
+                        style={{ cursor: 'pointer', marginRight: '10px' }}
+                      />
+                      <FontAwesomeIcon
+                        icon={faShare}
+                        onClick={() => handleShare(index)}
+                        style={{ cursor: 'pointer' }}
+                      />
                     </div>
                   </div>
                 </>
@@ -265,6 +257,7 @@ const NewForm = () => {
 };
 
 export default NewForm;
+
 
 
 

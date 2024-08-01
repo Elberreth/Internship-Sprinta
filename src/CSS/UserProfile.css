@@ -185,6 +185,34 @@
   max-height: 100%;
   object-fit: cover;
   display: block;
+}.card-title {
+  font-weight: bold;
+  margin-bottom: 20px; 
+}
+
+.new-form-container, .friends-container, .small-card, .about-me-card {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.new-form-container .card-title, 
+.friends-container .card-title {
+  margin-top: 17px; 
+}
+
+.bold-text {
+  font-weight: bold;
+}
+
+.image-preview {
+  width: 200px;
+  height: 200px;
+  border: 1px solid #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background-color: #ffffff;
 }
 
 
