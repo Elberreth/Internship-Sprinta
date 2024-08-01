@@ -214,6 +214,9 @@
   overflow: hidden;
   background-color: #ffffff;
 }
+.entry .button-group {
+  justify-content: flex-end; 
+}
 
 
 

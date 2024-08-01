@@ -218,7 +218,7 @@ const NewForm = () => {
                       <ReactPlayer url={entry.media} controls className="img-fluid mb-2" />
                     ) : null
                   )}
-                  <div className="d-flex justify-content-between align-items-center mt-2">
+                  <div className="d-flex justify-content-end align-items-center mt-2">
                     <div>
                       <Dropdown className="position-absolute top-0 end-0">
                         <Dropdown.Toggle variant="link" id={`dropdown-custom-${index}`} className="text-decoration-none">
@@ -229,6 +229,8 @@ const NewForm = () => {
                           <Dropdown.Item onClick={() => handleDelete(index)}>Delete</Dropdown.Item>
                         </Dropdown.Menu>
                       </Dropdown>
+                    </div>
+                    <div className="button-group ms-auto d-flex">
                       <FontAwesomeIcon
                         icon={faThumbsUp}
                         onClick={() => handleLike(index)}
