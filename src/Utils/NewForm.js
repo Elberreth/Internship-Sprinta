@@ -30,13 +30,13 @@ const NewForm = () => {
   const [showCommentModal, setShowCommentModal] = useState(false);
   const [currentEntryIndex, setCurrentEntryIndex] = useState(null);
   const [newComment, setNewComment] = useState('');
-  const [showComments, setShowComments] = useState({});
+  const [showComments, setShowComments] = useState([]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const timestamp = new Date().getTime();
     if (newInfo.trim() || newMedia.trim()) {
-      setEntries([{ info: newInfo, media: newMedia, mediaType: newMediaType, timestamp, comments: [], likes: 0, dislikes: 0, userLiked: false, userDisliked: false }, ...entries]);
+      setEntries([{ info: newInfo, media: newMedia, mediaType: newMediaType, timestamp, comments: [], likes: 0, dislikes: 0, likedByUser: false, dislikedByUser: false }, ...entries]);
       setNewInfo('');
       setNewMedia('');
       setNewMediaType('');
@@ -70,34 +70,32 @@ const NewForm = () => {
 
   const handleLike = (index) => {
     const newEntries = [...entries];
-    const entry = newEntries[index];
-    if (entry.userLiked) {
-      entry.likes--;
-      entry.userLiked = false;
+    if (newEntries[index].likedByUser) {
+      newEntries[index].likes -= 1;
+      newEntries[index].likedByUser = false;
     } else {
-      entry.likes++;
-      if (entry.userDisliked) {
-        entry.dislikes--;
-        entry.userDisliked = false;
+      if (newEntries[index].dislikedByUser) {
+        newEntries[index].dislikes -= 1;
+        newEntries[index].dislikedByUser = false;
       }
-      entry.userLiked = true;
+      newEntries[index].likes += 1;
+      newEntries[index].likedByUser = true;
     }
     setEntries(newEntries);
   };
 
   const handleDislike = (index) => {
     const newEntries = [...entries];
-    const entry = newEntries[index];
-    if (entry.userDisliked) {
-      entry.dislikes--;
-      entry.userDisliked = false;
+    if (newEntries[index].dislikedByUser) {
+      newEntries[index].dislikes -= 1;
+      newEntries[index].dislikedByUser = false;
     } else {
-      entry.dislikes++;
-      if (entry.userLiked) {
-        entry.likes--;
-        entry.userLiked = false;
+      if (newEntries[index].likedByUser) {
+        newEntries[index].likes -= 1;
+        newEntries[index].likedByUser = false;
       }
-      entry.userDisliked = true;
+      newEntries[index].dislikes += 1;
+      newEntries[index].dislikedByUser = true;
     }
     setEntries(newEntries);
   };
@@ -171,10 +169,11 @@ const NewForm = () => {
   };
 
   const toggleComments = (index) => {
-    setShowComments((prevState) => ({
-      ...prevState,
-      [index]: !prevState[index],
-    }));
+    setShowComments((prevState) => {
+      const updatedShowComments = [...prevState];
+      updatedShowComments[index] = !updatedShowComments[index];
+      return updatedShowComments;
+    });
   };
 
   return (
@@ -299,33 +298,38 @@ const NewForm = () => {
                     ) : null
                   )}
                   <div className="d-flex justify-content-end align-items-center mt-2">
-                    <FontAwesomeIcon
-                      icon={faThumbsUp}
-                      onClick={() => handleLike(index)}
-                      style={{ cursor: 'pointer', marginRight: '10px' }}
-                    />
-                    <span>{entry.likes || 0}</span>
-                    <FontAwesomeIcon
-                      icon={faThumbsDown}
-                      onClick={() => handleDislike(index)}
-                      style={{ cursor: 'pointer', marginRight: '10px', marginLeft: '10px' }}
-                    />
-                    <span>{entry.dislikes || 0}</span>
+                    <div className="d-flex align-items-center">
+                      <FontAwesomeIcon
+                        icon={faThumbsUp}
+                        onClick={() => handleLike(index)}
+                        style={{ cursor: 'pointer', marginRight: '5px' }}
+                      />
+                      <span>{entry.likes}</span>
+                    </div>
+                    <div className="d-flex align-items-center ms-3">
+                      <FontAwesomeIcon
+                        icon={faThumbsDown}
+                        onClick={() => handleDislike(index)}
+                        style={{ cursor: 'pointer', marginRight: '5px' }}
+                      />
+                      <span>{entry.dislikes}</span>
+                    </div>
                     <FontAwesomeIcon
                       icon={faShare}
                       onClick={() => handleShare(index)}
-                      style={{ cursor: 'pointer', marginRight: '10px', marginLeft: '10px' }}
+                      style={{ cursor: 'pointer', marginLeft: '15px', marginRight: '10px' }}
                     />
                     <FontAwesomeIcon
                       icon={faComment}
                       onClick={() => handleComment(index)}
-                      style={{ cursor: 'pointer', marginRight: '10px', marginLeft: '10px' }}
+                      style={{ cursor: 'pointer' }}
                     />
                   </div>
-                  <div className="comments-link">
+                  <div className="text-start mt-2">
                     <span
+                      className="text-muted"
+                      style={{ cursor: 'pointer' }}
                       onClick={() => toggleComments(index)}
-                      style={{ cursor: 'pointer', color: 'gray' }}
                     >
                       {showComments[index] ? `Hide comments (${entry.comments.length})` : `Show comments (${entry.comments.length})`}
                     </span>
@@ -374,10 +378,6 @@ const NewForm = () => {
 };
 
 export default NewForm;
-
-
-
-
 
 
 

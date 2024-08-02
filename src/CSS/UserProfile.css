@@ -202,7 +202,6 @@
   text-align: center;
 }
 
-
 .submit-button {
   width: 100px; 
   padding: 5px;
@@ -219,6 +218,74 @@
 .submit-button:hover {
   background-color: #0056b3; 
   border-color: #0056b3; 
+}
+
+
+.react-player-wrapper {
+  position: relative;
+  padding-top: 56.25%; 
+  width: 100%;
+  height: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.react-player {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  height: 100%;
+}
+
+
+.new-form {
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.card {
+  width: 100%;
+}
+
+.submit-button {
+  width: 150px;
+  padding: 2px 6px;
+  text-align: center;
+  margin: 0 auto;
+  display: block;
+  font-size: 12px;
+  background-color: #007bff;
+  border-color: #007bff;
+  color: #fff;
+  border-radius: 4px;
+}
+
+.submit-button:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
+
+.custom-button {
+  width: 150px;
+  padding: 2px 6px;
+  text-align: center;
+  margin: 0 auto;
+  display: block;
+  font-size: 12px;
+  background-color: #007bff;
+  border-color: #007bff;
+  color: #fff;
+  border-radius: 4px;
+}
+
+.custom-button:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
 }
 
 
