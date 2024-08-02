@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, Dropdown } from 'react-bootstrap';
+import '../CSS/UserProfile.css';
 import ReactPlayer from 'react-player';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp, faThumbsDown, faShare, faComment } from '@fortawesome/free-solid-svg-icons';
@@ -29,6 +30,7 @@ const NewForm = () => {
   const [showCommentModal, setShowCommentModal] = useState(false);
   const [currentEntryIndex, setCurrentEntryIndex] = useState(null);
   const [newComment, setNewComment] = useState('');
+  const [showComments, setShowComments] = useState({});
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -144,6 +146,13 @@ const NewForm = () => {
   const handleCloseModal = () => {
     setShowModal(false);
     setModalImage('');
+  };
+
+  const toggleComments = (index) => {
+    setShowComments((prevShowComments) => ({
+      ...prevShowComments,
+      [index]: !prevShowComments[index],
+    }));
   };
 
   return (
@@ -289,11 +298,23 @@ const NewForm = () => {
                       style={{ cursor: 'pointer' }}
                     />
                   </div>
-                  {entry.comments && entry.comments.map((comment, commentIndex) => (
-                    <div key={commentIndex} className="comment mt-2">
-                      <p className="mb-1"><strong>{comment.user}:</strong> {comment.text}</p>
-                    </div>
-                  ))}
+                  <div className="text-center mt-2">
+                    <button
+                      className="btn btn-link text-muted"
+                      onClick={() => toggleComments(index)}
+                    >
+                      {showComments[index] ? 'Hide comments' : `Show comments (${entry.comments.length})`}
+                    </button>
+                  </div>
+                  {showComments[index] && (
+                    <>
+                      {entry.comments && entry.comments.map((comment, commentIndex) => (
+                        <div key={commentIndex} className="comment mt-2">
+                          <p className="mb-1"><strong>{comment.user}:</strong> {comment.text}</p>
+                        </div>
+                      ))}
+                    </>
+                  )}
                 </>
               )}
             </div>
@@ -333,6 +354,8 @@ const NewForm = () => {
 };
 
 export default NewForm;
+
+
 
 
 

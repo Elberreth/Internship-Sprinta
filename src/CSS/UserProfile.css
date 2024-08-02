@@ -217,6 +217,47 @@
 .entry .button-group {
   justify-content: flex-end; 
 }
+.react-player-wrapper {
+  position: relative;
+  padding-top: 56.25%; /* 16:9 Aspect Ratio */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 0;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.react-player {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  height: 100%;
+}
+
+.new-form .form-control {
+  width: 100%;
+}
+
+.submit-button {
+  display: block;
+  width: 100%;
+  max-width: 200px;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .react-player {
+    width: 100%;
+    left: 0;
+    transform: none;
+  }
+}
+
+
 
 
 
