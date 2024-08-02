@@ -1,15 +1,17 @@
 import React, { useState, useRef } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Dropdown } from 'react-bootstrap';
+import { Modal, Dropdown } from 'react-bootstrap';
 import ReactPlayer from 'react-player';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faThumbsUp, faThumbsDown, faShare } from '@fortawesome/free-solid-svg-icons';
+import { faThumbsUp, faThumbsDown, faShare, faComment } from '@fortawesome/free-solid-svg-icons';
 
 const userFriends = [
   { id: 1, name: 'Friend 1', contact: 'user2@example.com' },
   { id: 2, name: 'Friend 2', contact: 'friend2@example.com' },
   { id: 3, name: 'Friend 3', contact: 'friend3@example.com' }
 ];
+
+const currentUser = { id: 4, name: 'Current User', contact: 'currentuser@example.com' };
 
 const NewForm = () => {
   const [newInfo, setNewInfo] = useState('');
@@ -22,12 +24,17 @@ const NewForm = () => {
   const [editMediaType, setEditMediaType] = useState('');
   const fileInputRef = useRef(null);
   const editFileInputRef = useRef(null);
+  const [showModal, setShowModal] = useState(false);
+  const [modalImage, setModalImage] = useState('');
+  const [showCommentModal, setShowCommentModal] = useState(false);
+  const [currentEntryIndex, setCurrentEntryIndex] = useState(null);
+  const [newComment, setNewComment] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const timestamp = new Date().getTime();
     if (newInfo.trim() || newMedia.trim()) {
-      setEntries([{ info: newInfo, media: newMedia, mediaType: newMediaType, timestamp }, ...entries]);
+      setEntries([{ info: newInfo, media: newMedia, mediaType: newMediaType, timestamp, comments: [] }, ...entries]);
       setNewInfo('');
       setNewMedia('');
       setNewMediaType('');
@@ -80,6 +87,21 @@ const NewForm = () => {
     alert('Shared with all friends!');
   };
 
+  const handleComment = (index) => {
+    setCurrentEntryIndex(index);
+    setShowCommentModal(true);
+  };
+
+  const handleAddComment = () => {
+    if (newComment.trim()) {
+      const newEntries = [...entries];
+      newEntries[currentEntryIndex].comments.push({ user: currentUser.name, text: newComment });
+      setEntries(newEntries);
+      setNewComment('');
+      setShowCommentModal(false);
+    }
+  };
+
   const handleMediaChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -114,11 +136,21 @@ const NewForm = () => {
     setEditMediaType(ReactPlayer.canPlay(url) ? 'video' : 'image');
   };
 
+  const handleImageClick = (imageUrl) => {
+    setModalImage(imageUrl);
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setModalImage('');
+  };
+
   return (
     <>
       <form className="new-form card p-3 mb-4" onSubmit={handleSubmit}>
         <div className="d-flex justify-content-center align-items-center">
-          <h5 className="card-title text-center bold-text">What is New</h5> {/* Bold text inside the form */}
+          <h5 className="card-title text-center bold-text">What is New</h5>
         </div>
         <div className="mb-3">
           <textarea
@@ -130,7 +162,7 @@ const NewForm = () => {
             required
           />
         </div>
-        <div className="mb-3 d-flex align-items-center">
+        <div className="mb-3 d-flex align-items-center justify-content-center">
           <input
             type="text"
             className="form-control"
@@ -158,7 +190,16 @@ const NewForm = () => {
       {entries.length > 0 && (
         <div className="entries mt-3">
           {entries.sort((a, b) => b.timestamp - a.timestamp).map((entry, index) => (
-            <div key={index} className="entry card p-3 mb-2">
+            <div key={index} className="entry card p-3 mb-2 position-relative">
+              <Dropdown className="position-absolute top-0 end-0">
+                <Dropdown.Toggle variant="link" id={`dropdown-custom-${index}`} className="text-decoration-none">
+                  &#8942;
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  <Dropdown.Item onClick={() => handleEdit(index)}>Edit</Dropdown.Item>
+                  <Dropdown.Item onClick={() => handleDelete(index)}>Delete</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
               {editIndex === index ? (
                 <div className="mb-3">
                   <textarea
@@ -168,7 +209,7 @@ const NewForm = () => {
                     rows="3"
                     required
                   />
-                  <div className="mb-3 d-flex align-items-center">
+                  <div className="mb-3 d-flex align-items-center justify-content-center">
                     <input
                       type="text"
                       className="form-control"
@@ -213,52 +254,92 @@ const NewForm = () => {
                   <p>{entry.info}</p>
                   {entry.media && (
                     entry.mediaType === 'image' ? (
-                      <img src={entry.media} alt="Media" className="img-fluid mb-2" />
+                      <img
+                        src={entry.media}
+                        alt="Media"
+                        className="img-fluid mb-2"
+                        onClick={() => handleImageClick(entry.media)}
+                        style={{ cursor: 'pointer' }}
+                      />
                     ) : entry.mediaType === 'video' || ReactPlayer.canPlay(entry.media) ? (
-                      <ReactPlayer url={entry.media} controls className="img-fluid mb-2" />
+                      <div className="react-player-wrapper">
+                        <ReactPlayer url={entry.media} controls className="react-player" />
+                      </div>
                     ) : null
                   )}
                   <div className="d-flex justify-content-end align-items-center mt-2">
-                    <div>
-                      <Dropdown className="position-absolute top-0 end-0">
-                        <Dropdown.Toggle variant="link" id={`dropdown-custom-${index}`} className="text-decoration-none">
-                          &#8942;
-                        </Dropdown.Toggle>
-                        <Dropdown.Menu>
-                          <Dropdown.Item onClick={() => handleEdit(index)}>Edit</Dropdown.Item>
-                          <Dropdown.Item onClick={() => handleDelete(index)}>Delete</Dropdown.Item>
-                        </Dropdown.Menu>
-                      </Dropdown>
-                    </div>
-                    <div className="button-group ms-auto d-flex">
-                      <FontAwesomeIcon
-                        icon={faThumbsUp}
-                        onClick={() => handleLike(index)}
-                        style={{ cursor: 'pointer', marginRight: '10px' }}
-                      />
-                      <FontAwesomeIcon
-                        icon={faThumbsDown}
-                        onClick={() => handleDislike(index)}
-                        style={{ cursor: 'pointer', marginRight: '10px' }}
-                      />
-                      <FontAwesomeIcon
-                        icon={faShare}
-                        onClick={() => handleShare(index)}
-                        style={{ cursor: 'pointer' }}
-                      />
-                    </div>
+                    <FontAwesomeIcon
+                      icon={faThumbsUp}
+                      onClick={() => handleLike(index)}
+                      style={{ cursor: 'pointer', marginRight: '10px' }}
+                    />
+                    <FontAwesomeIcon
+                      icon={faThumbsDown}
+                      onClick={() => handleDislike(index)}
+                      style={{ cursor: 'pointer', marginRight: '10px' }}
+                    />
+                    <FontAwesomeIcon
+                      icon={faShare}
+                      onClick={() => handleShare(index)}
+                      style={{ cursor: 'pointer', marginRight: '10px' }}
+                    />
+                    <FontAwesomeIcon
+                      icon={faComment}
+                      onClick={() => handleComment(index)}
+                      style={{ cursor: 'pointer' }}
+                    />
                   </div>
+                  {entry.comments && entry.comments.map((comment, commentIndex) => (
+                    <div key={commentIndex} className="comment mt-2">
+                      <p className="mb-1"><strong>{comment.user}:</strong> {comment.text}</p>
+                    </div>
+                  ))}
                 </>
               )}
             </div>
           ))}
         </div>
       )}
+      <Modal show={showModal} onHide={handleCloseModal} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Image</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <img src={modalImage} alt="Modal" className="img-fluid" />
+        </Modal.Body>
+      </Modal>
+      <Modal show={showCommentModal} onHide={() => setShowCommentModal(false)} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Add Comment</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <textarea
+            className="form-control mb-3"
+            value={newComment}
+            onChange={(e) => setNewComment(e.target.value)}
+            placeholder="Write a comment..."
+            rows="3"
+          />
+          <button
+            className="btn btn-primary submit-button"
+            onClick={handleAddComment}
+          >
+            Add Comment
+          </button>
+        </Modal.Body>
+      </Modal>
     </>
   );
 };
 
 export default NewForm;
+
+
+
+
+
+
+
 
 
 
