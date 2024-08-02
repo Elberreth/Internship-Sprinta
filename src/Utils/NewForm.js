@@ -325,7 +325,7 @@ const NewForm = () => {
                       style={{ cursor: 'pointer' }}
                     />
                   </div>
-                  <div className="text-start mt-2">
+                  <div className="text-center mt-2">
                     <span
                       className="text-muted"
                       style={{ cursor: 'pointer' }}
@@ -378,6 +378,7 @@ const NewForm = () => {
 };
 
 export default NewForm;
+
 
 
 
