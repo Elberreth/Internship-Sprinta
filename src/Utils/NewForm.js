@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, Dropdown } from 'react-bootstrap';
-import '../CSS/UserProfile.css'; // Importera UserProfile.css
+import '../CSS/UserProfile.css';
 import ReactPlayer from 'react-player';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp, faThumbsDown, faShare, faComment } from '@fortawesome/free-solid-svg-icons';
@@ -30,13 +30,13 @@ const NewForm = () => {
   const [showCommentModal, setShowCommentModal] = useState(false);
   const [currentEntryIndex, setCurrentEntryIndex] = useState(null);
   const [newComment, setNewComment] = useState('');
-  const [showComments, setShowComments] = useState([]);
+  const [showComments, setShowComments] = useState({});
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const timestamp = new Date().getTime();
     if (newInfo.trim() || newMedia.trim()) {
-      setEntries([{ info: newInfo, media: newMedia, mediaType: newMediaType, timestamp, comments: [], likes: 0, dislikes: 0, liked: false, disliked: false }, ...entries]);
+      setEntries([{ info: newInfo, media: newMedia, mediaType: newMediaType, timestamp, comments: [], likes: 0, dislikes: 0, userLiked: false, userDisliked: false }, ...entries]);
       setNewInfo('');
       setNewMedia('');
       setNewMediaType('');
@@ -70,32 +70,34 @@ const NewForm = () => {
 
   const handleLike = (index) => {
     const newEntries = [...entries];
-    if (newEntries[index].liked) {
-      newEntries[index].likes -= 1;
-      newEntries[index].liked = false;
+    const entry = newEntries[index];
+    if (entry.userLiked) {
+      entry.likes--;
+      entry.userLiked = false;
     } else {
-      if (newEntries[index].disliked) {
-        newEntries[index].dislikes -= 1;
-        newEntries[index].disliked = false;
+      entry.likes++;
+      if (entry.userDisliked) {
+        entry.dislikes--;
+        entry.userDisliked = false;
       }
-      newEntries[index].likes += 1;
-      newEntries[index].liked = true;
+      entry.userLiked = true;
     }
     setEntries(newEntries);
   };
 
   const handleDislike = (index) => {
     const newEntries = [...entries];
-    if (newEntries[index].disliked) {
-      newEntries[index].dislikes -= 1;
-      newEntries[index].disliked = false;
+    const entry = newEntries[index];
+    if (entry.userDisliked) {
+      entry.dislikes--;
+      entry.userDisliked = false;
     } else {
-      if (newEntries[index].liked) {
-        newEntries[index].likes -= 1;
-        newEntries[index].liked = false;
+      entry.dislikes++;
+      if (entry.userLiked) {
+        entry.likes--;
+        entry.userLiked = false;
       }
-      newEntries[index].dislikes += 1;
-      newEntries[index].disliked = true;
+      entry.userDisliked = true;
     }
     setEntries(newEntries);
   };
@@ -122,14 +124,6 @@ const NewForm = () => {
       setNewComment('');
       setShowCommentModal(false);
     }
-  };
-
-  const toggleShowComments = (index) => {
-    setShowComments(prevState => {
-      const newState = [...prevState];
-      newState[index] = !newState[index];
-      return newState;
-    });
   };
 
   const handleMediaChange = (e) => {
@@ -174,6 +168,13 @@ const NewForm = () => {
   const handleCloseModal = () => {
     setShowModal(false);
     setModalImage('');
+  };
+
+  const toggleComments = (index) => {
+    setShowComments((prevState) => ({
+      ...prevState,
+      [index]: !prevState[index],
+    }));
   };
 
   return (
@@ -303,38 +304,37 @@ const NewForm = () => {
                       onClick={() => handleLike(index)}
                       style={{ cursor: 'pointer', marginRight: '10px' }}
                     />
-                    <span>{entry.likes}</span>
+                    <span>{entry.likes || 0}</span>
                     <FontAwesomeIcon
                       icon={faThumbsDown}
                       onClick={() => handleDislike(index)}
-                      style={{ cursor: 'pointer', marginLeft: '15px', marginRight: '10px' }}
+                      style={{ cursor: 'pointer', marginRight: '10px', marginLeft: '10px' }}
                     />
-                    <span>{entry.dislikes}</span>
+                    <span>{entry.dislikes || 0}</span>
                     <FontAwesomeIcon
                       icon={faShare}
                       onClick={() => handleShare(index)}
-                      style={{ cursor: 'pointer', marginLeft: '15px', marginRight: '10px' }}
+                      style={{ cursor: 'pointer', marginRight: '10px', marginLeft: '10px' }}
                     />
                     <FontAwesomeIcon
                       icon={faComment}
                       onClick={() => handleComment(index)}
-                      style={{ cursor: 'pointer', marginLeft: '15px', marginRight: '10px' }}
+                      style={{ cursor: 'pointer', marginRight: '10px', marginLeft: '10px' }}
                     />
                   </div>
-                  <span
-                    className="text-muted"
-                    style={{ cursor: 'pointer' }}
-                    onClick={() => toggleShowComments(index)}
-                  >
-                    {showComments[index] ? 'Hide comments' : 'Show comments'} ({entry.comments.length})
-                  </span>
-                  {showComments[index] && (
-                    entry.comments && entry.comments.map((comment, commentIndex) => (
-                      <div key={commentIndex} className="comment mt-2">
-                        <p className="mb-1"><strong>{comment.user}:</strong> {comment.text}</p>
-                      </div>
-                    ))
-                  )}
+                  <div className="comments-link">
+                    <span
+                      onClick={() => toggleComments(index)}
+                      style={{ cursor: 'pointer', color: 'gray' }}
+                    >
+                      {showComments[index] ? `Hide comments (${entry.comments.length})` : `Show comments (${entry.comments.length})`}
+                    </span>
+                  </div>
+                  {showComments[index] && entry.comments && entry.comments.map((comment, commentIndex) => (
+                    <div key={commentIndex} className="comment mt-2">
+                      <p className="mb-1"><strong>{comment.user}:</strong> {comment.text}</p>
+                    </div>
+                  ))}
                 </>
               )}
             </div>
@@ -365,7 +365,7 @@ const NewForm = () => {
             className="btn btn-primary submit-button"
             onClick={handleAddComment}
           >
-            Add Comment
+            Submit
           </button>
         </Modal.Body>
       </Modal>
@@ -374,6 +374,10 @@ const NewForm = () => {
 };
 
 export default NewForm;
+
+
+
+
 
 
 
