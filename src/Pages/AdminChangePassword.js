@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useForm } from "react-hook-form";
-import '../CSS/Register.css';
+import '../CSS/AdminChangePassword.css';
 
 const AdminChangePassword = () => {
   const [showPasswordRequirements, setShowPasswordRequirements] = useState(false);
@@ -19,7 +19,7 @@ const AdminChangePassword = () => {
     } else {
       setError(null);
       setSuccessMessage("Your password has successfully been changed");
-      
+     
       console.log('Password:', data.password);
     }
   };
@@ -29,8 +29,8 @@ const AdminChangePassword = () => {
       <div className="register-form-container">
         <form className="register-form" onSubmit={handleSubmit(onSubmit)}>
           <h2>Reset Password</h2>
-          {error && <p className="error-message" style={{ color: 'red', fontSize: '12px' }}>{error}</p>}
-          {successMessage && <p className="success-message" style={{ color: 'green', fontSize: '12px' }}>{successMessage}</p>}
+          {error && <p className="error-message">{error}</p>}
+          {successMessage && <p className="success-message">{successMessage}</p>}
           <div className="form-group">
             <label htmlFor="password">New Password</label>
             <div className="password-container">
@@ -60,7 +60,9 @@ const AdminChangePassword = () => {
                 </div>
               )}
             </div>
-            {errors.password && <div className="error-message" style={{ color: 'red', fontSize: '12px' }}>{errors.password.message}</div>}
+            {errors.password && (
+              <div className="error">{errors.password.message}</div>
+            )}
           </div>
           <div className="form-group">
             <label htmlFor="confirmPassword">Confirm Password</label>
@@ -70,13 +72,17 @@ const AdminChangePassword = () => {
               className="form-control"
               placeholder="Confirm your new password"
               {...register("confirmPassword", {
-                required: "Confirming your password is required",
-                validate: value => value === getValues("password") || "Passwords do not match"
+                required: "Confirmation of password is required",
+                validate: (value) => value === getValues("password") || "Passwords do not match"
               })}
             />
-            {errors.confirmPassword && <div className="error-message" style={{ color: 'red', fontSize: '12px' }}>{errors.confirmPassword.message}</div>}
+            {errors.confirmPassword && (
+              <div className="error">{errors.confirmPassword.message}</div>
+            )}
           </div>
-          <button type="submit" className="btn-small">Submit</button>
+          <div className="btn-div">
+            <button type="submit" className="btn-small">Submit</button>
+          </div>
         </form>
       </div>
     </div>
@@ -84,6 +90,7 @@ const AdminChangePassword = () => {
 };
 
 export default AdminChangePassword;
+
 
 
 
