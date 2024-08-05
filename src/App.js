@@ -1,9 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import {
   BrowserRouter as Router,
-  Routes,
-  Route,
-  useNavigate,
+  Routes, Route, useNavigate,
 } from "react-router-dom";
 import Header from "./Components/Header";
 import Home from "./Components/Home";
@@ -14,6 +12,7 @@ import AdminPages from "./Pages/AdminPage";
 import UserProfile from "./Pages/UserProfile";
 import UserProfile2 from "./Pages/UserProfile2";
 import AboutMe from './Pages/AboutMe';
+import AdminChangePassword from './Pages/AdminChangePassword'; // Importera komponenten
 import { UserProfileProvider } from './Utils/UserProfileContext';
 import "./CSS/App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -57,6 +56,7 @@ const App = () => {
             <Route path="/userprofile" element={<UserProfile />} />
             <Route path="/userprofile2" element={<UserProfile2 />} />
             <Route path="/aboutme" element={<AboutMe />} />
+            <Route path="/admin-change-password" element={<AdminChangePassword />} /> {/* Lägg till routen */}
             <Route
               path="*"
               element={
@@ -89,6 +89,8 @@ const RequireAuth = ({ children }) => {
 };
 
 export default App;
+
+
 
 
 
