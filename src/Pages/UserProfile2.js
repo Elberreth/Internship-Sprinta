@@ -6,17 +6,10 @@ import { faCog, faUser, faHome } from '@fortawesome/free-solid-svg-icons';
 import '../CSS/UserProfile.css';
 import NewForm from '../Utils/NewForm';
 
-const mockFriends = [
-  { id: 1, name: 'Friend 1', online: true },
-  { id: 2, name: 'Friend 2', online: false },
-  { id: 3, name: 'Friend 3', online: true },
-];
-
 const UserProfile2 = () => {
-  const [userData, setUserData] = useState({ profilePicture: '' });
-  const [friends, setFriends] = useState(mockFriends);
   const [image, setImage] = useState(null);
   const [showAddImageButton, setShowAddImageButton] = useState(true);
+  const [friends, setFriends] = useState([]);
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
 
@@ -28,8 +21,11 @@ const UserProfile2 = () => {
           setImage(response.data.profilePicture);
           setShowAddImageButton(false);
         }
+
+        const friendsResponse = await axios.get('/api/user/friends');
+        setFriends(friendsResponse.data);
       } catch (error) {
-        console.error('Error fetching profile picture:', error);
+        console.error('Error fetching profile picture or friends:', error);
       }
     };
 
@@ -87,42 +83,44 @@ const UserProfile2 = () => {
       </div>
       <div className="row mt-3">
         <div className="col-md-3">
-          <form className="profile-form card p-3 mb-4 small-card">
-            <div className="image-preview card-img-top">
-              {image ? (
-                <img src={image} alt="Profile" />
-              ) : (
-                <p>Profile Picture</p>
-              )}
+          <div className="card p-3 mb-4 small-card">
+            <div className="card-body d-flex flex-column align-items-center">
+              <div className="image-preview card-img-top mb-3">
+                {image ? (
+                  <img src={image} alt="Profile" className="img-fluid" />
+                ) : (
+                  <p className="bold-text">Profile Picture</p>
+                )}
+              </div>
+              <input
+                type="file"
+                onChange={handleImageChange}
+                className="image-input"
+                ref={fileInputRef}
+                style={{ display: 'none' }}
+              />
+              <div className="button-group mt-3 d-flex justify-content-center">
+                {!showAddImageButton && (
+                  <button
+                    type="button"
+                    className="btn btn-danger btn-remove btn-sm"
+                    onClick={handleRemoveImage}
+                  >
+                    Remove Image
+                  </button>
+                )}
+              </div>
             </div>
-            <input
-              type="file"
-              onChange={handleImageChange}
-              className="image-input"
-              ref={fileInputRef}
-              style={{ display: 'none' }}
-            />
-            <div className="button-group mt-3 d-flex justify-content-center">
-              {!showAddImageButton && (
-                <button
-                  type="button"
-                  className="btn btn-danger btn-remove btn-sm"
-                  onClick={handleRemoveImage}
-                >
-                  Remove Image
-                </button>
-              )}
-            </div>
-          </form>
+          </div>
         </div>
-        <div className="col-md-6">
+        <div className="col-md-6 d-flex justify-content-center">
           <div className="new-form-container">
             <NewForm />
           </div>
         </div>
-        <div className="col-md-3 d-flex flex-column align-items-end match-height">
-          <div className="friends-container card p-3 mb-4 friends-list-form">
-            <h5 className="card-title text-center">Friends List</h5>
+        <div className="col-md-3 add-friends-col">
+          <div className="friends-container card p-3 mb-4 chat-card">
+            <h5 className="card-title text-center bold-text">Friends List</h5>
             <ul className="list-group">
               {friends.map(friend => (
                 <li key={friend.id} className="list-group-item d-flex justify-content-between align-items-center">
@@ -141,6 +139,10 @@ const UserProfile2 = () => {
 };
 
 export default UserProfile2;
+
+
+
+
 
 
 
