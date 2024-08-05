@@ -11,14 +11,16 @@ const AdminChangePassword = () => {
     }
   });
   const [error, setError] = useState(null);
+  const [successMessage, setSuccessMessage] = useState('');
 
   const onSubmit = data => {
     if (data.password !== data.confirmPassword) {
       setError("Passwords do not match");
     } else {
       setError(null);
+      setSuccessMessage("Your password has successfully been changed");
+      
       console.log('Password:', data.password);
-      // Lägg till logik för att hantera lösenordsändringen här
     }
   };
 
@@ -28,6 +30,7 @@ const AdminChangePassword = () => {
         <form className="register-form" onSubmit={handleSubmit(onSubmit)}>
           <h2>Reset Password</h2>
           {error && <p className="error-message" style={{ color: 'red', fontSize: '12px' }}>{error}</p>}
+          {successMessage && <p className="success-message" style={{ color: 'green', fontSize: '12px' }}>{successMessage}</p>}
           <div className="form-group">
             <label htmlFor="password">New Password</label>
             <div className="password-container">
@@ -81,6 +84,8 @@ const AdminChangePassword = () => {
 };
 
 export default AdminChangePassword;
+
+
 
 
 
