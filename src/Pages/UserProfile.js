@@ -89,6 +89,13 @@ const UserProfile = () => {
     navigate('/userprofile2');
   };
 
+  const handleRemoveImage = () => {
+    setProfilePicture(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
   return (
     <Container fluid className="user-profile">
       <Row className="header-icons justify-content-center">
@@ -121,8 +128,12 @@ const UserProfile = () => {
                   style={{ display: 'none' }}
                 />
                 <div className="button-group mt-3 d-flex justify-content-center">
-                  <Button variant="primary" onClick={() => fileInputRef.current.click()} className="btn-sm">
-                    Add Image
+                  <Button
+                    variant="primary"
+                    onClick={profilePicture ? handleRemoveImage : () => fileInputRef.current.click()}
+                    className="btn-sm"
+                  >
+                    {profilePicture ? 'Remove Image' : 'Add Image'}
                   </Button>
                 </div>
               </Form>
@@ -253,6 +264,7 @@ const UserProfile = () => {
 };
 
 export default UserProfile;
+
 
 
 
