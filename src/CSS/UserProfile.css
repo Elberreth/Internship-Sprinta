@@ -287,6 +287,16 @@
   background-color: #0056b3;
   border-color: #0056b3;
 }
+.new-form-card .card-body,
+.friends-container .card-body {
+  padding-top: 20px; 
+}
+
+.new-form-card .card-title,
+.friends-container .card-title {
+  margin-top: 18px; 
+}
+
 
 
 

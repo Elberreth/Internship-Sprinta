@@ -178,7 +178,7 @@ const NewForm = () => {
 
   return (
     <>
-      <form className="new-form card p-3 mb-4" onSubmit={handleSubmit}>
+      <form className="new-form card p-3 mb-4 new-form-card" onSubmit={handleSubmit}>
         <div className="d-flex justify-content-center align-items-center">
           <h5 className="card-title text-center bold-text">What is New</h5>
         </div>
@@ -378,6 +378,7 @@ const NewForm = () => {
 };
 
 export default NewForm;
+
 
 
 
