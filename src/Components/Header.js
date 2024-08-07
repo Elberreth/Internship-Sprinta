@@ -54,9 +54,7 @@ const Header = ({ onResetRegisterForm }) => {
     <>
       <header className="header">
         <div className="logo-container">
-          <Link to="/">
-            <img src={logo} alt="Logo" className="logo" />
-          </Link>
+          <img src={logo} alt="Logo" className="logo" />
         </div>
         <div className="links-container">
           {isLoggedIn ? (
@@ -121,3 +119,4 @@ const Header = ({ onResetRegisterForm }) => {
 };
 
 export default Header;
+
