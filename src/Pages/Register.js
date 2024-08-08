@@ -118,7 +118,7 @@ const Register = ({ resetFormTrigger }) => {
   const handleRegister = async (data) => {
     if (receivedValidationCode === data.codeToValidate) {
       axios
-        .post("http://localhost:8080/register", {
+        .post("http://localhost:8080/auth/register", {
           firstName: data.firstName,
           lastName: data.lastName,
           email: data.email,

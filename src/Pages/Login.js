@@ -2,36 +2,74 @@ import React, { useState } from 'react';
 import { useForm } from "react-hook-form";
 import { useNavigate } from 'react-router-dom';
 import '../CSS/Register.css';
+import axios from "axios";
+
+
+
 
 const Login = ({ setIsLoggedIn }) => {
+
+
+
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const sendData = async (data) => {
+
+    localStorage.setItem('isLoggedIn', 'false');
+    localStorage.setItem('token', null);
+    localStorage.setItem('email', null);
+    localStorage.setItem('isAdmin', false);
+    setIsLoggedIn(false);
+
     setLoading(true);
     try {
-      const isUser1 = data.uname === 'user1@example.com' && data.password === '2222';
-      const isUser2 = data.uname === 'user2@example.com' && data.password === '2222';
 
-      if (isUser1 || isUser2 || (data.uname === 'admin@example.com' && data.password === '1111') || process.env.NODE_ENV === 'development') {
-        localStorage.setItem('isLoggedIn', 'true');
-        setIsLoggedIn(true);
-        
-        if (isUser1) {
-          navigate('/userprofile');
-        } else if (isUser2) {
-          navigate('/userprofile2');
-        } else {
-          navigate('/admin');
-        }
-        
-        window.dispatchEvent(new Event('storage')); // Trigger storage event to sync state
+      //API CALL TO LOGIN
+      let resetFlag = false;
+      let tokenLogin = '';
+      let isAdmin = false;
+
+      try {
+        const response = await axios.post("http://localhost:8080/auth/login", {
+           email: data.uname,
+           password: data.password
+         });
+         resetFlag = response.data.resetPassword;
+         tokenLogin = response.data.token;
+         isAdmin = response.data.isAdmin;
+      }
+      catch (error) {
+         setError('Invalid username or password provided!');
+      }
+
+
+      if (tokenLogin === null || tokenLogin.trim() === '') {
+             setError('Authentication failed');
       } else {
-        setError('Authentication failed');
+            localStorage.setItem('isLoggedIn', 'true');
+                            localStorage.setItem('token', tokenLogin);
+                            localStorage.setItem('email', data.uname);
+                            localStorage.setItem('isAdmin', isAdmin);
+                            setIsLoggedIn(true);
+
+                            if (resetFlag) {
+                                navigate('/admin-change-password');
+                            }
+                            else {
+                                     if(isAdmin)  {
+                                            navigate('/admin');
+                                       }
+                                       else {
+                                           navigate('/userprofile')
+                                     }
+                            }
+                            window.dispatchEvent(new Event('storage')); // Trigger storage event to sync state
+
       }
     } catch (error) {
-      setError('An error occurred while logging in');
+      setError('Error while logging in. Please enter valid login credentials!');
     } finally {
       setLoading(false);
     }
