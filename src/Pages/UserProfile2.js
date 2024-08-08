@@ -58,9 +58,9 @@ const UserProfile2 = () => {
             <NewForm />
           </div>
         </div>
-        <div className="col-md-3 add-friends-col">
-          <div className="friends-container card p-3 mb-4 chat-card">
-            <h5 className="card-title text-center bold-text">Friends List</h5>
+        <div className="col-md-3 d-flex flex-column align-items-end match-height">
+          <div className="friends-container card p-3 mb-4 friends-list-form">
+            <h5 className="card-title text-center">Friends List</h5>
             <ul className="list-group">
               {friends.map(friend => (
                 <li key={friend.id} className="list-group-item d-flex justify-content-between align-items-center">
