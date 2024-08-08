@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useForm } from "react-hook-form";
 import '../CSS/AdminChangePassword.css';
+import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 
 const AdminChangePassword = () => {
   const [showPasswordRequirements, setShowPasswordRequirements] = useState(false);
@@ -10,18 +12,47 @@ const AdminChangePassword = () => {
       confirmPassword: ""
     }
   });
+  const navigate = useNavigate();
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState('');
 
-  const onSubmit = data => {
+  const onSubmit = async(data) => {
+
+
     if (data.password !== data.confirmPassword) {
       setError("Passwords do not match");
-    } else {
-      setError(null);
-      setSuccessMessage("Your password has successfully been changed");
-     
-      console.log('Password:', data.password);
     }
+    else {
+
+        const token = localStorage.getItem('token');
+        const emailLogin = localStorage.getItem('email');
+        const isAdmin = localStorage.getItem('isAdmin');
+        const requestData = {
+            email: emailLogin,
+            password: data.password,
+            repeatPassword: data.confirmPassword
+        };
+        try {
+                await axios.put("http://localhost:8080/resetPassword",requestData, {
+                                               headers: {
+                                                   'Authorization': `Bearer ${token}`,
+                                                   'Content-Type': 'application/json'
+                                               }
+                });
+                setSuccessMessage("Your password has successfully been changed");
+
+                 if(isAdmin === 'true') {
+                        navigate('/admin');
+                 } else {
+                        navigate('/userprofile');
+                }
+            }
+            catch (error) {
+                     setError('Error while resetting password!');
+            }
+
+    }
+
   };
 
   return (

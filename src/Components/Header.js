@@ -29,6 +29,9 @@ const Header = ({ onResetRegisterForm }) => {
   const handleLogout = () => {
     console.log("User logging out");
     localStorage.setItem("isLoggedIn", "false");
+    localStorage.setItem('token', null);
+    localStorage.setItem('email', null);
+    localStorage.setItem('isAdmin', false);
     setIsLoggedIn(false);
     setShowLogoutModal(false);
     navigate("/login");
@@ -94,16 +97,20 @@ const Header = ({ onResetRegisterForm }) => {
               Login
             </Link>
           )}
-          <Link
-            to="/register"
-            className="link"
-            onClick={handleRegisterLinkClick}
-          >
-            Register
-          </Link>
-          <Link to="/about" className="link">
-            About
-          </Link>
+          {!isLoggedIn && (
+                  <>
+                    <Link
+                      to="/register"
+                      className="link"
+                      onClick={handleRegisterLinkClick}
+                    >
+                      Register
+                    </Link>
+                    <Link to="/about" className="link">
+                      About
+                    </Link>
+                  </>
+                )}
           <a
             href="https://jambiz.se/"
             className="link"
